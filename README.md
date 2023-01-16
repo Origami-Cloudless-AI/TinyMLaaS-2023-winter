@@ -7,6 +7,10 @@ in Docker automatically, hooked in CI (Github workflow). You'll implement the fo
 
 ![](tdd.png)
 
+# Slides
+- https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/kickoff.pdf
+- https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/soft_eng_proj_tinyml_lifecycle.md
+
 # Sprint 0
 You can skip training part for now. You need the following steps:
 
