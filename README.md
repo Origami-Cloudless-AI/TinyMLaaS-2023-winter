@@ -1,9 +1,12 @@
-# Hello World of TensorFlow Lite for Microcontrollers
+---
+title: "Hello World of TensorFlow Lite for Microcontrollers"
+---
+Run [Hello World](https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/hello_world) example of [TensorFlow Lite for Microcontrollers](https://www.tensorflow.org/lite/microcontrollers/get_started_low_level) in Docker automatically. You'll implement the following "Test1".
 
-Run [Hello World](https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/hello_world) example of [TensorFlow Lite for Microcontrollers](https://www.tensorflow.org/lite/microcontrollers/get_started_low_level) in Docker automatically. You can skip training part for now.
+![](tdd.png)
 
-# TODO
-Probably you need the following steps:
+# Sprint 0
+You can skip training part for now. You need the following steps:
 
 1. git clone TensorFlow repo
 2. Follow hello world example instruction
@@ -18,3 +21,12 @@ Probably you need the following steps:
 11. Anything more here?
 
 Please feel free to edit this document to share information with others correctly.
+
+#  Sprint 1
+
+1. Train with Jupyter notebook
+2. Convert to WebApp with streamlit
+3. Add test & coverage
+4. Hook in CI / CD
+
+
