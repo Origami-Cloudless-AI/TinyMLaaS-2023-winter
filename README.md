@@ -1,6 +1,6 @@
 # Hello World of TensorFlow Lite for Microcontrollers
 
-Run [Hello World](https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/hello_world) example of [TensorFlow Lite for Microcontrollers](https://www.tensorflow.org/lite/microcontrollers/get_started_low_level) in Docker automatically.
+Run [Hello World](https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/hello_world) example of [TensorFlow Lite for Microcontrollers](https://www.tensorflow.org/lite/microcontrollers/get_started_low_level) in Docker automatically. You can skip training part for now.
 
 # TODO
 Probably you need the following steps:
