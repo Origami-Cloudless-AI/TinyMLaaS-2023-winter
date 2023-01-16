@@ -27,6 +27,7 @@ Please feel free to edit this document to share information with others correctl
 1. Train with Jupyter notebook
 2. Convert to WebApp with streamlit
 3. Add test & coverage
-4. Hook in CI / CD
+4. Dockerize
+5. Hook in CI / CD
 
 
