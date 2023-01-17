@@ -22,9 +22,9 @@ You can skip training part for now. You need the following steps:
 6. Put the above all in a container, reproducible with Docker file
 7. Add an unit test for this hello world[*](https://www.tensorflow.org/lite/microcontrollers/library#run_the_tests)
 8. Add coverage measurement infrastructure (gcov in C?)
-9. Add dashboard of coverage (github page?)
-10. Hook PR in CI / CD (github action / workflow)
-11. Anything more here?
+9. Add acceptance test, How should we ensure "Hello world"?
+10 Add dashboard of coverage (github page?)
+11. Hook a PR in CI / CD (github action / workflow)
 
 Please feel free to edit this document to share information with others correctly.
 
