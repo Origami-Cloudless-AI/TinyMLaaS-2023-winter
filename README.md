@@ -14,28 +14,34 @@ in Docker automatically, hooked in CI (Github workflow). You'll implement the fo
 # Sprint 0
 You can skip training part for now. You need the following steps:
 
-1. git clone TensorFlow repo
+1. git clone <TensorFlow repo>
 2. Follow hello world example instruction
 3. Run make with appropriate parameter for standalone x86[*](https://www.tensorflow.org/lite/microcontrollers/library#generate_projects_for_other_platforms)
 4. Build an executable binary with a model compiled in[*](https://github.com/ehirdoy/tflm)
 5. Run an executable binary on x86[*](https://www.tensorflow.org/lite/microcontrollers/library#build_binaries)[*](https://asciinema.org/a/552162)
-6. Put the above all in a container, reproducible with Docker file
-7. Add an unit test for this hello world[*](https://www.tensorflow.org/lite/microcontrollers/library#run_the_tests)
-8. Add coverage measurement infrastructure (gcov in C?)
-9. Add acceptance test, How should we ensure "Hello world"?
-10 Add dashboard of coverage (github page?)
-11. Hook a PR in CI / CD (github action / workflow)
+6. Put the above all in a container, reproducible with Docker file, inc all needed packages with "apt install" & "git clone <TensorFlow repo>" 
+7. Add existing unit tests for this hello world[*](https://www.tensorflow.org/lite/microcontrollers/library#run_the_tests)
+8. Add test code coverage measurement infrastructure (-gcov in gcc?)
+9. Add a new acceptance test, How should we ensure this "Hello world"?
+10 Add some dashboard of coverage on github page(?) if no way to present the coverage[*](https://quarto.org/docs/publishing/github-pages.html)
+11. Hook a PR in CI / CD (github action / workflow) to run the above all
 
 Please feel free to edit this document to share information with others correctly.
 
 #  Sprint 1
-This time, we'll add training part as WebApp.
-[This](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) helps for the following.
+This time, we'll add training part as WebApp (e.g. [streamlist](https://streamlit.io/)) as Cloud ML.
+[This blog](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) helps to implement the following.
 
-1. Train with Jupyter notebook
+1. Train with Jupyter notebook manucally
 2. Convert to WebApp with streamlit
-3. Add test & coverage
-4. Dockerize
-5. Hook in CI / CD
-
-
+3. Add acceptance test & coverage
+4. Dockerize the above all, except Jupyter notebook
+5. Hook a PR in CI / CD with Github workflow
+6. Display the result on Github page
+  
+# Sprint 2+
+- Convert to a complete TinyML on a VM?  
+- Try other ML model?
+- Try real HW?
+- Try remote CI / CD?
+- Try better UI?
