@@ -1,3 +1,4 @@
+![GitHub Actions](https://github.com/Origami-TinyML/tflm_hello_world/workflows/workflow/badge.svg)
 ---
 title: "Hello World of TensorFlow Lite for Microcontrollers"
 ---
