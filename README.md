@@ -16,13 +16,14 @@ in Docker automatically, hooked in CI (Github workflow). You'll implement the fo
 This time, we'll add training part as WebApp (e.g. [streamlist](https://streamlit.io/)) as Cloud ML.
 [This blog](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) helps to implement the following.
 
-1. Train with Jupyter notebook (JN) manucally as explained in TFLm webpage
-2. Convert JN to a WebApp with streamlit
-3. Observe Hello world output on a WebApp 
-4. Add acceptance test & coverage
-5. Dockerize the above all, except Jupyter notebook
-6. Hook a PR in CI / CD with Github workflow
-7. Display the result on Github page
+1. WebApp installs a TinyML in Hello
+4. Put WebApp and Hello respectively in a container within docker-compose, connecting via simple TCP via [netcat](https://quickref.me/nc)
+   - Let a "Hello world" container send data to a WebApp container via simple TCP via [netcat](https://quickref.me/nc)
+7. Observe & display "Hello world" prediction on WebApp GUI at real time
+8. Add acceptance test & coverage for the above
+9. make sure Dockerization of the above all, except JN. (docker-compose?)
+10. Hook a PR in CI / CD with Github workflow
+11. Display the CI result on Github page
   
 
 # Sprint 0
@@ -42,7 +43,9 @@ You can skip training part for now. You need the following steps:
 
 Please feel free to edit this document to share information with others correctly.
 
-# Sprint 2+
+# Backlog?
+1. Train "Hello world" with Jupyter notebook (JN) as instructed in TFLm website, recommended to all.
+2. Convert the above training JN to a WebApp with streamlit
 - Convert to a complete TinyML on a VM?  
 - Try other ML model?
 - Try real HW?
