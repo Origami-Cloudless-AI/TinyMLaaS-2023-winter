@@ -12,6 +12,19 @@ in Docker automatically, hooked in CI (Github workflow). You'll implement the fo
 - https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/kickoff.pdf
 - https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/soft_eng_proj_tinyml_lifecycle.md
 
+#  Sprint 1
+This time, we'll add training part as WebApp (e.g. [streamlist](https://streamlit.io/)) as Cloud ML.
+[This blog](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) helps to implement the following.
+
+1. Train with Jupyter notebook (JN) manucally as explained in TFLm webpage
+2. Convert JN to a WebApp with streamlit
+3. Observe Hello world output on a WebApp 
+4. Add acceptance test & coverage
+5. Dockerize the above all, except Jupyter notebook
+6. Hook a PR in CI / CD with Github workflow
+7. Display the result on Github page
+  
+
 # Sprint 0
 You can skip training part for now. You need the following steps:
 
@@ -29,17 +42,6 @@ You can skip training part for now. You need the following steps:
 
 Please feel free to edit this document to share information with others correctly.
 
-#  Sprint 1
-This time, we'll add training part as WebApp (e.g. [streamlist](https://streamlit.io/)) as Cloud ML.
-[This blog](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) helps to implement the following.
-
-1. Train with Jupyter notebook manucally
-2. Convert to WebApp with streamlit
-3. Add acceptance test & coverage
-4. Dockerize the above all, except Jupyter notebook
-5. Hook a PR in CI / CD with Github workflow
-6. Display the result on Github page
-  
 # Sprint 2+
 - Convert to a complete TinyML on a VM?  
 - Try other ML model?
