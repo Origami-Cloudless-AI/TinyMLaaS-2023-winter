@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 st.title('Device')
 st.header('Register a device')
@@ -14,3 +15,6 @@ st.text_input("IP address")
 c1, c2, _ = st.columns((1, 2, 4))
 c1.button("Add", type="primary")
 c2.button("Remove")
+
+df = pd.read_csv('TinyMLaaS.csv')
+st.dataframe(df)
