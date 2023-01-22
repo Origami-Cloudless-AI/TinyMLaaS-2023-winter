@@ -15,6 +15,7 @@ We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamli
    - Confirm an unit test is failing, and implement a feature itself.
 2. `DevOps`, Add [acceptance test](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) (AT) with `TinyMLaaS.py`.
    - Implement a failing AT for BI before implement an BI itself.
+   - Send a PR only for a failing AT at first, and we could agree on DoD (i.e. PR for a feature)
 4. Put a WebApp and a Hello respectively in a container within `docker-compose`
 5. A Hello container sends data to a WebApp container via simple TCP via [netcat](https://quickref.me/nc)
 7. Observe & display Hello prediction on a WebApp at real time
