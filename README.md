@@ -9,7 +9,6 @@ in Docker automatically, hooked in CI (Github workflow).
 #  Sprint 1
 We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamlist](https://streamlit.io/).
 
-## Backlog items
 0. `DevOps`, Install [nbdev](https://nbdev.fast.ai/) in this repo, to convert a Jupyter notebook to a .py file with unit tests.
 1. `DevOps`, Add unit test [code coverage](https://forums.fast.ai/t/nbdev-code-coverage-n-tests/73993) for `*.ipynb` files.
    - Implement a failing unit test before implementing a feature.
