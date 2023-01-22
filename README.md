@@ -4,26 +4,21 @@ title: "Hello World of TensorFlow Lite for Microcontrollers"
 ---
 Run [Hello World](https://github.com/tensorflow/tflite-micro/tree/main/tensorflow/lite/micro/examples/hello_world)
 example of [TensorFlow Lite for Microcontrollers](https://www.tensorflow.org/lite/microcontrollers/get_started_low_level)
-in Docker automatically, hooked in CI (Github workflow). You'll implement the following "Test1".
-
-![](tdd.png)
-
-# Slides
-- https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/kickoff.pdf
-- https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/soft_eng_proj_tinyml_lifecycle.md
+in Docker automatically, hooked in CI (Github workflow).
 
 #  Sprint 1
-This time, we'll add training part as WebApp (e.g. [streamlist](https://streamlit.io/)) as Cloud ML.
-[This blog](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) helps to implement the following.
+We are adding GUI to convert to a WebApp with [streamlist](https://streamlit.io/) as TinyML as-a-Service.
 
-1. WebApp installs a TinyML in Hello
-4. Put WebApp and Hello respectively in a container within docker-compose, connecting via simple TCP via [netcat](https://quickref.me/nc)
-   - Let a "Hello world" container send data to a WebApp container via simple TCP via [netcat](https://quickref.me/nc)
-7. Observe & display "Hello world" prediction on WebApp GUI at real time
-8. Add acceptance test & coverage for the above
-9. make sure Dockerization of the above all, except JN. (docker-compose?)
+0. Install [nbdev](https://nbdev.fast.ai/) in this repo, to convert a Jupyter notebook to a .py file with unit tests
+1. Add unit test [code coverage](https://pete88b.github.io/decision_tree/test_coverage/) for `*.ipynb` files
+2. Add [acceptance test](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) with `TinyMLaaS.py`
+3. A WebApp (TinyMLaaS) installs a TinyML Hello model in a Hello container 
+4. Put a WebApp and a Hello respectively in a container within docker-compose
+5. A Hello container sends data to a WebApp container via simple TCP via [netcat](https://quickref.me/nc)
+7. Observe & display "Hello world" prediction on a WebApp at real time
+9. Dockerization, run by docker-compose
 10. Hook a PR in CI / CD with Github workflow
-11. Display the CI result on Github page
+11. Display the CI result on Github page with [Quarto](https://quarto.org/docs/publishing/github-pages.html)
 
 ```mermaid
   graph TD;
@@ -42,6 +37,7 @@ This time, we'll add training part as WebApp (e.g. [streamlist](https://streamli
   
 
 # Sprint 0
+You'll implement the following "Test1".
 You can skip training part for now. You need the following steps:
 
 1. git clone <TensorFlow repo>
@@ -56,6 +52,8 @@ You can skip training part for now. You need the following steps:
 10 Add some dashboard of coverage on github page(?) if no way to present the coverage[*](https://quarto.org/docs/publishing/github-pages.html)
 11. Hook a PR in CI / CD (github action / workflow) to run the above all
 
+![](tdd.png)
+
 Please feel free to edit this document to share information with others correctly.
 
 # Backlog?
@@ -66,3 +64,9 @@ Please feel free to edit this document to share information with others correctl
 - Try real HW?
 - Try remote CI / CD?
 - Try better UI?
+
+
+
+# Slides
+- https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/kickoff.pdf
+- https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/soft_eng_proj_tinyml_lifecycle.md
