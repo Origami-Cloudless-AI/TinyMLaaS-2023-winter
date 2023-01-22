@@ -10,7 +10,7 @@ in Docker automatically, hooked in CI (Github workflow).
 We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamlist](https://streamlit.io/).
 
 0. `DevOps`, Install [nbdev](https://nbdev.fast.ai/) in this repo, to convert a Jupyter notebook to a .py file with unit tests.
-1. `DevOps`, Add unit test [code coverage](https://pete88b.github.io/decision_tree/test_coverage/) for `*.ipynb` files.
+1. `DevOps`, Add unit test [code coverage](https://forums.fast.ai/t/nbdev-code-coverage-n-tests/73993) for `*.ipynb` files.
    - Implement a failing unit test before implementing a feature.
    - Confirm an unit test is failing, and implement a feature itself.
 2. `DevOps`, Add [acceptance test](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) (AT) with `TinyMLaaS.py`.
