@@ -9,9 +9,12 @@ in Docker automatically, hooked in CI (Github workflow).
 #  Sprint 1
 We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamlist](https://streamlit.io/).
 
-0. `DevOps`, Install [nbdev](https://nbdev.fast.ai/) in this repo, to convert a Jupyter notebook to a .py file with unit tests
-1. `DevOps`, Add unit test [code coverage](https://pete88b.github.io/decision_tree/test_coverage/) for `*.ipynb` files
-2. `DevOps`, Add [acceptance test](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) with `TinyMLaaS.py`
+0. `DevOps`, Install [nbdev](https://nbdev.fast.ai/) in this repo, to convert a Jupyter notebook to a .py file with unit tests.
+1. `DevOps`, Add unit test [code coverage](https://pete88b.github.io/decision_tree/test_coverage/) for `*.ipynb` files.
+   - Implement a failing unit test before implementing a feature.
+   - Confirm an unit test is failing, and implement a feature itself.
+2. `DevOps`, Add [acceptance test](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) (AT) with `TinyMLaaS.py`.
+   - Implement a failing AT for BI before implement an BI itself.
 4. Put a WebApp and a Hello respectively in a container within `docker-compose`
 5. A Hello container sends data to a WebApp container via simple TCP via [netcat](https://quickref.me/nc)
 7. Observe & display Hello prediction on a WebApp at real time
@@ -21,16 +24,12 @@ We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamli
 
 ```mermaid
   graph TD;
-      n[nbdev] --unit tests--> a;
-      n[nbdev] --unit tests--> b;
-      n[nbdev] --unit tests--> c;
-      a[train.ipynb]--convert-->ap[train.py];
-      b[model.ipynb]--convert-->bp[model.py];
-      c[observe.ipynb]--convert-->cp[observe.py];
-      Tr[TinyMLaaS.robot]--Acceptance test-->Tp[TinyMLaaS.py];
-      ap --import--> Tp;
-      bp --import--> Tp;
-      cp --import--> Tp;
+      n[nbdev] --add unit tests--> a & b & c;
+      a[training.ipynb]--convert automatically-->ap[training.py]--import-->as[pages/4_Training.py];
+      b[model.ipynb]--convert automatically-->bp[model.py]--import-->bs[pages/3_Model.py];
+      c[observing.ipynb]--convert automatically-->cp[observing.py]--import-->cs[pages/7_Observing.py];
+      Tr[TinyMLaaS.robot]--add acceptance tests-->Tp[TinyMLaaS.py];
+      as & bs & cs --a subpage of--> Tp;
       Tp --Streamlit--> Published
 ```
   
