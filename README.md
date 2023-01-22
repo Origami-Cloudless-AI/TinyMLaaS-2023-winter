@@ -40,6 +40,11 @@ We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamli
       end
       Tp --Streamlit--> Published
 ```
+## DoD
+- A `PR merge` is DoD.
+- Each BI has an acceptance criteria.
+- Each acceptance criteria should be implemented as an acceptance test in robot framework.
+- Each acceptance test is triggered by any PR in CI.
   
 
 # Sprint 0
