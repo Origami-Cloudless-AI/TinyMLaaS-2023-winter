@@ -27,9 +27,12 @@ This time, we'll add training part as WebApp (e.g. [streamlist](https://streamli
 
 ```mermaid
   graph TD;
-      a[train.ipynb]--nbdev-->ap[train.py];
-      b[model.ipynb]--nbdev-->bp[model.py];
-      c[observe.ipynb]--nbdev-->cp[observe.py];
+      n[nbdev] --unit tests--> a;
+      n[nbdev] --unit tests--> b;
+      n[nbdev] --unit tests--> c;
+      a[train.ipynb]--convert-->ap[train.py];
+      b[model.ipynb]--convert-->bp[model.py];
+      c[observe.ipynb]--convert-->cp[observe.py];
       Tr[TinyMLaaS.robot]--Acceptance test-->Tp[TinyMLaaS.py];
       ap --import--> Tp;
       bp --import--> Tp;
