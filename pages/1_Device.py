@@ -1,6 +1,13 @@
 import streamlit as st
 import pandas as pd
 
+st.set_page_config(
+    page_title = 'Device',
+    page_icon = '✅',
+    layout = 'wide'
+)
+
+
 st.title('Device')
 st.header('Register a device')
 st.markdown('https://streamlit-example-app-bug-report-streamlit-app-lrm3fx.streamlit.app/')

@@ -3,6 +3,12 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 
+st.set_page_config(
+    page_title = 'TinyML as-a-Service',
+    page_icon = '✅',
+    layout = 'wide'
+)
+
 st.title('TinyML as-a-Service')
 
 st.image(Image.open('tdd.png'), caption='3 device environments')

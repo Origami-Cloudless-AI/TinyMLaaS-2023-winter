@@ -12,7 +12,7 @@ df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-an
 
 
 st.set_page_config(
-    page_title = 'Real-Time Data Science Dashboard',
+    page_title = 'Observing',
     page_icon = '✅',
     layout = 'wide'
 )

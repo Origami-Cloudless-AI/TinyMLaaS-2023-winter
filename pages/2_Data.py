@@ -1,6 +1,13 @@
 import streamlit as st
 import time
 
+st.set_page_config(
+    page_title = 'Data',
+    page_icon = '✅',
+    layout = 'wide'
+)
+
+
 if "photo" not in st.session_state:
     st.session_state["photo"]="not done"
 

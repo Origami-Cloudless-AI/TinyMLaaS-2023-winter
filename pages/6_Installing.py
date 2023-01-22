@@ -1,5 +1,11 @@
 import streamlit as st
-import streamlit as st
+
+st.set_page_config(
+    page_title = 'Installing',
+    page_icon = '✅',
+    layout = 'wide'
+)
+
 
 st.title('Installing')
 st.header('Installing Hello World binary in Container')
