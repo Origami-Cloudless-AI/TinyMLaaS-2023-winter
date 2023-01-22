@@ -7,18 +7,17 @@ example of [TensorFlow Lite for Microcontrollers](https://www.tensorflow.org/lit
 in Docker automatically, hooked in CI (Github workflow).
 
 #  Sprint 1
-We are adding GUI to convert to a WebApp with [streamlist](https://streamlit.io/) as TinyML as-a-Service.
+We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamlist](https://streamlit.io/).
 
-0. Install [nbdev](https://nbdev.fast.ai/) in this repo, to convert a Jupyter notebook to a .py file with unit tests
-1. Add unit test [code coverage](https://pete88b.github.io/decision_tree/test_coverage/) for `*.ipynb` files
-2. Add [acceptance test](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) with `TinyMLaaS.py`
-3. A WebApp (TinyMLaaS) installs a TinyML Hello model in a Hello container 
-4. Put a WebApp and a Hello respectively in a container within docker-compose
+0. `DevOps`, Install [nbdev](https://nbdev.fast.ai/) in this repo, to convert a Jupyter notebook to a .py file with unit tests
+1. `DevOps`, Add unit test [code coverage](https://pete88b.github.io/decision_tree/test_coverage/) for `*.ipynb` files
+2. `DevOps`, Add [acceptance test](https://blog.devgenius.io/testing-streamlit-a1f1fd48ce8f) with `TinyMLaaS.py`
+4. Put a WebApp and a Hello respectively in a container within `docker-compose`
 5. A Hello container sends data to a WebApp container via simple TCP via [netcat](https://quickref.me/nc)
-7. Observe & display "Hello world" prediction on a WebApp at real time
-9. Dockerization, run by docker-compose
-10. Hook a PR in CI / CD with Github workflow
-11. Display the CI result on Github page with [Quarto](https://quarto.org/docs/publishing/github-pages.html)
+7. Observe & display Hello prediction on a WebApp at real time
+9. `DevOps`, Dockerization, run by docker-compose
+10. `DevOps`, Hook a PR in CI / CD with Github workflow
+11. `DevOps`, Display the CI result on Github page via nbdev
 
 ```mermaid
   graph TD;
@@ -57,8 +56,9 @@ You can skip training part for now. You need the following steps:
 Please feel free to edit this document to share information with others correctly.
 
 # Backlog?
-1. Train "Hello world" with Jupyter notebook (JN) as instructed in TFLm website, recommended to all.
-2. Convert the above training JN to a WebApp with streamlit
+1. A WebApp (TinyMLaaS) installs a TinyML Hello model in a Hello container  
+2. Train "Hello world" with Jupyter notebook (JN) as instructed in TFLm website, recommended to all.
+3. Convert the above training JN to a WebApp with streamlit
 - Convert to a complete TinyML on a VM?  
 - Try other ML model?
 - Try real HW?
