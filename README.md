@@ -25,12 +25,19 @@ We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamli
 
 ```mermaid
   graph TD;
-      n[nbdev] --add unit tests--> a & b & c;
-      a[training.ipynb]--convert automatically-->ap[training.py]--import-->as[pages/4_Training.py];
-      b[model.ipynb]--convert automatically-->bp[model.py]--import-->bs[pages/3_Model.py];
-      c[observing.ipynb]--convert automatically-->cp[observing.py]--import-->cs[pages/7_Observing.py];
-      Tr[TinyMLaaS.robot]--add acceptance tests-->Tp[TinyMLaaS.py];
-      as & bs & cs --a subpage of--> Tp;
+      subgraph nbdev_work
+          n(nbdev) --add unit tests--> a & b & c;
+          a[training.ipynb]--convert automatically-->ap[training.py];
+          b[model.ipynb]--convert automatically-->bp[model.py];
+          c[observing.ipynb]--convert automatically-->cp[observing.py];
+      end
+      ap--import-->as[pages/4_Training.py];
+      bp--import-->bs[pages/3_Model.py];
+      cp--import-->cs[pages/7_Observing.py];
+      subgraph streamlit_work
+          Tr[TinyMLaaS.robot]--add acceptance tests-->Tp((TinyMLaaS.py));
+          as & bs & cs --a subpage of--> Tp;
+      end
       Tp --Streamlit--> Published
 ```
   
