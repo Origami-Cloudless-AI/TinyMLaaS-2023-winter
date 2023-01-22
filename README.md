@@ -9,6 +9,7 @@ in Docker automatically, hooked in CI (Github workflow).
 #  Sprint 1
 We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamlist](https://streamlit.io/).
 
+## Backlog items
 0. `DevOps`, Install [nbdev](https://nbdev.fast.ai/) in this repo, to convert a Jupyter notebook to a .py file with unit tests.
 1. `DevOps`, Add unit test [code coverage](https://forums.fast.ai/t/nbdev-code-coverage-n-tests/73993) for `*.ipynb` files.
    - Implement a failing unit test before implementing a feature.
@@ -21,8 +22,15 @@ We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamli
 7. Observe & display Hello prediction on a WebApp at real time
 9. `DevOps`, Dockerization, run by docker-compose
 10. `DevOps`, Hook a PR in CI / CD with Github workflow
-11. `DevOps`, Display the CI result on Github page via nbdev
+11. `DevOps`, Display the CI result on `Github page` via nbdev
 
+### DoD
+- A `PR merge` is DoD.
+- Each BI has an acceptance criteria.
+- Each acceptance criteria should be implemented as an acceptance test in robot framework.
+- All acceptance test is triggered by any PR in CI.
+
+## File structure
 ```mermaid
   graph TD;
       subgraph nbdev_work
@@ -40,11 +48,6 @@ We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamli
       end
       Tp --Streamlit--> Published
 ```
-## DoD
-- A `PR merge` is DoD.
-- Each BI has an acceptance criteria.
-- Each acceptance criteria should be implemented as an acceptance test in robot framework.
-- Each acceptance test is triggered by any PR in CI.
   
 
 # Sprint 0
