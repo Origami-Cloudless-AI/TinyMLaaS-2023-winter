@@ -24,6 +24,18 @@ This time, we'll add training part as WebApp (e.g. [streamlist](https://streamli
 9. make sure Dockerization of the above all, except JN. (docker-compose?)
 10. Hook a PR in CI / CD with Github workflow
 11. Display the CI result on Github page
+
+```mermaid
+  graph TD;
+      a[train.ipynb]--nbdev-->ap[train.py];
+      b[model.ipynb]--nbdev-->bp[model.py];
+      c[observe.ipynb]--nbdev-->cp[observe.py];
+      Tr[TinyMLaaS.robot]--Acceptance test-->Tp[TinyMLaaS.py];
+      ap --import--> Tp;
+      bp --import--> Tp;
+      cp --import--> Tp;
+      Tp --Streamlit--> Published
+```
   
 
 # Sprint 0
