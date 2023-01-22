@@ -25,7 +25,8 @@ We are adding `Observation` (Prediction) UI in WebApp (TinyMLaaS) with [streamli
 
 ### DoD
 - A `PR merge` is DoD.
-- Each BI has an acceptance criteria.
+- Covert a BI to GH issues (i.e tasks you think needed)
+- Each BI should have an acceptance criteria.
 - Each acceptance criteria should be implemented as an acceptance test in robot framework.
 - All acceptance test is triggered by any PR in CI.
 
