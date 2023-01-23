@@ -20,7 +20,6 @@ jobs:
     - name: Upload coverage...
       uses: codecov/codecov-action@v3
       with:
-        token: ${{ secrets.CODECOV_TOKEN}}
         verbose: true
         gcov: true
         gcov_include: tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov
