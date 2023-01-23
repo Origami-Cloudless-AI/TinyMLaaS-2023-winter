@@ -4,10 +4,6 @@ RUN apt update && apt install -y git make unzip curl g++ python3 pip wget
 COPY /build/requirements.txt ./
 COPY hello_world.robot ./robot/hello_world.robot
 
-RUN python3 -m pip install robotframework
-RUN python3 -m pip install robotframework-seleniumlibrary
-RUN python3 -m pip install selenium
-
 RUN pip3 install -r requirements.txt
 RUN git clone https://github.com/tensorflow/tflite-micro.git
 

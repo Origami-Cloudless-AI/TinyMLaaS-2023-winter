@@ -1,3 +1,7 @@
 pandas
 streamlit
 plotly
+robotframework
+robotframework-seleniumlibrary
+selenium
+
