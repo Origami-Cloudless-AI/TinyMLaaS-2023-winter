@@ -1,4 +1,4 @@
-![GitHub Actions](https://github.com/ArttuLe/tflm_hello_world/workflows/workflow/badge.svg)
+![workflow](https://github.com/ArttuLe/tflm_hello_world/workflows/workflow.yml/badge.svg)
 ---
 title: "Hello World of TensorFlow Lite for Microcontrollers"
 ---
