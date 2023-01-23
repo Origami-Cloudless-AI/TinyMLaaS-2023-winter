@@ -15,12 +15,10 @@ jobs:
       run: make docker
     - name: Run Dockerfile
       run: docker run -d hello_world
-      #    - name: Fetching container ID
-      #      run: CONTAINER_ID=$(docker ps -alq)
     - name: Copy coverage files
       run: CONTAINER_ID=$(sudo docker ps -aql) && docker cp $CONTAINER_ID:/tflite-micro/tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov .
     - name: Upload coverage...
       uses: codecov/codecov-action@v3
       with:
         gcov: true
-        gcov_include: hello_world_test.cc
+        gcov_include: test_hello_world_test.cc
