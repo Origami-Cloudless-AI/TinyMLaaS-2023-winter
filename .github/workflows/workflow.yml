@@ -18,7 +18,7 @@ jobs:
     - name: Fetching container ID
       run: CONTAINER_ID=$(docker ps -alq)
     - name: Copy coverage files
-      run: docker cp $CONTAINER_ID:/tflite-micro/tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov .
+      run: docker cp $CONTAINER_ID:/tflite-micro/tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov ./
     - name: Stop container
       run: docker stop $CONTAINER_ID
     - name: Upload coverage...
