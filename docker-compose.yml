@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+
+  hello_world:
+    build: .
+    logging:
+      driver: "none"
