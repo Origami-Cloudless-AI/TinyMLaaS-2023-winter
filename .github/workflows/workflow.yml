@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [ main ]
+  push:
+    branches: [ send_data ]
 jobs:
   build:
 
@@ -21,4 +21,4 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         gcov: true
-        gcov_include: test_hello_world_test.cc
+        gcov_include: tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov
