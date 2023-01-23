@@ -19,8 +19,6 @@ jobs:
       #      run: CONTAINER_ID=$(docker ps -alq)
     - name: Copy coverage files
       run: CONTAINER_ID=$(sudo docker ps -aql) && docker cp $CONTAINER_ID:/tflite-micro/tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov .
-    - name: Stop container
-      run: docker stop CONTAINER_ID=$(sudo docker ps -alq)
     - name: Upload coverage...
       uses: codecov/codecov-action@v3
       with:
