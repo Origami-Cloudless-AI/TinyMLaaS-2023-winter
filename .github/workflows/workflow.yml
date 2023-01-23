@@ -1,8 +1,13 @@
 name: CI
 
 on:
+<<<<<<< HEAD
   push:
     branches: [ coverage ]
+=======
+  pull_request:
+    branches: [ main ]
+>>>>>>> da75cd072a5bbbd131b57d5eae917eadcb7675a9
 jobs:
   build:
 

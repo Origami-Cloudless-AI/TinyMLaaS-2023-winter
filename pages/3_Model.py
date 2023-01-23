@@ -1,0 +1,15 @@
+import streamlit as st
+
+st.set_page_config(
+    page_title = 'Model',
+    page_icon = '✅',
+    layout = 'wide'
+)
+
+st.title("Model")
+
+st.multiselect(
+    "Which models are needed? (max 3.)",
+    ["Object detection", "Face detection", "Vibration detection", "anomally detection"],
+    max_selections=3,
+)
