@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-![GitHub Actions](https://github.com/ArttuLe/tflm_hello_world/workflows/CI/badge.svg)
-=======
 ![GitHub Actions](https://github.com/Origami-TinyML/tflm_hello_world/workflows/CI/badge.svg)
->>>>>>> da75cd072a5bbbd131b57d5eae917eadcb7675a9
 ---
 title: "Hello World of TensorFlow Lite for Microcontrollers"
 ---
