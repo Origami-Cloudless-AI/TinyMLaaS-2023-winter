@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  pull-request:
-    branches: [ main ]
+  push:
+    branches: [ coverage ]
 jobs:
   build:
 
@@ -11,5 +11,17 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Build and Run Dockerfile
+    - name: Build Dockerfile
       run: make docker
+    - name: Run Dockerfile
+      run: docker run -d hello_world
+    - name: Fetching container ID
+      run: CONTAINER_ID=$(docker ps -alq)
+    - name: Copy coverage files
+      run: docker cp $CONTAINER_ID:/tflite-micro/tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov .
+    - name: Stop container
+      run: docker stop $CONTAINER_ID
+    - name: Upload coverage...
+      uses: codecov/codecov-action@v3
+      with:
+        gcov: true
