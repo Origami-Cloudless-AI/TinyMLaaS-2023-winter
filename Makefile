@@ -4,3 +4,6 @@ IMAGENAME = hello_world
 
 docker:
 	docker build -f Dockerfile -t ${IMAGENAME} .
+
+app:
+	streamlit run TinyMLaaS.py
