@@ -14,7 +14,7 @@ jobs:
     - name: Build Dockerfile
       run: make docker
     - name: Run Dockerfile
-      run: docker run -d hello_world
+      run: ci_env=`bash <(curl -s https://codecov.io/env)` && docker run $ci_env -e CI=true -d hello_world
     - name: Copy coverage files
       run: CONTAINER_ID=$(sudo docker ps -aql) && docker cp $CONTAINER_ID:/tflite-micro/tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov .
       # - name: Upload coverage...
