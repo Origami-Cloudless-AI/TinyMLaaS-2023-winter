@@ -3,7 +3,7 @@ FROM ubuntu
 RUN apt update && apt install -y git make unzip curl g++ python3 pip wget
 COPY /build/requirements.txt ./
 RUN pip3 install -r requirements.txt
-COPY tflite-micro ./
+COPY tflite-micro/ /tflite-micro/
 
 WORKDIR tflite-micro
 
