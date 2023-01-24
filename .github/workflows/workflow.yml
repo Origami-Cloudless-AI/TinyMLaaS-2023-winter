@@ -22,4 +22,4 @@ jobs:
       with:
         verbose: true
         gcov: true
-        gcov_include: tensorflow#lite#micro#examples#hello_world#hello_world_test.cc.gcov
+        gcov_include: tensorflow/lite/micro/examples/hello_world/hello_world_test.cc
