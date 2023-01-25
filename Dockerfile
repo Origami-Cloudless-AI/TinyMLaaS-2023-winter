@@ -5,6 +5,7 @@ COPY /build/requirements.txt ./
 COPY hello_world.robot ./robot/hello_world.robot
 
 RUN pip3 install -r requirements.txt
+
 RUN git clone https://github.com/tensorflow/tflite-micro.git
 
 WORKDIR tflite-micro
