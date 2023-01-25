@@ -10,9 +10,10 @@ RUN git clone https://github.com/tensorflow/tflite-micro.git
 
 WORKDIR tflite-micro
 
-RUN make -f tensorflow/lite/micro/tools/make/Makefile hello_world_bin
-RUN make -f tensorflow/lite/micro/tools/make/Makefile test_hello_world_test
-RUN make -f tensorflow/lite/micro/tools/make/Makefile test_output_handler_test
+RUN make -f tensorflow/lite/micro/tools/make/Makefile test_hello_world_test hello_world_bin ADDITIONAL_DEFINES=--coverage
+RUN gcov -pb -o gen/linux_x86_64_default/obj/core/tensorflow/lite/micro/examples/hello_world tensorflow/lite/micro/examples/hello_world/hello_world_test.cc
+
+#Move the generated .gcov file to the Host machine
 
 #CMD ["./gen/linux_x86_64_default/bin/hello_world"]
 CMD ["./gen/linux_x86_64_default/bin/hello_world_test"]
