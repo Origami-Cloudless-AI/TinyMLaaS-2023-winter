@@ -64,8 +64,11 @@ Please feel free to edit this document to share information with others correctl
 - Try remote CI / CD?
 - Try better UI?
 
+   
+# User journey
+https://miro.com/app/board/uXjVPwQdIjc=/
 
-
+   
 # Slides
 - https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/kickoff.pdf
 - https://github.com/Origami-TinyML/software-engineering-project/blob/artifacts/soft_eng_proj_tinyml_lifecycle.md
