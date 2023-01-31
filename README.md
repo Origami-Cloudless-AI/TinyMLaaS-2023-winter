@@ -1,4 +1,5 @@
 ![GitHub Actions](https://github.com/Origami-TinyML/tflm_hello_world/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/github/ArttuLe/tflm_hello_world/branch/main/graph/badge.svg?token=ZUUMIJNJ6C)](https://codecov.io/github/ArttuLe/tflm_hello_world)
 ---
 title: "Hello World of TensorFlow Lite for Microcontrollers"
 ---
