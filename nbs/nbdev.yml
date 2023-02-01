@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "tflm_hello_world"
+  site-url: "https://lifeofborna.github.io/tflm_hello_world"
+  description: "Run Hello World of TensorFlow Lite for micro automatically in Docker"
+  repo-branch: main
+  repo-url: "https://github.com/lifeofborna/tflm_hello_world"
