@@ -10,6 +10,7 @@ services:
       - "50007:50007"
 
   hello_world:
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile

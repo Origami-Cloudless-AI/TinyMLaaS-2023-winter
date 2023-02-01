@@ -14,14 +14,14 @@ st.set_page_config(
 )
 
 st.title('TinyML as-a-Service')
-
+sock_conn = st.text('Socket status unknown')
 st.image(Image.open('tdd.png'), caption='3 device environments')
 
 DATE_COLUMN = 'date/time'
 DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
          'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
 
-def read_data_socket():
+def read_data_socket(sock_conn):
     
     HOST = ''                 # Symbolic name meaning all available interfaces
     PORT = 50007              # Arbitrary non-privileged port
@@ -30,21 +30,22 @@ def read_data_socket():
         s.listen(1)
         conn, addr = s.accept()
         with conn:
-            st.success('Connected by',addr, icon="✅")
-            while True:
-                data = conn.recv(1024)
-                if not data: break
-                conn.sendall(data)
+            #st.success('Connected by',addr)
+            return sock_conn.text('Connection success')
+            #Handle incoming data here?
+            #while True:
+               # data = conn.recv(1024)
+               # if not data: break
+               # conn.sendall(data)
 
 @st.cache
 def load_data(nrows):
-    data2 = read_data_socket()
     data = pd.read_csv(DATA_URL, nrows=nrows)
     lowercase = lambda x: str(x).lower()
     data.rename(lowercase, axis='columns', inplace=True)
     data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
     return data
-
+read_data_socket(sock_conn)
 # Create a text element and let the reader know the data is loading.
 data_load_state = st.text('Loading data...')
 # Load 10,000 rows of data into the dataframe.
