@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: frontend.Dockerfile
     ports:
-      - "8000:8000"
+      - "50007:50007"
 
   hello_world:
     build:

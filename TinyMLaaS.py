@@ -1,7 +1,11 @@
+import socket
+import sys
+
 import streamlit as st
 import pandas as pd
 import numpy as np
 from PIL import Image
+
 
 st.set_page_config(
     page_title = 'TinyML as-a-Service',
@@ -17,8 +21,24 @@ DATE_COLUMN = 'date/time'
 DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
          'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
 
+def read_data_socket():
+    
+    HOST = ''                 # Symbolic name meaning all available interfaces
+    PORT = 50007              # Arbitrary non-privileged port
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind((HOST, PORT))
+        s.listen(1)
+        conn, addr = s.accept()
+        with conn:
+            st.success('Connected by',addr, icon="✅")
+            while True:
+                data = conn.recv(1024)
+                if not data: break
+                conn.sendall(data)
+
 @st.cache
 def load_data(nrows):
+    data2 = read_data_socket()
     data = pd.read_csv(DATA_URL, nrows=nrows)
     lowercase = lambda x: str(x).lower()
     data.rename(lowercase, axis='columns', inplace=True)
