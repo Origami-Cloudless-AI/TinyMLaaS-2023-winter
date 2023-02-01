@@ -6,8 +6,10 @@ services:
     build:
       context: .
       dockerfile: frontend.Dockerfile
+    ports:
+      - "8000:8000"
 
   hello_world:
-    build: .
-    logging:
-      driver: "none"
+    build:
+      context: .
+      dockerfile: Dockerfile
