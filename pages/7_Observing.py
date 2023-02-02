@@ -1,75 +1,91 @@
-import streamlit as st
 
 import streamlit as st # web development
 import numpy as np # np mean, np random
 import pandas as pd # read csv, df manipulation
 import time # to simulate a real time data, time loop
 import plotly.express as px # interactive charts
+import asyncio # tcp server
+
+HOSTNAME = "frontend"
+TCP_PORT = 50007
+
+class TcpHelloObserver:
+    
+    def __init__(self):
+        self.x = []
+        self.y = []
+        self.server = None
+        self.__connected = False
+    
+    def parse_num(num_str):
+        base = num_str[:num_str.find('*')]
+        exponent = num_str[num_str.find('^')+1:]
+        return float(base) * (2 ** int(exponent))
+
+    def parse_data(message):
+        # message is of form: "x_value: 1.2566366*2^0, y_value: 1.9316164*2^-1"
+        parts = message.split(' ')
+        return (TcpHelloObserver.parse_num(parts[1][:-1]), TcpHelloObserver.parse_num(parts[3]))
+
+    async def __handle_connection(self, reader, writer):
+        self.__connected = True
+        while True:
+            data = await reader.readline()
+            if not data:
+                break
+
+            message = data.decode()
+            if len(message) > 2: # if not an empty line
+                point = TcpHelloObserver.parse_data(message)
+                self.x.append(point[0])
+                self.y.append(point[1])
+            
+            await asyncio.sleep(0) # pass control to main
+        self.__connected = False
+
+    async def start_server(self, hostname, portnum):
+        self.server = await asyncio.start_server(
+                self.__handle_connection, hostname, portnum)
+
+    async def serve_connection(self):
+        await self.server.start_serving()
+
+    def is_connected(self):
+        return self.__connected
 
 
-# read csv from a github repo
-df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv")
+class HelloWorldVisualizer:
+    def __init__(self, container):
+        self.container = container
+        self.plot = st.empty()
+        self.datagram = st.empty()
+
+    def render(self, x, y):
+        x = x[-40:]
+        y = y[-40:]
+        data = pd.DataFrame(data={"X value":x, "Y value":y})
+        fig = px.scatter(data, x="X value", y="Y value")
+        self.plot.write(fig)
+        self.datagram.write(data)
 
 
-st.set_page_config(
-    page_title = 'Observing',
-    page_icon = '✅',
-    layout = 'wide'
-)
+async def main():
+    obs = TcpHelloObserver()
+    await obs.start_server(HOSTNAME, TCP_PORT)
 
-# dashboard title
+    conn_text = st.text("")
+    visualizer = HelloWorldVisualizer(st.container())
 
-st.title("Real-Time / Live Data Science Dashboard")
-st.markdown('YOU NEED TO CONVERT THIS FOR OUR HELLO PREDICTION')
+    async with obs.server:
+        while True:
+            await obs.serve_connection()
+            if obs.is_connected():
+                conn_text.text("HelloWorld Connected!")
+            else:
+                conn_text.text("Waiting for connection...")
+            
+            visualizer.render(obs.x, obs.y)
+            await asyncio.sleep(1)
 
-# top-level filters
 
-job_filter = st.selectbox("Select the Job", pd.unique(df['job']))
-
-
-# creating a single-element container.
-placeholder = st.empty()
-
-# dataframe filter
-
-df = df[df['job']==job_filter]
-
-# near real-time / live feed simulation
-
-for seconds in range(200):
-#while True:
-
-    df['age_new'] = df['age'] * np.random.choice(range(1,5))
-    df['balance_new'] = df['balance'] * np.random.choice(range(1,5))
-
-    # creating KPIs
-    avg_age = np.mean(df['age_new'])
-
-    count_married = int(df[(df["marital"]=='married')]['marital'].count() + np.random.choice(range(1,30)))
-
-    balance = np.mean(df['balance_new'])
-
-    with placeholder.container():
-        # create three columns
-        kpi1, kpi2, kpi3 = st.columns(3)
-
-        # fill in those three columns with respective metrics or KPIs
-        kpi1.metric(label="Age ⏳", value=round(avg_age), delta= round(avg_age) - 10)
-        kpi2.metric(label="Married Count 💍", value= int(count_married), delta= - 10 + count_married)
-        kpi3.metric(label="A/C Balance ＄", value= f"$ {round(balance,2)} ", delta= - round(balance/count_married) * 100)
-
-        # create two columns for charts
-
-        fig_col1, fig_col2 = st.columns(2)
-        with fig_col1:
-            st.markdown("### First Chart")
-            fig = px.density_heatmap(data_frame=df, y = 'age_new', x = 'marital')
-            st.write(fig)
-        with fig_col2:
-            st.markdown("### Second Chart")
-            fig2 = px.histogram(data_frame = df, x = 'age_new')
-            st.write(fig2)
-        st.markdown("### Detailed Data View")
-        st.dataframe(df)
-        time.sleep(1)
-    #placeholder.empty()
+asyncio.run(main())
