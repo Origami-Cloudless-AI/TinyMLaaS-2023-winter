@@ -55,8 +55,7 @@ class TcpHelloObserver:
 
 
 class HelloWorldVisualizer:
-    def __init__(self, container):
-        self.container = container
+    def __init__(self):
         self.plot = st.empty()
         self.datagram = st.empty()
 
@@ -74,7 +73,7 @@ async def main():
     await obs.start_server(HOSTNAME, TCP_PORT)
 
     conn_text = st.text("")
-    visualizer = HelloWorldVisualizer(st.container())
+    visualizer = HelloWorldVisualizer()
 
     async with obs.server:
         while True:
