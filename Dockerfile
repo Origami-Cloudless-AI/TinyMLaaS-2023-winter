@@ -7,8 +7,6 @@ COPY hello_world.robot ./robot/hello_world.robot
 RUN pip3 install -r requirements.txt
 RUN git clone https://github.com/tensorflow/tflite-micro.git
 
-CMD ["robot", "./robot/hello_world.robot"]
-
 WORKDIR tflite-micro
 
 RUN make -f tensorflow/lite/micro/tools/make/Makefile test_hello_world_test hello_world_bin ADDITIONAL_DEFINES=--coverage
