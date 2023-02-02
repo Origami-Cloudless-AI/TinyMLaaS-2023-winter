@@ -4,54 +4,12 @@ import numpy as np # np mean, np random
 import pandas as pd # read csv, df manipulation
 import time # to simulate a real time data, time loop
 import plotly.express as px # interactive charts
-import asyncio # tcp server
+
+import asyncio #running coroutines
+from tflm_hello_world.tcp_hello_observer import TcpHelloObserver
 
 HOSTNAME = "frontend"
 TCP_PORT = 50007
-
-class TcpHelloObserver:
-    
-    def __init__(self):
-        self.x = []
-        self.y = []
-        self.server = None
-        self.__connected = False
-    
-    def parse_num(num_str):
-        base = num_str[:num_str.find('*')]
-        exponent = num_str[num_str.find('^')+1:]
-        return float(base) * (2 ** int(exponent))
-
-    def parse_data(message):
-        # message is of form: "x_value: 1.2566366*2^0, y_value: 1.9316164*2^-1"
-        parts = message.split(' ')
-        return (TcpHelloObserver.parse_num(parts[1][:-1]), TcpHelloObserver.parse_num(parts[3]))
-
-    async def __handle_connection(self, reader, writer):
-        self.__connected = True
-        while True:
-            data = await reader.readline()
-            if not data:
-                break
-
-            message = data.decode()
-            if len(message) > 2: # if not an empty line
-                point = TcpHelloObserver.parse_data(message)
-                self.x.append(point[0])
-                self.y.append(point[1])
-            
-            await asyncio.sleep(0) # pass control to main
-        self.__connected = False
-
-    async def start_server(self, hostname, portnum):
-        self.server = await asyncio.start_server(
-                self.__handle_connection, hostname, portnum)
-
-    async def serve_connection(self):
-        await self.server.start_serving()
-
-    def is_connected(self):
-        return self.__connected
 
 
 class HelloWorldVisualizer:
