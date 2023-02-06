@@ -1,5 +1,4 @@
 import socket
-import sys
 
 import streamlit as st
 import pandas as pd
@@ -45,6 +44,7 @@ def load_data(nrows):
     data.rename(lowercase, axis='columns', inplace=True)
     data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
     return data
+
 read_data_socket(sock_conn)
 # Create a text element and let the reader know the data is loading.
 data_load_state = st.text('Loading data...')
