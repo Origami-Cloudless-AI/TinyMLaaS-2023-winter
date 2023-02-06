@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: frontend.Dockerfile
+    ports:
+      - "50007:50007"
 
   hello_world:
     restart: always
