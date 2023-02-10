@@ -6,4 +6,5 @@ docker:
 	docker build -f Dockerfile -t ${IMAGENAME} .
 
 app:
-	docker-compose up
+	nbdev_prepare
+	docker-compose up --build
