@@ -38,3 +38,4 @@ if download:
     model, history,epochs_range = trainer.train_model(img_height=180, img_width=180, batch_size=32)
     status.text('Model trained!')
     visual.render(history, epochs_range, model)
+    trainer.convert_to_c_array()
