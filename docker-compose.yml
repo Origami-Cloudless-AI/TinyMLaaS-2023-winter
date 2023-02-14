@@ -8,9 +8,22 @@ services:
       dockerfile: frontend.Dockerfile
     ports:
       - "50007:50007"
+      - "8501:8501"
+  
+  backend:
+    build:
+      context: backend/
+    ports:
+      - "8080:8080"
 
   hello_world:
     restart: always
     build:
       context: .
       dockerfile: Dockerfile
+
+  image_sender:
+    restart: always
+    build:
+      context: .
+      dockerfile: image_sender.Dockerfile
