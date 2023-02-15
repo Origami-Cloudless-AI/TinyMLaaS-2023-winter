@@ -15,5 +15,5 @@ RUN gcov -pb -o gen/linux_x86_64_default/obj/core/tensorflow/lite/micro/examples
 #RUN pip3 install codecov
 #RUN codecov
 CMD ["./gen/linux_x86_64_default/bin/hello_world_test"]
-CMD ./gen/linux_x86_64_default/bin/hello_world 2>&1 | nc -v frontend 50007
+CMD sleep 5 && ./gen/linux_x86_64_default/bin/hello_world 2>&1 | nc -v frontend 50007
 
