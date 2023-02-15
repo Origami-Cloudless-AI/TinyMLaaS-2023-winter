@@ -1,3 +1,5 @@
+![GHA workflow badge](https://github.com/Origami-TinyML/tflm_hello_world/workflows/CI/badge.svg)[![codecov](https://codecov.io/gh/Origami-TinyML/tflm_hello_world/branch/main/graph/badge.svg?token=SULQ9G6ECP)](https://codecov.io/gh/Origami-TinyML/tflm_hello_world)
+
 tflm_hello_world
 ================
 
