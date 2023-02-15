@@ -40,3 +40,6 @@ _proc/
 
 # Python
 __pycache__/
+
+# Coverage
+.coverage
