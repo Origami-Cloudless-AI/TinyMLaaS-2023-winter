@@ -1,4 +1,3 @@
-import streamlit as st
 
 import streamlit as st # web development
 import numpy as np # np mean, np random
@@ -6,70 +5,44 @@ import pandas as pd # read csv, df manipulation
 import time # to simulate a real time data, time loop
 import plotly.express as px # interactive charts
 
+import asyncio #running coroutines
+from tflm_hello_world.tcp_hello_observer import TcpHelloObserver
 
-# read csv from a github repo
-df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv")
-
-
-st.set_page_config(
-    page_title = 'Observing',
-    page_icon = '✅',
-    layout = 'wide'
-)
-
-# dashboard title
-
-st.title("Real-Time / Live Data Science Dashboard")
-st.markdown('YOU NEED TO CONVERT THIS FOR OUR HELLO PREDICTION')
-
-# top-level filters
-
-job_filter = st.selectbox("Select the Job", pd.unique(df['job']))
+HOSTNAME = "frontend"
+TCP_PORT = 50007
 
 
-# creating a single-element container.
-placeholder = st.empty()
+class HelloWorldVisualizer:
+    def __init__(self):
+        self.plot = st.empty()
+        self.datagram = st.empty()
 
-# dataframe filter
+    def render(self, x, y):
+        x = x[-40:]
+        y = y[-40:]
+        data = pd.DataFrame(data={"X value":x, "Y value":y})
+        fig = px.scatter(data, x="X value", y="Y value")
+        self.plot.write(fig)
+        self.datagram.write(data)
 
-df = df[df['job']==job_filter]
 
-# near real-time / live feed simulation
+async def main():
+    obs = TcpHelloObserver()
+    await obs.start_server(HOSTNAME, TCP_PORT)
 
-for seconds in range(200):
-#while True:
+    conn_text = st.text("")
+    visualizer = HelloWorldVisualizer()
 
-    df['age_new'] = df['age'] * np.random.choice(range(1,5))
-    df['balance_new'] = df['balance'] * np.random.choice(range(1,5))
+    async with obs.server:
+        while True:
+            await obs.serve_connection()
+            if obs.is_connected():
+                conn_text.text("HelloWorld Connected!")
+            else:
+                conn_text.text("Waiting for connection...")
+            
+            visualizer.render(obs.x, obs.y)
+            await asyncio.sleep(1)
 
-    # creating KPIs
-    avg_age = np.mean(df['age_new'])
 
-    count_married = int(df[(df["marital"]=='married')]['marital'].count() + np.random.choice(range(1,30)))
-
-    balance = np.mean(df['balance_new'])
-
-    with placeholder.container():
-        # create three columns
-        kpi1, kpi2, kpi3 = st.columns(3)
-
-        # fill in those three columns with respective metrics or KPIs
-        kpi1.metric(label="Age ⏳", value=round(avg_age), delta= round(avg_age) - 10)
-        kpi2.metric(label="Married Count 💍", value= int(count_married), delta= - 10 + count_married)
-        kpi3.metric(label="A/C Balance ＄", value= f"$ {round(balance,2)} ", delta= - round(balance/count_married) * 100)
-
-        # create two columns for charts
-
-        fig_col1, fig_col2 = st.columns(2)
-        with fig_col1:
-            st.markdown("### First Chart")
-            fig = px.density_heatmap(data_frame=df, y = 'age_new', x = 'marital')
-            st.write(fig)
-        with fig_col2:
-            st.markdown("### Second Chart")
-            fig2 = px.histogram(data_frame = df, x = 'age_new')
-            st.write(fig2)
-        st.markdown("### Detailed Data View")
-        st.dataframe(df)
-        time.sleep(1)
-    #placeholder.empty()
+asyncio.run(main())
