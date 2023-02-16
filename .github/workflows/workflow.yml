@@ -17,6 +17,8 @@ jobs:
       run: docker run -d hello_world
     - name: Copy coverage files
       run: CONTAINER_ID=$(sudo docker ps -aql) && docker cp $CONTAINER_ID:/tflite-micro ./tflite-micro
+    - name: Run python coverage
+      run: pytest --cov nbs/tests/
     - name: Use nbdev-ci workflow
       uses: fastai/workflows/nbdev-ci@master
     - name: Upload coverage...
