@@ -35,3 +35,7 @@
 *.app
 
 *~
+
+_docs/
+_proc/
+__pycache__/
