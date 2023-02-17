@@ -19,9 +19,11 @@ jobs:
       run: CONTAINER_ID=$(sudo docker ps -aql) && docker cp $CONTAINER_ID:/tflite-micro ./tflite-micro
     - name: Use nbdev-ci workflow
       uses: fastai/workflows/nbdev-ci@master
+    - name: Run python coverage
+      run: pytest --cov nbs/tests/
     - name: Upload coverage...
       uses: codecov/codecov-action@v3
       with:
         verbose: true
         gcov: true
-      #gcov_include: tensorflow/lite/micro/examples/hello_world/hello_world_test.cc
+        gcov_include: tensorflow/lite/micro/examples/hello_world/hello_world_test.cc
