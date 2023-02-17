@@ -1,4 +1,11 @@
 pandas
 streamlit
 plotly
+Pillow==9.0.1
+selenium
 
+# Dev
+pytest
+pytest-cov
+robotframework
+robotframework-seleniumlibrary
