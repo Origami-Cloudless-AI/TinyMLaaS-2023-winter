@@ -10,22 +10,21 @@
 ### Planned in a sprint
 - Issues #38 and #39 are related to WebApp training a model
 - Reserach on relevant UI
-- Tuula has a compability problem with Robot tests, Hiroshi will help after the unit test code coverage is added for ipynb.
+- Tuula has a compatibility problem with Robot tests, Hiroshi will help after the unit test code coverage is added for ipynb.
 
-### Estimation with planning proker
-- WebApp accepts image data via network 3 days
+### Estimation with planning poker
+- WebApp accepts image data via a network 3 days
 - WebApp stores image data 3 days
 - Estimation of Sprint two items with planning poker
-- WebApp accepts image data via network 3 days
-- WebApp stores image data 3 day
+- WebApp accepts image data via a network 3 days
+- WebApp stores image data 3 days
 - WebApp labels image data 3 days
-- WebApp chooses model from list 3 days
-- WebApp chooses image dataset from list 2 days
+- WebApp chooses a model from list 3 days
+- WebApp chooses an image dataset from list 2 days
 - WebApp compiles model to TinyML 2 days
 - WebApp builds docker image to run TinyML 2 days
 - WebApp shows camera image & prediction 2 days
 
 ### Assigning issues
-- Tuula takes over looks into Research on relevant UI/Services
-- Everyone else has tasks from previous sprint
-
+- Tuula takes over Research on relevant UI/Services
+- Everyone else has tasks from the previous sprint
