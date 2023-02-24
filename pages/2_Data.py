@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import time
+import os
 
 st.set_page_config(
     page_title = 'Data',
@@ -35,7 +36,6 @@ camera_photo = col2.camera_input("Take a photo", on_change=change_photo_state)
 if st.session_state["photo"] == "done":
     bar = col2.progress(0)
     for x in range(100):
-        time.sleep(0.05)
         bar.progress(x+1)
 
     col2.success("Photo uploaded successfully")
@@ -46,10 +46,10 @@ if st.session_state["photo"] == "done":
         st.write("Please complete this data acqusition feature")
         i = 0
         if camera_photo:
-            for each in camera_photo:
-                st.image(each)
-                st.checkbox("choose image", key=i)
-                i += 1
+            each = camera_photo
+            st.image(each)
+            st.checkbox("choose image", key=i)
+            i += 1
 
         if uploaded_photo:
             for each in uploaded_photo:
@@ -62,3 +62,27 @@ if st.session_state["photo"] == "done":
                 st.image(each)
                 st.checkbox("choose image", key=i)
                 i += 1
+
+
+
+st.header("Unlabeled images")
+
+DATASET = "data/"
+UNLABELED_DIR = "unlabeled/"
+labels = ["None"]
+for each in os.listdir(DATASET):
+    labels.append(each)
+
+for unlabeled_img in os.listdir(UNLABELED_DIR):
+        filepath = UNLABELED_DIR+unlabeled_img
+        with open(filepath, "rb") as f:
+            columns = st.columns(5, gap="small")
+            columns[0].image(f.read(), width=200)
+            selected_label = columns[1].selectbox("Label:", labels, index=0, key=filepath)
+            if selected_label != "None":
+                os.rename(filepath, DATASET+selected_label+"/"+unlabeled_img)
+                st.experimental_rerun()
+
+if len(os.listdir(UNLABELED_DIR))==0:
+    st.text("All images are already labeled.")
+
