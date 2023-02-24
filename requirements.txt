@@ -1,7 +1,8 @@
 pandas
-numpy==1.21.6
+numpy
 streamlit
 plotly
-tensorflow==2.8.4
+tensorflow
 matplotlib
 opencv-python
+pydot

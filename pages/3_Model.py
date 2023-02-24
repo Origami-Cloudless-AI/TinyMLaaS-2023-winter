@@ -1,5 +1,9 @@
 import streamlit as st
 import pandas as pd
+import cv2
+from tensorflow.keras.utils import plot_model
+from tensorflow.keras.models import load_model
+
 
 st.set_page_config(
         page_title = 'Model',
@@ -10,6 +14,16 @@ st.set_page_config(
 
 def save_selections():
     st.info("Your selections have been saved",icon="✅")
+
+def visualize(model_meta):
+    try:
+        path = '/app/models/keras_model.h5'
+        model = load_model(path)
+        plot_model(model, to_file="/app/models/model.png", show_shapes=True)
+        image = cv2.imread("/app/models/model.png")
+        st.image(image)
+    except:
+        st.error("No model found")
 
 def create_default_page():
     st.title("Model")
@@ -36,6 +50,7 @@ def create_default_page():
             st.markdown(table)
     
     col3.button("Select", on_click=save_selections)
+    col3.button("Visualize", on_click=visualize, kwargs={'model_meta':models[select_model]})
 
 
   
