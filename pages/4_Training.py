@@ -10,6 +10,12 @@ st.set_page_config(
     layout = 'wide'
 )
 
+if "train" not in st.session_state:
+    st.session_state["train"]="not done"
+
+def change_train_state():
+    st.session_state["train"] = "done"
+
 class model_training_vis():
     def __init__(self):
         self.plot = st.empty()
@@ -31,11 +37,10 @@ visual = model_training_vis()
 st.title('Training')
 
 st.subheader('Training a model')
-download = st.button('Train the model')
+download = st.button('Train the model', on_click=change_train_state)
 
-if download:
+if st.session_state["train"] == "done":
     status = st.text('Training the model...')
     model, history,epochs_range = trainer.train_model(img_height=180, img_width=180, batch_size=32)
     status.text('Model trained!')
     visual.render(history, epochs_range, model)
-    trainer.convert_to_c_array()
