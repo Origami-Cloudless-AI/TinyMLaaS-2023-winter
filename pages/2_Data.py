@@ -1,14 +1,49 @@
 import streamlit as st
 import pandas as pd
-import time
+import boto3
 import os
+
+
+def get_img_df(img_list):
+    " Converts img list to pd.DataFrame "
+    img_df = pd.DataFrame(columns=['File name', 'Label'])
+    for img in img_list:
+        row_to_append = pd.DataFrame([{'File name': img[2], 'Label':img[1]}])
+        img_df = pd.concat([img_df, row_to_append], ignore_index=True)
+
+    return img_df
+
+def store_s3(img_set, i):
+    " Store list of images to AWS S3"
+    s3 = boto3.client('s3')
+    selected_imgs = []
+    
+    for img in img_set:
+        st.image(img)
+        check = st.checkbox("Choose image", key=i)
+        if check:
+            label = st.radio("Select label", (0, 1), key=f"label_{i}")
+            selected_imgs.append([img, label, img.name])
+        i += 1
+
+    if len(selected_imgs) > 0:
+        st.write('You selected following images:')
+        images_df = get_img_df(selected_imgs)
+        st.dataframe(images_df)
+
+        store_btn = st.button("Store images")
+        if store_btn:
+            for img in selected_imgs:
+                s3.upload_fileobj(img[0], f'tflmhelloworldbucket', f'{img[1]}/{img[0].name}')
+            st.write("Images stored successfully!")
+    else:
+        st.write("You haven't chosen any image")
 
 st.set_page_config(
     page_title = 'Data',
     page_icon = '✅',
     layout = 'wide'
 )
-
 
 if "photo" not in st.session_state:
     st.session_state["photo"]="not done"
@@ -48,19 +83,17 @@ if st.session_state["photo"] == "done":
         if camera_photo:
             each = camera_photo
             st.image(each)
-            st.checkbox("choose image", key=i)
+            st.checkbox("Choose image", key=i)
             i += 1
 
         if uploaded_photo:
-            for each in uploaded_photo:
-                st.image(each)
-                st.checkbox("choose image", key=i)
-                i += 1
+            store_s3(uploaded_photo, i)
+            i += 1
 
         if uploaded_file:
             for each in file_images:
                 st.image(each)
-                st.checkbox("choose image", key=i)
+                st.checkbox("Choose image", key=i)
                 i += 1
 
 
