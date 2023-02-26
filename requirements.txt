@@ -5,3 +5,5 @@ plotly
 tensorflow==2.8.4
 matplotlib
 opencv-python
+boto3
+awscli
