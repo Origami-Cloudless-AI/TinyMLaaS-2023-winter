@@ -2,7 +2,17 @@ pandas
 numpy
 streamlit
 plotly
-tensorflow
+pydot
+Pillow==9.0.1
+selenium
+tensorflow==2.8.4
 matplotlib
 opencv-python
-pydot
+boto3
+awscli
+
+# Dev
+pytest
+pytest-cov
+robotframework
+robotframework-seleniumlibrary
