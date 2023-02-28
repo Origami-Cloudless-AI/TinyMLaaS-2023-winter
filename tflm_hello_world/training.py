@@ -119,6 +119,7 @@ class model_training():
         _type_: _description_
     """
 
+    model.save('models/keras_model.h5')
     # Convert the model to the TensorFlow Lite format without quantization
     converter = tf.lite.TFLiteConverter.from_keras_model(model)
     model_no_quant_tflite = converter.convert()

@@ -1,7 +1,8 @@
 pandas
-numpy==1.21.6
+numpy
 streamlit
 plotly
+pydot
 Pillow==9.0.1
 selenium
 tensorflow==2.8.4

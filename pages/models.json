@@ -1,0 +1,75 @@
+{
+    "Models": {
+        "Object Detection": {
+            "Matias's R-CNN model": {
+                "Model Type": "Region-based Convolutional Neural Networks(R-CNN)",
+                "Model Path": "/path/to/object_model",
+                "Last Modified": "2019-01-01 00:00:00",
+                "Modified By": "Matias",
+                "Description": "This is a description of the model",
+                "Data": "This is a description of the training data",
+                "Parameters": "This is a description of the training parameters",
+                "Time": "This is a description of the training time",
+                "Hardware": "This is a description of the training hardware",
+                "Software": "This is a description of the training software",
+                "Accuracy": "This is a description of the training accuracy"
+            },
+            "YOLO": {
+                "Model Type": "Region-based Convolutional Neural Networks(R-CNN)",
+                "Model Path": "/path/to/object_model",
+                "Last Modified": "2019-01-01 00:00:00",
+                "Modified By": "Matias",
+                "Description": "This is a description of the model",
+                "Data": "This is a description of the training data",
+                "Parameters": "This is a description of the training parameters",
+                "Time": "This is a description of the training time",
+                "Hardware": "This is a description of the training hardware",
+                "Software": "This is a description of the training software",
+                "Accuracy": "This is a description of the training accuracy"
+            }
+        },
+        "Face Recognition": {
+            "Modified LBPH": {
+                "Model Type": "Local Binary Pattern Histogram(LBPH)",
+                "Model Path": "/path/to/face_model",
+                "Last Modified": "2019-01-01 00:00:00",
+                "Modified By": "Matias",
+                "Description": "This is a description of the model",
+                "Data": "This is a description of the training data",
+                "Parameters": "This is a description of the training parameters",
+                "Time": "This is a description of the training time",
+                "Hardware": "This is a description of the training hardware",
+                "Software": "This is a description of the training software",
+                "Accuracy": "This is a description of the training accuracy"
+            },
+            "Bornas CNN": {
+                "Model Type": "Convolutional Neural Network(CNN)",
+                "Model Path": "/path/to/face_model",
+                "Last Modified": "2019-01-01 00:00:00",
+                "Modified By": "Matias",
+                "Description": "This is a description of the model",
+                "Data": "This is a description of the training data",
+                "Parameters": "This is a description of the training parameters",
+                "Time": "This is a description of the training time",
+                "Hardware": "This is a description of the training hardware",
+                "Software": "This is a description of the training software",
+                "Accuracy": "This is a description of the training accuracy"
+            }
+        },
+        "Vibration detection": {
+            "Concept vibration model": {
+                "Model Type": "Vibration detection",
+                "Model Path": "/path/to/vibration_model",
+                "Last Modified": "2019-01-01 00:00:00",
+                "Modified By": "Matias",
+                "Description": "This is a description of the model",
+                "Data": "This is a description of the training data",
+                "Parameters": "This is a description of the training parameters",
+                "Time": "This is a description of the training time",
+                "Hardware": "This is a description of the training hardware",
+                "Software": "This is a description of the training software",
+                "Accuracy": "This is a description of the training accuracy"
+            }
+        }
+    }
+}   
