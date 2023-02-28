@@ -2,3 +2,5 @@ Pillow==9.0.1
 robotframework
 robotframework-seleniumlibrary
 selenium
+pytest
+pytest-cov
