@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import boto3
 import os
+import time
+import requests
+import tarfile
 
 
 def get_img_df(img_list):
@@ -56,14 +59,53 @@ def change_photo_state():
     st.session_state["photo"]="done"
 
 uploaded_file = col2.file_uploader("Choose a CSV file", on_change=change_photo_state)
-file_images = []
-url_column_name = "change to the name of the column with url listing"
+
+dataset_names = []
+dataset_locations = []
+dataset_sizes = []
+dataset_descriptions = []
+
+name_column_name = "Dataset_Name"
+url_column_name = "Location"
+size_column_name = "Size"
+description_column_name = "Description"
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
-    url_list = df[url_column_name]
-    for url in url_list:
-        file_images.append(url)
+    name_list = df[name_column_name]
+    location_list = df[url_column_name]
+    size_list = df[size_column_name]
+    description_list = df[description_column_name]
+
+    for name in name_list:
+        dataset_names.append(name)
+    for location in location_list:
+        dataset_locations.append(location)
+    for size in size_list:
+        dataset_sizes.append(size)
+    for description in description_list:
+        dataset_descriptions.append(description)
+
+    with st.expander("Click to choose datasets"):
+        for j in range(len(dataset_names)):
+            st.write(dataset_names[j],", ",dataset_locations[j],", ",dataset_sizes[j],", ",dataset_descriptions[j])
+            show = st.checkbox("Choose dataset", key=dataset_names[j])
+            if show:
+                url = dataset_locations[j] # https://jovian.com/outlink?url=https%3A%2F%2Fs3.amazonaws.com%2Ffast-ai-imageclas%2Fstanford-cars.tgz
+                target_path = 'temp/Common_brimstone_butterfly_(Gonepteryx_rhamni)_male_in_flight.jpg'
+                r = requests.get(url, stream=True)
+                if r.status_code == 200:
+                    with open(target_path, "wb") as f:
+                        f.write(r.content)
+                        st.write("Saving file from url done")
+                    with tarfile.open('cars/stanford-cars.tgz', 'r:gz' )as tar:
+                        tar.extractall(path= 'cars/cars_data')
+                    folderpath = 'cars/cars_data/stanford-cars/cars_train/'
+                    for image in os.listdir(folderpath):
+                        file = folderpath+"/"+image
+                        with open(file, "rb") as f:
+                            st.image(f.read(), width=200)
+                            st.checkbox("Choose image", key=file)
 
 uploaded_photo = col2.file_uploader("Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
 camera_photo = col2.camera_input("Take a photo", on_change=change_photo_state)
@@ -89,14 +131,6 @@ if st.session_state["photo"] == "done":
         if uploaded_photo:
             store_s3(uploaded_photo, i)
             i += 1
-
-        if uploaded_file:
-            for each in file_images:
-                st.image(each)
-                st.checkbox("Choose image", key=i)
-                i += 1
-
-
 
 st.header("Unlabeled images")
 
