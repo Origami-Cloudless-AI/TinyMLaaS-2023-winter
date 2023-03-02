@@ -16,11 +16,11 @@ services:
     ports:
       - "8080:8080"
 
-  hello_world:
-    restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile
+ #hello_world:
+   #restart: always
+   #build:
+   #context: .
+   #dockerfile: Dockerfile
 
   image_sender:
     restart: always
