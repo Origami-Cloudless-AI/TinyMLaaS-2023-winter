@@ -36,7 +36,7 @@ def store_images(img_set, i, unlabeled=True, label_list=("Unlabeled", 0, 1)):
         images_df = get_img_df(selected_imgs)
         st.dataframe(images_df)
 
-        store_btn = st.button("Store images")
+        store_btn = st.button("Store images", key=f"button_{i}")
         if store_btn:
             for img in selected_imgs:
                 if unlabeled:
@@ -88,9 +88,8 @@ if st.session_state["photo"] == "done":
     col2.success("Photo uploaded successfully")
 
     col3.metric(label="Temperature", value="-25℃ ", delta="3℃ ")
-
-    with st.expander("Click to read more"):
-        st.write("Please complete this data acqusition feature")
+    st.header("Uploaded images")
+    with st.expander("Clik to see uploaded images"):
         if camera_photo:
             each = camera_photo
             st.image(each)
@@ -117,6 +116,7 @@ with st.expander("Label unlabeled images"):
     else:
         st.write(f"{unlabeled_count} unlabeled images found")
         unlabeled_imgs = s3_conn.read_images(UNLABELED_DIR)
-        store_images(unlabeled_imgs, i, True)
+        i = store_images(unlabeled_imgs, i, True)
+        i += 1
 
 
