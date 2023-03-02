@@ -17,8 +17,8 @@ class S3_Connector:
         copy_source = {
                         'Bucket': self.bucket_name,
                         'Key': old_destination}
-        self.s3.copy_object(CopySource=copy_source, Bucket = self.bucket_name, Key = old_destination)
-        self.s3.delete_object(Bucket = self.bucket_name, Key = new_destination)
+        self.s3.copy_object(CopySource=copy_source, Bucket=self.bucket_name, Key=new_destination)
+        self.s3.delete_object(Bucket=self.bucket_name, Key=old_destination)
 
         return True
 

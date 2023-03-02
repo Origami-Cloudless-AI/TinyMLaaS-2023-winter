@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from PIL import Image
 from pages.aws_s3 import s3_conn
 
 
@@ -47,6 +46,8 @@ def store_images(img_set, i, unlabeled=True, label_list=("Unlabeled", 0, 1)):
             st.write("Images stored successfully!")
     else:
         st.write("You haven't chosen any image")
+
+    return i
 
                 
 st.set_page_config(
@@ -97,7 +98,7 @@ if st.session_state["photo"] == "done":
             i += 1
 
         if uploaded_photo:
-            store_images(uploaded_photo, i, False)
+            i = store_images(uploaded_photo, i, False)
             i += 1
 
         if uploaded_file:
@@ -109,12 +110,13 @@ if st.session_state["photo"] == "done":
 st.header("Unlabeled images")
 UNLABELED_DIR = "Unlabeled/"
 
-unlabeled_count = s3_conn.count_objects(UNLABELED_DIR)
-if unlabeled_count == 0:
-    st.text("All images are already labeled.")
-else:
-    st.write(f"{unlabeled_count} unlabeled images found")
-    unlabeled_imgs = s3_conn.read_images(UNLABELED_DIR)
-    store_images(unlabeled_imgs, i, True)
+with st.expander("Label unlabeled images"):
+    unlabeled_count = s3_conn.count_objects(UNLABELED_DIR)
+    if unlabeled_count == 0:
+        st.text("All images are already labeled.")
+    else:
+        st.write(f"{unlabeled_count} unlabeled images found")
+        unlabeled_imgs = s3_conn.read_images(UNLABELED_DIR)
+        store_images(unlabeled_imgs, i, True)
 
 
