@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
-import boto3
-import os
+from pages.aws_s3 import s3_conn
 
 
 def get_img_df(img_list):
@@ -13,17 +12,23 @@ def get_img_df(img_list):
 
     return img_df
 
-def store_s3(img_set, i):
-    " Store list of images to AWS S3"
-    s3 = boto3.client('s3')
+def store_images(img_set, i, unlabeled=True, label_list=("Unlabeled", 0, 1)):
+    " Stores a list of images to AWS S3"
     selected_imgs = []
+
+    # If the image is in Unlabeled directory
+    if unlabeled is True:
+        label_list = (0, 1)
     
     for img in img_set:
         st.image(img)
-        check = st.checkbox("Choose image", key=i)
+        check = st.checkbox("Choose image", key=f"check_{i}")
         if check:
-            label = st.radio("Select label", (0, 1), key=f"label_{i}")
-            selected_imgs.append([img, label, img.name])
+            label = st.radio("Select label", label_list, key=f"label_{i}")
+            if unlabeled:
+                selected_imgs.append([img, label, img.filename])            
+            else:
+                selected_imgs.append([img, label, img.name])
         i += 1
 
     if len(selected_imgs) > 0:
@@ -31,14 +36,20 @@ def store_s3(img_set, i):
         images_df = get_img_df(selected_imgs)
         st.dataframe(images_df)
 
-        store_btn = st.button("Store images")
+        store_btn = st.button("Store images", key=f"button_{i}")
         if store_btn:
             for img in selected_imgs:
-                s3.upload_fileobj(img[0], f'tflmhelloworldbucket', f'{img[1]}/{img[0].name}')
+                if unlabeled:
+                    s3_conn.move(dir_old='Unlabeled', dir_new=img[1], file_name=img[2])
+                else:
+                    s3_conn.upload_img(img[0], img[1], img[2])
             st.write("Images stored successfully!")
     else:
         st.write("You haven't chosen any image")
 
+    return i
+
+                
 st.set_page_config(
     page_title = 'Data',
     page_icon = '✅',
@@ -68,6 +79,7 @@ if uploaded_file:
 uploaded_photo = col2.file_uploader("Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
 camera_photo = col2.camera_input("Take a photo", on_change=change_photo_state)
 
+i = 0
 if st.session_state["photo"] == "done":
     bar = col2.progress(0)
     for x in range(100):
@@ -76,10 +88,8 @@ if st.session_state["photo"] == "done":
     col2.success("Photo uploaded successfully")
 
     col3.metric(label="Temperature", value="-25℃ ", delta="3℃ ")
-
-    with st.expander("Click to read more"):
-        st.write("Please complete this data acqusition feature")
-        i = 0
+    st.header("Uploaded images")
+    with st.expander("Clik to see uploaded images"):
         if camera_photo:
             each = camera_photo
             st.image(each)
@@ -87,7 +97,7 @@ if st.session_state["photo"] == "done":
             i += 1
 
         if uploaded_photo:
-            store_s3(uploaded_photo, i)
+            i = store_images(uploaded_photo, i, False)
             i += 1
 
         if uploaded_file:
@@ -96,26 +106,17 @@ if st.session_state["photo"] == "done":
                 st.checkbox("Choose image", key=i)
                 i += 1
 
-
-
 st.header("Unlabeled images")
+UNLABELED_DIR = "Unlabeled/"
 
-DATASET = "data/"
-UNLABELED_DIR = "unlabeled/"
-labels = ["None"]
-for each in os.listdir(DATASET):
-    labels.append(each)
+with st.expander("Label unlabeled images"):
+    unlabeled_count = s3_conn.count_objects(UNLABELED_DIR)
+    if unlabeled_count == 0:
+        st.text("All images are already labeled.")
+    else:
+        st.write(f"{unlabeled_count} unlabeled images found")
+        unlabeled_imgs = s3_conn.read_images(UNLABELED_DIR)
+        i = store_images(unlabeled_imgs, i, True)
+        i += 1
 
-for unlabeled_img in os.listdir(UNLABELED_DIR):
-        filepath = UNLABELED_DIR+unlabeled_img
-        with open(filepath, "rb") as f:
-            columns = st.columns(5, gap="small")
-            columns[0].image(f.read(), width=200)
-            selected_label = columns[1].selectbox("Label:", labels, index=0, key=filepath)
-            if selected_label != "None":
-                os.rename(filepath, DATASET+selected_label+"/"+unlabeled_img)
-                st.experimental_rerun()
-
-if len(os.listdir(UNLABELED_DIR))==0:
-    st.text("All images are already labeled.")
 

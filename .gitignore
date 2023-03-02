@@ -35,6 +35,9 @@ _proc/
 *.out
 *.app
 
+# AWS
+.aws/
+
 *~
 
 # nbs
