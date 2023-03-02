@@ -14,7 +14,7 @@ def get_img_df(img_list):
     return img_df
 
 def store_s3(img_set, i):
-    " Store list of images to AWS S3"
+    " Stores a list of images to AWS S3"
     s3 = boto3.client('s3')
     selected_imgs = []
     
@@ -22,7 +22,7 @@ def store_s3(img_set, i):
         st.image(img)
         check = st.checkbox("Choose image", key=i)
         if check:
-            label = st.radio("Select label", (0, 1), key=f"label_{i}")
+            label = st.radio("Select label", ("Unlabeled", 0, 1), key=f"label_{i}")
             selected_imgs.append([img, label, img.name])
         i += 1
 
@@ -37,7 +37,7 @@ def store_s3(img_set, i):
                 s3.upload_fileobj(img[0], f'tflmhelloworldbucket', f'{img[1]}/{img[0].name}')
             st.write("Images stored successfully!")
     else:
-        st.write("You haven't chosen any image")
+        st.write("You haven't chosen any image")    
 
 st.set_page_config(
     page_title = 'Data',

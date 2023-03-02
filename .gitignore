@@ -34,4 +34,7 @@
 *.out
 *.app
 
+# AWS
+.aws/
+
 *~
