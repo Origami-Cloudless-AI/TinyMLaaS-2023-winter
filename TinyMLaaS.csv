@@ -1,14 +1,6 @@
-Device name, Connection, Installer, Compiler, Model, Description
-Simulator x86, 192.168.1.1, Simulator x86 installer, TFLiteConverter, hello_world, sine wave prediction with Simulator x86
-Arduino Nano 33 BLE Sense,192.168.1.2,Arduino IDE,TFLiteConverter, magic_wand,hand gesture detection
-SparkFun Edge,192.168.1.3,Arduino IDE,TFLiteConverter, micro_speech,hot keyward detection
-STM32F746 Discovery kit,192.168.1.4,Arduino IDE,TFLiteConverter, mnist_lstm,
-Adafruit EdgeBadge,192.168.1.5,Arduino IDE,TFLiteConverter, person_detection,
-Adafruit TensorFlow Lite for Microcontrollers Kit,192.168.1.6,Arduino IDE,TFLiteConverter,  person_detection,
-Adafruit Circuit Playground Bluefruit,192.168.1.7,Arduino IDE,TFLiteConverter,  person_detection,
-Espressif ESP32-DevKitC,192.168.1.8,Arduino IDE,TFLiteConverter,  person_detection,
-Espressif ESP-EYE,192.168.1.9,Arduino IDE,TFLiteConverter,  person_detection,
-Wio Terminal: ATSAMD51,192.168.1.11,Arduino IDE,TFLiteConverter,  person_detection,
-Himax WE-I Plus EVB Endpoint AI Development Board,192.168.1.11,Arduino IDE,TFLiteConverter,  person_detection,
-Synopsys DesignWare ARC EM Software Development Platform,192.168.1.12,Arduino IDE,TFLiteConverter,  person_detection,
-Sony Spresense,192.168.1.13,Arduino IDE,TFLiteConverter,  person_detection,
+id,Device name,Connection,Installer,Compiler,Model,Description
+8,Espressif ESP-EYE,192.168.1.9,Arduino IDE,TFLiteConverter,  person_detection,
+9,Wio Terminal: ATSAMD51,192.168.1.11,Arduino IDE,TFLiteConverter,  person_detection,
+10,Himax WE-I Plus EVB Endpoint AI Development Board,192.168.1.11,Arduino IDE,TFLiteConverter,  person_detection,
+3,STM32F746 Discovery kit,192.168.1.4,Arduino IDE,TFLiteConverter, mnist_lstm,
+7,testataaaaa,192.168.1.8,Arduino IDE,TFLiteConverter,  person_detection,
