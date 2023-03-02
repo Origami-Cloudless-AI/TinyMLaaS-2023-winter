@@ -51,22 +51,25 @@ def store_images(img_set, i, unlabeled=True, label_list=("Unlabeled", 0, 1)):
 
                 
 st.set_page_config(
-    page_title = 'Data',
-    page_icon = '✅',
-    layout = 'wide'
+    page_title='Data',
+    page_icon='✅',
+    layout='wide'
 )
 
 if "photo" not in st.session_state:
-    st.session_state["photo"]="not done"
+    st.session_state["photo"] = "not done"
 
-col1, col2, col3 = st.columns([1,2,1])
+col1, col2, col3 = st.columns([1, 2, 1])
 
 col1.markdown(" # Upload data")
 
-def change_photo_state():
-    st.session_state["photo"]="done"
 
-uploaded_file = col2.file_uploader("Choose a CSV file", on_change=change_photo_state)
+def change_photo_state():
+    st.session_state["photo"] = "done"
+
+
+uploaded_file = col2.file_uploader(
+    "Choose a CSV file", on_change=change_photo_state)
 file_images = []
 url_column_name = "change to the name of the column with url listing"
 
@@ -76,7 +79,8 @@ if uploaded_file:
     for url in url_list:
         file_images.append(url)
 
-uploaded_photo = col2.file_uploader("Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
+uploaded_photo = col2.file_uploader(
+    "Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
 camera_photo = col2.camera_input("Take a photo", on_change=change_photo_state)
 
 i = 0
@@ -118,5 +122,4 @@ with st.expander("Label unlabeled images"):
         unlabeled_imgs = s3_conn.read_images(UNLABELED_DIR)
         i = store_images(unlabeled_imgs, i, True)
         i += 1
-
 
