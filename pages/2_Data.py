@@ -13,11 +13,12 @@ def get_img_df(img_list):
 
     return img_df
 
+
 def store_s3(img_set, i):
     " Store list of images to AWS S3"
     s3 = boto3.client('s3')
     selected_imgs = []
-    
+
     for img in img_set:
         st.image(img)
         check = st.checkbox("Choose image", key=i)
@@ -34,28 +35,33 @@ def store_s3(img_set, i):
         store_btn = st.button("Store images")
         if store_btn:
             for img in selected_imgs:
-                s3.upload_fileobj(img[0], f'tflmhelloworldbucket', f'{img[1]}/{img[0].name}')
+                s3.upload_fileobj(
+                    img[0], f'tflmhelloworldbucket', f'{img[1]}/{img[0].name}')
             st.write("Images stored successfully!")
     else:
         st.write("You haven't chosen any image")
 
+
 st.set_page_config(
-    page_title = 'Data',
-    page_icon = '✅',
-    layout = 'wide'
+    page_title='Data',
+    page_icon='✅',
+    layout='wide'
 )
 
 if "photo" not in st.session_state:
-    st.session_state["photo"]="not done"
+    st.session_state["photo"] = "not done"
 
-col1, col2, col3 = st.columns([1,2,1])
+col1, col2, col3 = st.columns([1, 2, 1])
 
 col1.markdown(" # Upload data")
 
-def change_photo_state():
-    st.session_state["photo"]="done"
 
-uploaded_file = col2.file_uploader("Choose a CSV file", on_change=change_photo_state)
+def change_photo_state():
+    st.session_state["photo"] = "done"
+
+
+uploaded_file = col2.file_uploader(
+    "Choose a CSV file", on_change=change_photo_state)
 file_images = []
 url_column_name = "change to the name of the column with url listing"
 
@@ -65,7 +71,8 @@ if uploaded_file:
     for url in url_list:
         file_images.append(url)
 
-uploaded_photo = col2.file_uploader("Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
+uploaded_photo = col2.file_uploader(
+    "Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
 camera_photo = col2.camera_input("Take a photo", on_change=change_photo_state)
 
 if st.session_state["photo"] == "done":
@@ -97,7 +104,6 @@ if st.session_state["photo"] == "done":
                 i += 1
 
 
-
 st.header("Unlabeled images")
 
 DATASET = "data/"
@@ -107,15 +113,15 @@ for each in os.listdir(DATASET):
     labels.append(each)
 
 for unlabeled_img in os.listdir(UNLABELED_DIR):
-        filepath = UNLABELED_DIR+unlabeled_img
-        with open(filepath, "rb") as f:
-            columns = st.columns(5, gap="small")
-            columns[0].image(f.read(), width=200)
-            selected_label = columns[1].selectbox("Label:", labels, index=0, key=filepath)
-            if selected_label != "None":
-                os.rename(filepath, DATASET+selected_label+"/"+unlabeled_img)
-                st.experimental_rerun()
+    filepath = UNLABELED_DIR+unlabeled_img
+    with open(filepath, "rb") as f:
+        columns = st.columns(5, gap="small")
+        columns[0].image(f.read(), width=200)
+        selected_label = columns[1].selectbox(
+            "Label:", labels, index=0, key=filepath)
+        if selected_label != "None":
+            os.rename(filepath, DATASET+selected_label+"/"+unlabeled_img)
+            st.experimental_rerun()
 
-if len(os.listdir(UNLABELED_DIR))==0:
+if len(os.listdir(UNLABELED_DIR)) == 0:
     st.text("All images are already labeled.")
-

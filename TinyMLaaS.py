@@ -1,83 +1,48 @@
-import socket
-
 import streamlit as st
 import pandas as pd
-import numpy as np
+import plotly.express as px
+
+device_locations = pd.DataFrame({
+    'device_id': ['device1', 'device2', 'device3', 'device4'],
+    'latitude': [60.203978, 60.208609, 60.207861, 60.201926],
+    'longitude': [24.961129, 24.966743, 24.965956, 24.968977],
+    'last_update': ['2022-03-01 12:30:00', '2022-03-01 14:45:00', '2022-03-01 13:00:00', '2022-03-01 11:00:00']
+})
+num_registered = 4
+num_connected = 3
+num_transactions = 1000
+total_hours = 5000
+
+st.title("TinyMLaaS Overview")
+st.subheader("Alert Panel")
+
+low_battery_devices = ["device1", "device3"]
+if low_battery_devices:
+    st.warning("Warning: The following devices have low battery: " + ", ".join(low_battery_devices))
+
+poor_connectivity_devices = ["device2"]
+if poor_connectivity_devices:
+    st.warning("Warning: The following devices have poor connectivity: " + ", ".join(poor_connectivity_devices))
+
+unresponsive_devices = ["device4"]
+if unresponsive_devices:
+    st.error("Error: The following devices are unresponsive: " + ", ".join(unresponsive_devices))
+
+if not (low_battery_devices or poor_connectivity_devices or unresponsive_devices):
+    st.write("No alerts at the moment.")
 
 
-st.set_page_config(
-    page_title = 'TinyML as-a-Service',
-    page_icon = '✅',
-    layout = 'wide'
-)
+st.subheader("Device Location Map")
 
-DATE_COLUMN = 'date/time'
-DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
-         'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
+device_locations_24h = device_locations[device_locations['last_update'] > '2022-02-28 00:00:00']
+fig = px.scatter_mapbox(device_locations_24h, lat="latitude", lon="longitude", hover_name="device_id",
+                        zoom=14, height=400, size_max=15, color_discrete_sequence=['red'])
 
+fig.update_layout(mapbox_style="stamen-toner", margin={"r":0,"t":0,"l":0,"b":0})
+st.plotly_chart(fig)
 
-def read_data_socket(sock_conn):
-    
-    HOST = ''                 # Symbolic name meaning all available interfaces
-    PORT = 50007              # Arbitrary non-privileged port
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((HOST, PORT))
-        s.listen(1)
-        conn, addr = s.accept()
-        with conn:
-            #st.success('Connected by',addr)
-            return sock_conn.text('Connection success')
-            #Handle incoming data here?
-            #while True:
-               # data = conn.recv(1024)
-               # if not data: break
-               # conn.sendall(data)
-
-def load_data(nrows):
-    data = pd.read_csv(DATA_URL, nrows=nrows)
-    lowercase = lambda x: str(x).lower()
-    data.rename(lowercase, axis='columns', inplace=True)
-    data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
-    return data
-
-def tinymlaas_page():
-    st.title('TinyML as-a-Service')
-    sock_conn = st.text('Socket status unknown')
-
-    alerts = [
-        {
-        "device_name": "Temp",
-        "alert_type": "low battery",
-        "alert_mes": "Battery is at 10%"
-        }
-    ]
-    read_data_socket(sock_conn)
-    # Create a text element and let the reader know the data is loading.
-    data_load_state = st.text('Loading data...')
-    # Load 10,000 rows of data into the dataframe.
-    data = load_data(10000)
-    # Notify the reader that the data was successfully loaded.
-    data_load_state.text('Done! (using st.cache)')
-
-    with st.expander("Click to read more"):
-        st.subheader('Raw data')
-        st.write(data)
-
-        st.subheader('Number of pickups by hour')
-        hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0,24))
-        st.bar_chart(hist_values)
-
-    st.subheader('Map of all pickups')
-    st.map(data)
-
-    hour_to_filter = st.slider('hour', 0, 23, 17)
-    filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
-    st.subheader(f'Map of all pickups at {hour_to_filter}:00')
-    st.map(filtered_data)
-
-    if st.checkbox('Show raw data'):
-        st.subheader('Raw data')
-        st.write(data)
-
-tinymlaas_page()
-
+st.subheader("Statistical Data")
+st.write("Number of registered devices:", num_registered)
+st.write("Number of connected devices:", num_connected)
+st.write("Number of data transactions:", num_transactions)
+st.write("Total hours of whole connected devices:", total_hours)
