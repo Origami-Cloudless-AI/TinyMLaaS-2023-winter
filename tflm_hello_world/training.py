@@ -103,44 +103,28 @@ class model_training():
       epochs=epochs
     )
     epochs_range = range(epochs)
-
-    self.convert_model(model, train_ds)
+    model.save('models/keras_model')
 
     return model, history, epochs_range
 
-  def convert_model(self, model, train_ds):
+  def convert_model(self, path):
     """Model conversion into TFLite model
 
     Args:
-        model (_type_): _description_
-        train_ds (_type_): _description_
-
-    Yields:
-        _type_: _description_
+        path (_type_): path to saved model directory
     """
 
     # Convert the model to the TensorFlow Lite format without quantization
-    converter = tf.lite.TFLiteConverter.from_keras_model(model)
+    converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_dir=path)
     model_no_quant_tflite = converter.convert()
 
     # Save the model to disk
     open(self.MODEL_NO_QUANT_TFLITE, "wb").write(model_no_quant_tflite)
 
     # Convert the model with quantization.
-    converter = tf.lite.TFLiteConverter.from_keras_model(model)
+    converter = tf.lite.TFLiteConverter.from_saved_model(path)
     converter.optimizations = [tf.lite.Optimize.DEFAULT]
 
-    #uncomment to enable end-to-end int8-model, i.e. input and output is also int8/uint8.
-
-    #converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
-    #converter.inference_input_type = tf.int8
-    #converter.inference_output_type = tf.int8
-
-    def representative_dataset():
-      for data in tf.data.Dataset.from_tensor_slices((train_ds)).batch(1).take(100):
-        yield [data[0]]
-
-    #converter.representative_dataset = representative_dataset
     tflite_model = converter.convert()
 
     # Save the model.
