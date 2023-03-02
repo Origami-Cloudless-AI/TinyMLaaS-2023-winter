@@ -25,10 +25,8 @@ class model_training_vis():
     def render(self, history, epochs_range, model):
         data = trainer.plot_statistics(history, epochs_range)
         tests, label = trainer.prediction(model)
-        fig = trainer.plot_size()
         
         self.plot.image(data)
-        self.data.write(fig)
         self.test.image(tests, caption=label)
 
 trainer = model_training()
