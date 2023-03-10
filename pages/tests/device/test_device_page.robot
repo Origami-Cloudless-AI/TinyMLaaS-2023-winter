@@ -4,7 +4,7 @@ Library           SeleniumLibrary
 *** Variables ***
 ${BROWSER}        chrome
 ${DELAY}          0.10 seconds
-${URL}            http://localhost:8502/Device
+${URL}            http://localhost:8501/Device
 
 
 *** Keywords ***
@@ -75,3 +75,4 @@ Device Page Delete Last Device in the List Test
     
     @{delete_buttons}=    Get WebElements    xpath://*[text()="Delete"]
     Click Element    ${delete_buttons[-1]}
+    Close Browser

@@ -1,10 +1,11 @@
+
 *** Settings ***
 Library           SeleniumLibrary
 
 *** Variables ***
 ${BROWSER}        chrome
 ${DELAY}          0.10 seconds
-${URL}            http://localhost:8501/Model
+${URL}            http://localhost:8501/Installing
 
 
 *** Keywords ***
@@ -22,16 +23,5 @@ Test if selecting a category and model works
     Go To           ${URL}
     Sleep     1.5s
 
-    Wait Until Element Is Visible    css=div.st-b3
-
-    Click Element    xpath=//div[contains(text(), 'Object Detection')]
-
-    Wait Until Page Contains     You have selected: Matias's R-CNN model submodel under Object Detection model
-
-    Click Element    xpath://*[text()="Select"]
-
-    Wait Until Page Contains  Your selections have been saved
-
+    Wait Until Page Contains     TinyML Install
     Close Browser
-
-
