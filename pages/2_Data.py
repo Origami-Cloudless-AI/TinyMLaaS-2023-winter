@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from pages.aws_s3 import s3_conn
+from tflm_hello_world.aws_s3 import s3_conn
 
 
 def get_img_df(img_list):

@@ -9,7 +9,9 @@ services:
     ports:
       - "50007:50007"
       - "8501:8501"
-  
+    environment:
+      - USE_LOCALSTACK=1
+
   backend:
     build:
       context: backend/
@@ -27,3 +29,16 @@ services:
     build:
       context: .
       dockerfile: image_sender.Dockerfile
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=${DEBUG-}
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - SKIP_SSL_CERT_DOWNLOAD=1
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
