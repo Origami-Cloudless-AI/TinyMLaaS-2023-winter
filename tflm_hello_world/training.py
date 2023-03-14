@@ -61,10 +61,10 @@ class train_model():
     """Model training 
 
     Args:
-        img_height (_int_): image pixel height
-        img_width (_int_): image pixel width
-        epochs (_int_): Number of epochs to train
-        optim_choice (_string_): Loss function to be used
+        `img_height` (_int_): image pixel height
+        `img_width` (_int_): image pixel width
+        `epochs` (_int_): Number of epochs to train
+        `optim_choice` (_string_): Loss function to be used
 
     Returns:
         keras_model, statistics
@@ -121,8 +121,8 @@ class train_model():
     """Model conversion into TFLite model
 
     Args:
-        model (_type_): _description_
-        train_ds (_type_): _description_
+        `model` (_type_): _description_
+        `train_ds` (_type_): _description_
 
     Yields:
         _type_: _description_
@@ -161,7 +161,7 @@ class train_model():
     """C array conversion
 
     Args:
-        model_file_name (string): TFLite model name for the conversion command
+        `model_file_name` (string): TFLite model name for the conversion command
     """
 
     model_path = self.MODEL_TFLITE
@@ -173,7 +173,7 @@ class train_model():
     """Predicts on the image provided in the path.
 
     Args:
-        model (tflite model): tflite model to be used in the prediction
+        `model` (tflite model): tflite model to be used in the prediction
 
     Returns:
         img: image predicted, result: formatted string for the result
@@ -198,8 +198,8 @@ class train_model():
     """Plot model training statistics
 
     Args:
-        history (tuple?): tuple containing loss and accuracy values over training
-        epochs_range (int): amount of epochs used to train over
+        `history` (tuple?): tuple containing loss and accuracy values over training
+        `epochs_range` (int): amount of epochs used to train over
 
     Returns:
         BytesIO buffer: Matplotlib figure containing graphs about the training process
