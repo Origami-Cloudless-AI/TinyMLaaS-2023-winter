@@ -23,8 +23,10 @@ def training_page():
                 img_height = st.number_input("Enter image height", min_value=int(0))
                 if img_height:
                     train_ds, test_ds = train.load_data(img_height, img_width, batch_size)
+                    if 'train_ds' not in st.session_state:
+                        st.session_state.train_ds = train_ds
                     if train_ds and test_ds:
-                        optim_choice = st.radio("Choose a loss function",("Some other :D", "Sparse Categorical crossentropy"))
+                        optim_choice = st.radio("Choose a loss function",("Some other loss function", "Sparse Categorical crossentropy"))
                         if optim_choice:
                             if st.button("Train"):
                                 with st.spinner("Training..."):
@@ -35,8 +37,10 @@ def training_page():
 
                                 data = train.plot_statistics(history, epochs_range)
                                 tests, label = train.prediction(model, train_ds.class_names)
+                                if 'model' not in st.session_state:
+                                    st.session_state.model = model
                                 plot.image(data)
                                 test.image(tests, caption=label)
-                                model.save(f"models/keras_model.h5")
+                                model.save(f"models/keras_model")
                                 st.success("Model saved!")
 training_page()
