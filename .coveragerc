@@ -1,3 +1,3 @@
 [run]
-source = nbs,backend
-omit = backend/**/__init__.py,backend/**/__main__.py,backend/tests/**,nbs/**/__init__.py,nbs/tests/**
+source = nbs
+omit = nbs/**/__init__.py,nbs/tests/**
