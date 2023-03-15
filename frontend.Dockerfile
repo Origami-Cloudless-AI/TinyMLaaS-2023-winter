@@ -8,4 +8,4 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 
-CMD ["streamlit", "run", "TinyMLaaS.py"]
+CMD ["python3", "-m", "coverage", "run", "-m", "streamlit", "run", "TinyMLaaS.py"]
