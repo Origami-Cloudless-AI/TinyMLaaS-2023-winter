@@ -12,12 +12,6 @@ services:
     environment:
       - USE_LOCALSTACK=1
 
-  backend:
-    build:
-      context: backend/
-    ports:
-      - "8080:8080"
-
   hello_world:
     restart: always
     build:
