@@ -1,3 +1,8 @@
 [run]
 source = nbs
 omit = nbs/**/__init__.py,nbs/tests/**
+
+[paths]
+source = 
+	pages/
+	/app/pages/
