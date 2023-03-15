@@ -18,12 +18,6 @@ services:
       context: .
       dockerfile: Dockerfile
 
-  image_sender:
-    restart: always
-    build:
-      context: .
-      dockerfile: image_sender.Dockerfile
-
   localstack:
     image: localstack/localstack
     ports:
