@@ -2,7 +2,7 @@
 Library           SeleniumLibrary
 
 *** Variables ***
-${BROWSER}        chrome
+${BROWSER}        headlessfirefox 
 ${DELAY}          0.10 seconds
 ${URL}            http://localhost:8501/Training
 
@@ -16,7 +16,7 @@ Clear Text Field
 
 *** Test Cases ***
 Check Page Title
-    Open Browser    ${URL}    chrome
+    Open Browser    ${URL}    ${BROWSER} 
     Sleep    1.5s
     ${title}=       Get Title
     Should Be Equal    ${title}    Training
@@ -29,7 +29,8 @@ Run steps to train model test
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
 
-    Sleep     1.5s
+    Wait Until Page Contains Element    xpath://input[@aria-label='Enter the number of epochs']
+
     Clear Text Field    xpath://input[@aria-label='Enter the number of epochs']
     Input Text      xpath://input[@aria-label='Enter the number of epochs']     5
     Press Keys     xpath://input[@aria-label='Enter the number of epochs']    ENTER
@@ -51,16 +52,14 @@ Run steps to train model test
     Clear Text Field    xpath://input[@aria-label='Enter image height']
     Input Text      xpath://input[@aria-label='Enter image height']     180
     Press Keys     xpath://input[@aria-label='Enter image height']    ENTER
-    Sleep     0.5s
-    
+   
+    Wait Until Page Contains Element    xpath=//div[contains(text(), 'Sparse Categorical crossentropy')]
     Click Element    xpath=//div[contains(text(), 'Sparse Categorical crossentropy')]
 
     Sleep     0.5s
 
     Click Element    xpath://*[text()="Train"]
 
-    Sleep    100s
-
-    Wait Until Page Contains  Model trained successfully!
+    Wait Until Page Contains  Model trained successfully!    300s
 
     Close Browser

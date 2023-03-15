@@ -22,10 +22,17 @@ jobs:
     - name: Install pytest
       run: |
         pip install -r requirements.txt
-        pip install -r backend/requirements.txt
-        pip install -r backend/test-requirements.txt
     - name: Run python tests and coverage
       run: pytest --cov
+    - name: Run WebApp
+      run: docker-compose up --build -d
+    - name: Run Robot Framework tests
+      run: robot pages/tests/ 
+    - name: Get Robot Coverage
+      run: |
+        CONTAINER=$(docker-compose ps -q frontend)
+        docker stop $CONTAINER
+        docker cp $CONTAINER:/app/.coverage .coverage.robotframework
     - name: Upload coverage...
       uses: codecov/codecov-action@v3
       with:

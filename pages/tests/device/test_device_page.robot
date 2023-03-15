@@ -2,7 +2,7 @@
 Library           SeleniumLibrary
 
 *** Variables ***
-${BROWSER}        chrome
+${BROWSER}        headlessfirefox
 ${DELAY}          0.10 seconds
 ${URL}            http://localhost:8501/Device
 
@@ -16,7 +16,7 @@ Clear Text Field
 
 *** Test Cases ***
 Check Page Title
-    Open Browser    ${URL}    chrome
+    Open Browser    ${URL}    ${BROWSER} 
     Sleep    1.5s
     ${title}=       Get Title
     Should Be Equal    ${title}    Device
