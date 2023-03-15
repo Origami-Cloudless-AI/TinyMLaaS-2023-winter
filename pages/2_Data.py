@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 from tflm_hello_world.aws_s3 import s3_conn
+import os
+import numpy as np
+from PIL import Image
 
 
 def get_img_df(img_list):
@@ -68,16 +71,53 @@ def change_photo_state():
     st.session_state["photo"] = "done"
 
 
-uploaded_file = col2.file_uploader(
-    "Choose a CSV file", on_change=change_photo_state)
+dataset_names = []
+dataset_locations = []
+dataset_sizes = []
+dataset_descriptions = []
 file_images = []
-url_column_name = "change to the name of the column with url listing"
 
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-    url_list = df[url_column_name]
-    for url in url_list:
-        file_images.append(url)
+name_column_name = "Dataset_Name"
+url_column_name = "Location"
+size_column_name = "Size"
+description_column_name = "Description"
+
+def upload_csv():
+    df = pd.read_csv("dataset.csv")
+    name_list = df[name_column_name]
+    location_list = df[url_column_name]
+    size_list = df[size_column_name]
+    description_list = df[description_column_name]
+
+    for name in name_list:
+        dataset_names.append(name)
+    for location in location_list:
+        dataset_locations.append(location)
+    for size in size_list:
+        dataset_sizes.append(size)
+    for description in description_list:
+        dataset_descriptions.append(description)
+
+def load_img(img):
+    im = Image.open(img)
+    image = np.array(im)
+    return image
+
+upload_csv()
+
+with st.expander("Click to choose datasets"):
+        for j in range(len(dataset_names)):
+            st.write(dataset_names[j],dataset_sizes[j],dataset_descriptions[j])
+            show = st.checkbox("Choose dataset", key=dataset_names[j])
+            if show:
+                st.session_state["photo"] = "done"
+                for folder in os.listdir(dataset_locations[j]):
+                    folderpath = dataset_locations[j]+folder
+                    label = folder
+                    for image in os.listdir(folderpath):
+                        file = folderpath+"/"+image
+                        img = load_img(file)
+                        file_images.append(img)
 
 uploaded_photo = col2.file_uploader(
     "Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
@@ -93,7 +133,7 @@ if st.session_state["photo"] == "done":
 
     col3.metric(label="Temperature", value="-25℃ ", delta="3℃ ")
     st.header("Uploaded images")
-    with st.expander("Clik to see uploaded images"):
+    with st.expander("Click to see uploaded images"):
         if camera_photo:
             each = camera_photo
             st.image(each)
@@ -104,11 +144,9 @@ if st.session_state["photo"] == "done":
             i = store_images(uploaded_photo, i, False)
             i += 1
 
-        if uploaded_file:
-            for each in file_images:
-                st.image(each)
-                st.checkbox("Choose image", key=i)
-                i += 1
+        if len(file_images)>0:
+            i = store_images(file_images, i, False)
+            i += 1
 
 st.header("Unlabeled images")
 UNLABELED_DIR = "Unlabeled/"
@@ -122,4 +160,3 @@ with st.expander("Label unlabeled images"):
         unlabeled_imgs = s3_conn.read_images(UNLABELED_DIR)
         i = store_images(unlabeled_imgs, i, True)
         i += 1
-
