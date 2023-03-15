@@ -1,11 +1,12 @@
 FROM python:3.9.0-slim-buster
 
-RUN apt-get update && apt-get install libportaudio2 libusb-1.0 graphviz python3-opencv xxd -y
+RUN apt-get update && apt-get install curl libportaudio2 libusb-1.0 graphviz python3-opencv xxd -y
 WORKDIR app
 ADD data /data/
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
-COPY . .
+RUN curl -fsSL https://get.docker.com | sh
 
+COPY . .
 
 CMD ["streamlit", "run", "TinyMLaaS.py"]

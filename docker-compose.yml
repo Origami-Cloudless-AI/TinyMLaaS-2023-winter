@@ -11,6 +11,8 @@ services:
       - "8501:8501"
     environment:
       - USE_LOCALSTACK=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   backend:
     build:
