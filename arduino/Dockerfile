@@ -6,9 +6,6 @@ RUN curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/inst
 RUN arduino-cli core update-index && arduino-cli core install arduino:mbed_nano
 RUN arduino-cli lib install Harvard_TinyMLx
 
-
 COPY template template
-
-# Compile & Upload
-ENV DEVICE=/dev/ttyACM0
-CMD ["sh", "-c", "arduino-cli compile --fqbn arduino:mbed_nano:nano33ble template && arduino-cli upload -p $DEVICE --fqbn arduino:mbed_nano:nano33ble template"]
+RUN arduino-cli compile --fqbn arduino:mbed_nano:nano33ble template 
+ENTRYPOINT ["arduino-cli"]
