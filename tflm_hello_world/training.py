@@ -117,58 +117,6 @@ class train_model():
 
     return model, history, epochs_range
 
-  def convert_model(self, model, train_ds):
-    """Model conversion into TFLite model
-
-    Args:
-        model (_type_): _description_
-        train_ds (_type_): _description_
-
-    Yields:
-        _type_: _description_
-    """
-
-    model.save('models/keras_model.h5')
-    # Convert the model to the TensorFlow Lite format without quantization
-    converter = tf.lite.TFLiteConverter.from_keras_model(model)
-    model_no_quant_tflite = converter.convert()
-
-    # Save the model to disk
-    open(self.MODEL_NO_QUANT_TFLITE, "wb").write(model_no_quant_tflite)
-
-    # Convert the model with quantization.
-    converter = tf.lite.TFLiteConverter.from_keras_model(model)
-    converter.optimizations = [tf.lite.Optimize.DEFAULT]
-
-    #uncomment to enable end-to-end int8-model, i.e. input and output is also int8/uint8.
-
-    #converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
-    #converter.inference_input_type = tf.int8
-    #converter.inference_output_type = tf.int8
-
-    def representative_dataset():
-      for data in tf.data.Dataset.from_tensor_slices((train_ds)).batch(1).take(100):
-        yield [data[0]]
-
-    #converter.representative_dataset = representative_dataset
-    tflite_model = converter.convert()
-
-    # Save the model.
-    with open(self.MODEL_TFLITE, 'wb') as f:
-      f.write(tflite_model)
-
-  def convert_to_c_array(self):
-    """C array conversion
-
-    Args:
-        model_file_name (string): TFLite model name for the conversion command
-    """
-
-    model_path = self.MODEL_TFLITE
-    array_path = self.MODEL_TFLITE_MICRO
-    
-    subprocess.run(['xxd -i models/model.tflite > models/model.cc'], shell=True)
-
   def prediction(self, model, class_names):
     """Predicts on the image provided in the path.
 
@@ -228,19 +176,3 @@ class train_model():
     
     return buff
 
-  def plot_size(self):
-    """Plots the size difference before and after quantization
-
-    Returns:
-        pandas dataframe: Pandas dataframe containing information
-    """
-
-    size_no_quant_tflite = os.path.getsize(self.MODEL_NO_QUANT_TFLITE)
-    size_tflite = os.path.getsize(self.MODEL_TFLITE)
-
-    frame = pd.DataFrame.from_records(
-        [["TensorFlow Lite", f"{size_no_quant_tflite} bytes "],
-        ["TensorFlow Lite Quantized", f"{size_tflite} bytes", f"(reduced by {size_no_quant_tflite - size_tflite} bytes)"]],
-        columns = ["Model", "Size", ""], index="Model")
-      
-    return frame
