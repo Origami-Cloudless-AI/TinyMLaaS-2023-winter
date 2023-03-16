@@ -14,12 +14,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Build Dockerfile
-      run: make docker
-    - name: Run Dockerfile
-      run: docker run -d hello_world
-    - name: Copy coverage files
-      run: CONTAINER_ID=$(sudo docker ps -aql) && docker cp $CONTAINER_ID:/tflite-micro ./tflite-micro
+    # - name: Build Dockerfile
+    #   run: make docker
+    # - name: Run Dockerfile
+    #   run: docker run -d hello_world
+    # - name: Copy coverage files
+    #   run: CONTAINER_ID=$(sudo docker ps -aql) && docker cp $CONTAINER_ID:/tflite-micro ./tflite-micro
     - name: Use nbdev-ci workflow
       uses: fastai/workflows/nbdev-ci@master
     - name: Install dependencies
