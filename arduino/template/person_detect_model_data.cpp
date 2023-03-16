@@ -1,3 +1,4 @@
+//This file gets overwritten by models/model.cc at runtime
 
 /* Copyright 2019 The TensorFlow Authors. All Rights Reserved.
 
