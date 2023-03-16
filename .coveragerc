@@ -1,3 +1,8 @@
 [run]
 source = nbs
-omit = nbs/**/__init__.py,nbs/tests/**
+omit = nbs/**/__init__.py,nbs/tests/**,tflm_hello_world/**/__init__.py,tflm_hello_world/_modidx.py
+
+[paths]
+source = 
+	pages/
+	/app/pages/

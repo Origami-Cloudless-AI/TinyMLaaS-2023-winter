@@ -9,4 +9,4 @@ RUN curl -fsSL https://get.docker.com | sh
 
 COPY . .
 
-CMD ["python3", "-m", "coverage", "run", "-m", "streamlit", "run", "TinyMLaaS.py"]
+CMD ["python3", "-m", "coverage", "run", "--source", "pages", "-m", "streamlit", "run", "TinyMLaaS.py", "--server.headless", "true"]
