@@ -23,9 +23,9 @@ jobs:
     - name: Use nbdev-ci workflow
       uses: fastai/workflows/nbdev-ci@master
     - name: Install dependencies
-        run: pip install -r requirements.txt
+      run: pip install -r requirements.txt
     - name: Run python tests and coverage
-        run: pytest --cov-report xml --cov=.
+      run: pytest --cov-report xml --cov=.
     - name: Run WebApp
       run: docker-compose up --build -d
     - name: Run Robot Framework tests
