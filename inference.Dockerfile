@@ -16,4 +16,4 @@ COPY x86_simulation/inference.py .
 CMD ["python3", "inference.py"]
 
 #Docker build -t inference --build-arg model_path=models/model_no_quant.tflite --build-arg=image_path=data/1/24.png -f inference.Dockerfile .
-#Docker run -e model_path="path to the model.tflite in the host/streamlit app" -e image_path="path to the image for inference" inference
+#Docker run -e model_path="path to the model.tflite in this container i.e. the same as in the host" -e image_path="path to the image for inference" inference
