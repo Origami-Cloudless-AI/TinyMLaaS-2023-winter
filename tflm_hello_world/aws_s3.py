@@ -11,9 +11,10 @@ import os
 
 # %% ../nbs/aws_s3.ipynb 2
 class S3_Connector:
+    "Class for accessing files on S3. If the environment variable USE_LOCALSTACK is set to 1, localstack will be used instead of AWS."
     TEST_URL = "http://localstack:4566"
     
-    def __init__(self, bucket_name):
+    def __init__(self, bucket_name:str):
         if os.getenv("USE_LOCALSTACK") == "1":
             self.s3 = boto3.client('s3', endpoint_url=S3_Connector.TEST_URL, aws_access_key_id="", aws_secret_access_key="")
             self.s3_resource = boto3.resource('s3', endpoint_url=S3_Connector.TEST_URL, aws_access_key_id="", aws_secret_access_key="")
@@ -24,7 +25,7 @@ class S3_Connector:
         self.bucket_name = bucket_name
         self.s3_bucket = self.s3_resource.Bucket(self.bucket_name)
 
-    def move(self, dir_old, dir_new, file_name):
+    def move(self, dir_old:str, dir_new:str, file_name:str):
         " Moves an object to other directory"
 
         old_destination = f'{dir_old}/{file_name}'
@@ -37,15 +38,15 @@ class S3_Connector:
 
         return True
 
-    def upload_img(self, img, dir, file_name):
-        " Uploads an image to specified directory"
+    def upload_img(self, img, dir:str, file_name:str):
+        " Uploads an image to specified directory. `img` is a file-like object."
 
         self.s3.upload_fileobj(img, self.bucket_name, f'{dir}/{file_name}')
 
         return True
 
-    def read_images(self, dir):
-        " Reads images from S3 directory"
+    def read_images(self, dir : str):
+        " Reads images from S3 directory `dir`"
 
         imgs = []
         for img in self.s3_bucket.objects.filter(Prefix=dir):
@@ -61,8 +62,8 @@ class S3_Connector:
         
         return imgs
     
-    def count_objects(self, dir):
-        " Counts objects in S3 directory"
+    def count_objects(self, dir : str):
+        " Counts objects in S3 directory `dir`"
 
         count_objects = self.s3_bucket.objects.filter(Prefix=dir)
 
