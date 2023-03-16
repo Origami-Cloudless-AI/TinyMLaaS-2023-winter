@@ -21,13 +21,24 @@ def install_settings(selected_model, selected_device):
     st.write(f"Selected Model: **{selected_model}**")
     st.write(f"Selected Device: **{selected_device}**")
 
+
+
+
 def install_status():
-    install_clicked = st.button("Generate")
-    if install_clicked:
+    generate_clicked = st.button("Generate")
+    if generate_clicked: 
         st.header("Compilation Status")
-        with st.spinner("Compiling OS image..."):
+        with st.spinner("Compiling  image..."):
             ArduinoNano33BLE_Installer().compile()
+            st.session_state["install_compile_done"] = True
             st.success("Compiling done!")
+
+    if st.session_state.get("install_compile_done", False):
+        install_clicked = st.button("Install") 
+        if install_clicked:
+            with st.spinner("Uploading..."):
+                ArduinoNano33BLE_Installer().upload("/dev/ttyACM0")
+                st.success("Upload done!")
 
 st.set_page_config(page_title="TinyML Install", page_icon=":rocket:")
 st.title("TinyML Install")
