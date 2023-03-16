@@ -29,7 +29,7 @@ def install_status():
     if generate_clicked: 
         st.header("Compilation Status")
         with st.spinner("Compiling  image..."):
-            ArduinoNano33BLE_Installer().compile()
+            ArduinoNano33BLE_Installer().compile("models/model.cc")
             st.session_state["install_compile_done"] = True
             st.success("Compiling done!")
 
