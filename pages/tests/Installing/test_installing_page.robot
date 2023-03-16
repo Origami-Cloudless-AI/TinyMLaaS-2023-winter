@@ -3,7 +3,7 @@
 Library           SeleniumLibrary
 
 *** Variables ***
-${BROWSER}        chrome
+${BROWSER}        headlessfirefox 
 ${DELAY}          0.10 seconds
 ${URL}            http://localhost:8501/Installing
 

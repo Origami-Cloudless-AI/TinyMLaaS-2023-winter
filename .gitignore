@@ -97,6 +97,12 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# Robot framework results
+selenium*.png
+output.xml
+report.html
+log.html
+
 # Translations
 *.mo
 *.pot

@@ -2,7 +2,7 @@
 Library           SeleniumLibrary
 
 *** Variables ***
-${BROWSER}        chrome
+${BROWSER}        headlessfirefox 
 ${DELAY}          0.10 seconds
 ${URL}            http://localhost:8501/Model
 
@@ -20,9 +20,8 @@ Test if selecting a category and model works
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
 
-    Wait Until Element Is Visible    css=div.st-b3
+    Wait Until Page Contains Element    xpath=//div[contains(text(), 'Object Detection')]    10s 
 
     Click Element    xpath=//div[contains(text(), 'Object Detection')]
 
