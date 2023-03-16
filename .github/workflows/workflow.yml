@@ -33,6 +33,8 @@ jobs:
         CONTAINER=$(docker-compose ps -q frontend)
         docker stop $CONTAINER
         docker cp $CONTAINER:/app/.coverage .coverage.robotframework
+    - name: Combine coverage
+      run: python3 -m coverage combine
     - name: Upload coverage...
       uses: codecov/codecov-action@v3
       with:
