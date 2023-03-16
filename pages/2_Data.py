@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from tflm_hello_world.aws_s3 import s3_conn
 import os
-import numpy as np
 from PIL import Image
 
 
@@ -98,12 +97,11 @@ def upload_csv():
     for description in description_list:
         dataset_descriptions.append(description)
 
-def load_img(img):
-    im = Image.open(img)
-    image = np.array(im)
-    return image
-
 upload_csv()
+
+def load_img(url):
+    img = Image.open(url)
+    return img
 
 with st.expander("Click to choose datasets"):
         for j in range(len(dataset_names)):
@@ -113,11 +111,11 @@ with st.expander("Click to choose datasets"):
                 st.session_state["photo"] = "done"
                 for folder in os.listdir(dataset_locations[j]):
                     folderpath = dataset_locations[j]+folder
-                    label = folder
                     for image in os.listdir(folderpath):
                         file = folderpath+"/"+image
                         img = load_img(file)
-                        file_images.append(img)
+                        img.name = file
+                        file_images.append(img) # incompatible with get_image_df() ?
 
 uploaded_photo = col2.file_uploader(
     "Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
