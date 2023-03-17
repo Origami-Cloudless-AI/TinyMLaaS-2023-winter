@@ -3,6 +3,7 @@
 ## CI/CD
 - Github actions has been fixed.
 - RF tests are now being run in CI/CD workflow.
+- Codecov fixed.
 
 
 
