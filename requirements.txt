@@ -6,6 +6,7 @@ pydot
 Pillow==9.0.1
 selenium
 tensorflow==2.8.4
+fastcore
 matplotlib
 opencv-python
 boto3
@@ -13,6 +14,6 @@ awscli
 
 # Dev
 pytest
-pytest-cov
+coverage
 robotframework
 robotframework-seleniumlibrary

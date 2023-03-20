@@ -1,5 +1,8 @@
+import subprocess
 import streamlit as st
 import time
+
+from tflm_hello_world.compiling import convert_model, convert_to_c_array, plot_size
 
 # Define some dummy data
 models = {
@@ -34,46 +37,39 @@ def main():
     st.header(f"Model: {model_name}")
 
     # Define the compilation settings tab
-    with st.expander("Compilation Settings"):
-        # Add some dummy configuration options
-        st.write("Configuration Option 1")
-        st.write("Configuration Option 2")
-        st.write("Configuration Option 3")
-
-    # Define the compilation process tab
-    with st.expander("Compilation Process"):
-        # Simulate the compilation process with a progress bar
-        with st.spinner("Compiling..."):
-            for i in range(100):
-                time.sleep(0.05)
-                st.progress(i + 1)
-        st.write("Compilation complete!")
-
-        # Display some dummy metrics
-        st.subheader("Metrics")
-        st.write(f"Compilation Time: {10}s")
-        st.write(f"Model Size: {100}kB")
+    st.subheader("Compilation Settings")
+    quant = st.selectbox("Quantization", ["no quantization", "quantization", "end-to-end 8bit quantization"])
+    if quant:
+        generate = st.selectbox("Generate C array model", ["Yes", "No"])
+        if generate:
+            start = st.button("Compile")
+            if start:
+                with st.spinner("Compiling..."):
+                    convert_model(st.session_state.train_ds)
+                    if generate == "Yes":
+                        convert_to_c_array()
+                st.write("Compilation complete!")
+                plot = st.empty()
+                plot.write(plot_size())
 
     # Define the model validation tab
-    with st.expander("Model Validation"):
-        # Add some dummy validation metrics
-        st.write(f"Accuracy: {models[model_name]['Accuracy']}")
-        st.write(f"Latency: {models[model_name]['Latency']}")
-        st.write(f"Power Consumption: {models[model_name]['Power Consumption']}")
+    st.subheader("Model Validation")
+    #Load model
+    #loss, acc = model.validate() etc.etc.
+    test = st.button("Test the model using x86 simulation")
+    if test:
+        subprocess.run(['Docker run '], shell=True)
 
-        # Allow users to compare models
-        st.subheader("Compare Models")
-        model_names = list(models.keys())
-        model_names.remove(model_name)
-        compare_model_name = st.selectbox("Select a model to compare", model_names)
-        st.write(f"Comparing {model_name} with {compare_model_name}")
+    # Allow users to compare models
+    st.subheader("Compare Models")
+    model_names = list(models.keys())
+    model_names.remove(model_name)
+    compare_model_name = st.selectbox("Select a model to compare", model_names)
+    st.write(f"Comparing {model_name} with {compare_model_name}")
 
     # Define the model packaging tab
-    with st.expander("Model Packaging"):
-        # Add some dummy packaging options
-        st.write("Packaging Option 1")
-        st.write("Packaging Option 2")
-        st.write("Packaging Option 3")
+    st.subheader("Model Packaging")
+    st.selectbox("Select the target architecture", ["x86", "Arm", "nRF52840(Arduino Nano)"])
 
     # Define the packaging status tab
     with st.expander("Packaging Status"):
