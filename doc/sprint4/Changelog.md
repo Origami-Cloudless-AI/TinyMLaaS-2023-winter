@@ -3,6 +3,7 @@
 ## CI/CD
 - Github actions has been fixed.
 - RF tests are now being run in CI/CD workflow.
+- Codecov fixed.
 
 
 
@@ -11,7 +12,7 @@
 - Training page refactored to match the UI-Design guide.
 - Compilation specific code moved from Training into Compilation page.
 - Data page (Tuula describe changes to Data page here)
-- WebApp labels image data (Nella was this done during this sprint or not? since it was in review but had "sprint2" tag)
+- WebApp labels image data
 
 
 ## Application changes and tests
