@@ -14,9 +14,10 @@ def get_img_df(img_list):
 
     return img_df
 
-def store_images(img_set, i, unlabeled=True, label_list=("Unlabeled", 0, 1)):
+def store_images(img_set, i, unlabeled=False, pil_img=False):
     " Stores a list of images to AWS S3"
     selected_imgs = []
+    label_list=("Unlabeled", 0, 1)
 
     # If the image is in Unlabeled directory
     if unlabeled is True:
@@ -27,8 +28,8 @@ def store_images(img_set, i, unlabeled=True, label_list=("Unlabeled", 0, 1)):
         check = st.checkbox("Choose image", key=f"check_{i}")
         if check:
             label = st.radio("Select label", label_list, key=f"label_{i}")
-            if unlabeled:
-                selected_imgs.append([img, label, img.filename])            
+            if pil_img:
+                selected_imgs.append([img, label, img.filename])
             else:
                 selected_imgs.append([img, label, img.name])
         i += 1
@@ -48,6 +49,20 @@ def store_images(img_set, i, unlabeled=True, label_list=("Unlabeled", 0, 1)):
             st.write("Images stored successfully!")
     else:
         st.write("You haven't chosen any image")
+
+    return i
+
+def store_dataset(img_set, i):
+    " Stores a dataset from csv file to AWS S3"    
+    for img in img_set:
+        st.image(img)
+        i += 1
+
+    store_btn = st.button("Store images", key=f"button_{i}")
+    if store_btn:
+        for img in img_set:
+            s3_conn.upload_img(img, img.label, img.filename, True)
+        st.write("Images stored successfully!")
 
     return i
 
@@ -111,11 +126,16 @@ with st.expander("Click to choose datasets"):
                 st.session_state["photo"] = "done"
                 for folder in os.listdir(dataset_locations[j]):
                     folderpath = dataset_locations[j]+folder
+                    max_images = 1
                     for image in os.listdir(folderpath):
                         file = folderpath+"/"+image
                         img = load_img(file)
-                        img.name = file
-                        file_images.append(img) # incompatible with get_image_df() ?
+                        img.filename = image
+                        img.label = folder
+                        file_images.append(img)
+                        max_images += 1
+                        if max_images > 100: # without paging the number of images is limited to 100
+                            break
 
 uploaded_photo = col2.file_uploader(
     "Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
@@ -130,20 +150,24 @@ if st.session_state["photo"] == "done":
     col2.success("Photo uploaded successfully")
 
     col3.metric(label="Temperature", value="-25℃ ", delta="3℃ ")
-    st.header("Uploaded images")
-    with st.expander("Click to see uploaded images"):
-        if camera_photo:
+    if len(file_images)>0:
+        st.header("Uploaded dataset")
+        with st.expander("Click to see uploaded dataset"):
+            i = store_dataset(file_images, i)
+            i += 1
+
+    if camera_photo:
+        st.header("Uploaded camera images")
+        with st.expander("Click to see camera photos"):
             each = camera_photo
             st.image(each)
             st.checkbox("Choose image", key=i)
             i += 1
 
-        if uploaded_photo:
-            i = store_images(uploaded_photo, i, False)
-            i += 1
-
-        if len(file_images)>0:
-            i = store_images(file_images, i, False)
+    if uploaded_photo:
+        st.header("Uploaded images")
+        with st.expander("Click to see uploaded images"):
+            i = store_images(uploaded_photo, i)
             i += 1
 
 st.header("Unlabeled images")
@@ -156,5 +180,5 @@ with st.expander("Label unlabeled images"):
     else:
         st.write(f"{unlabeled_count} unlabeled images found")
         unlabeled_imgs = s3_conn.read_images(UNLABELED_DIR)
-        i = store_images(unlabeled_imgs, i, True)
+        i = store_images(unlabeled_imgs, i, unlabeled=True, pil_img=True)
         i += 1

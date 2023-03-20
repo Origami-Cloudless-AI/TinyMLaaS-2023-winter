@@ -37,10 +37,15 @@ class S3_Connector:
 
         return True
 
-    def upload_img(self, img, dir, file_name):
+    def upload_img(self, img, dir, file_name, pil_image = False):
         " Uploads an image to specified directory"
-
-        self.s3.upload_fileobj(img, self.bucket_name, f'{dir}/{file_name}')
+        if pil_image:
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            buffer.seek(0)
+            self.s3.upload_fileobj(buffer, self.bucket_name, f'{dir}/{file_name}')
+        else:
+            self.s3.upload_fileobj(img, self.bucket_name, f'{dir}/{file_name}')
 
         return True
 
