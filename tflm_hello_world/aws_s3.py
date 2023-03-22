@@ -38,10 +38,16 @@ class S3_Connector:
 
         return True
 
-    def upload_img(self, img, dir:str, file_name:str):
-        " Uploads an image to specified directory. `img` is a file-like object."
 
-        self.s3.upload_fileobj(img, self.bucket_name, f'{dir}/{file_name}')
+    def upload_img(self, img, dir:str, file_name:str, pil_image = False):
+        " Uploads an image to specified directory. `img` is a file-like object, unless pil_image is True in which case it's a Pillow Image."
+        if pil_image:
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            buffer.seek(0)
+            self.s3.upload_fileobj(buffer, self.bucket_name, f'{dir}/{file_name}')
+        else:
+            self.s3.upload_fileobj(img, self.bucket_name, f'{dir}/{file_name}')
 
         return True
 
