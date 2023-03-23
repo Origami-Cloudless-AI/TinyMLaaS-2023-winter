@@ -35,31 +35,28 @@ Run steps to train model test
     Input Text      xpath://input[@aria-label='Enter the number of epochs']     5
     Press Keys     xpath://input[@aria-label='Enter the number of epochs']    ENTER
     
-    Sleep     0.5s
 
+    Wait Until Page Contains Element    xpath://input[@aria-label='Enter the batch size']
     Clear Text Field    xpath://input[@aria-label='Enter the batch size']
     Input Text      xpath://input[@aria-label='Enter the batch size']     28
     Press Keys     xpath://input[@aria-label='Enter the batch size']    ENTER
 
-    Sleep     0.5s
-
+    
+    Wait Until Page Contains Element    xpath://input[@aria-label='Enter image width']
     Clear Text Field    xpath://input[@aria-label='Enter image width']
     Input Text      xpath://input[@aria-label='Enter image width']     180
     Press Keys     xpath://input[@aria-label='Enter image width']    ENTER
 
-    Sleep     0.5s
-    
+    Wait Until Page Contains Element    xpath://input[@aria-label='Enter image height']
     Clear Text Field    xpath://input[@aria-label='Enter image height']
     Input Text      xpath://input[@aria-label='Enter image height']     180
     Press Keys     xpath://input[@aria-label='Enter image height']    ENTER
    
     Wait Until Page Contains Element    xpath=//div[contains(text(), 'Sparse Categorical crossentropy')]
     Click Element    xpath=//div[contains(text(), 'Sparse Categorical crossentropy')]
-
-    Sleep     0.5s
-
+    
+    Wait Until Page Contains Element    xpath://*[text()="Train"]
     Click Element    xpath://*[text()="Train"]
-
     Wait Until Page Contains  Model trained successfully!    300s
 
     Close Browser

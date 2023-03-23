@@ -28,9 +28,12 @@ Device Page Add New Device Test
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
+    
+    Wait Until Page Contains Element    xpath://*[text()="Add"]
     Click Element    xpath://*[text()="Add"]
-    Sleep     1.5s
+
+    Wait Until Page Contains Element    xpath://input[@aria-label='Device name']
+
     Input Text      xpath://input[@aria-label='Device name']     TestDevice
     Input Text      xpath://input[@aria-label='Connection']      Wifi
     Input Text      xpath://input[@aria-label='Installer']       Installer
@@ -45,9 +48,12 @@ Device Page Modify One Device Test
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
+
+    Wait Until Page Contains Element    xpath://*[text()="Modify"]
     Click Element    xpath://*[text()="Modify"]
-    Sleep     1.5s
+
+    Wait Until Page Contains Element    xpath://input[@aria-label='Device name']
+
     Clear Text Field    xpath://input[@aria-label='Device name']
     Clear Text Field    xpath://input[@aria-label='Connection']
     Clear Text Field    xpath://input[@aria-label='Installer']
@@ -70,9 +76,11 @@ Device Page Delete Last Device in the List Test
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
-
     
+    Wait Until Page Contains Element    xpath://*[text()="Delete"]
+
     @{delete_buttons}=    Get WebElements    xpath://*[text()="Delete"]
+
+    Wait Until Page Contains Element    ${delete_buttons[-1]}
     Click Element    ${delete_buttons[-1]}
     Close Browser

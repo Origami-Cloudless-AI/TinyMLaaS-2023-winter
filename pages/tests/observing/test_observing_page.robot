@@ -21,7 +21,6 @@ Test if observing page loads correctly
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
 
     Wait Until Page Contains     Device Observing Dashboard
     Close Browser

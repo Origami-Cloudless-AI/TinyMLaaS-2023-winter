@@ -21,7 +21,6 @@ Test if compiling page loads correctly
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
 
     Wait Until Page Contains     ML Compilation
     Close Browser

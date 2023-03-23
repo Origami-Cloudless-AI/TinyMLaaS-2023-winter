@@ -21,7 +21,6 @@ Test if selecting a category and model works
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
 
     Wait Until Page Contains     TinyML Install
     Close Browser
