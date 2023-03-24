@@ -11,6 +11,7 @@ services:
       - "8501:8501"
     environment:
       - USE_LOCALSTACK=1
+    privileged: true
 
   # hello_world:
   #   restart: always
