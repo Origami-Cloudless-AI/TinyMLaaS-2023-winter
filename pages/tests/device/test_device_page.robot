@@ -13,7 +13,6 @@ Clear Text Field
   press keys  ${inputField}  CTRL+a+BACKSPACE
 
 
-
 *** Test Cases ***
 Check Page Title
     Open Browser    ${URL}    ${BROWSER} 
@@ -23,14 +22,41 @@ Check Page Title
     Close Browser
 
 
+Device Page Register Connected Device Test
+    Open Browser    about:blank    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed  ${DELAY}
+    Go To           ${URL}
+    
+
+    ${register_button_exists} =  Run Keyword And Return Status    Element Should Be Visible    xpath://*[text()="register this device"]
+
+    IF    ${register_button_exists}
+        Wait Until Page Contains Element    xpath://*[text()="register this device"]
+        Click Element    xpath://*[text()="register this device"]
+        Wait Until Page Contains Element    xpath://input[@aria-label='Device name']
+        
+        Input Text      xpath://input[@aria-label='Device name']     TestDevice
+        Input Text      xpath://input[@aria-label='Connection']      Wifi
+        Input Text      xpath://input[@aria-label='Installer']       Installer
+        Input Text      xpath://input[@aria-label='Compiler']        Compiler
+        Input Text      xpath://input[@aria-label='Model']           Model
+        Input Text      xpath://input[@aria-label='Description']     Test description
+        Click Element    xpath://*[text()="Add"]
+        Close Browser
+    ELSE
+        Log    No device connected currently
+    END
+    Close Browser
+
 Device Page Add New Device Test
     Open Browser    about:blank    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
     
-    Wait Until Page Contains Element    xpath://*[text()="Add"]
-    Click Element    xpath://*[text()="Add"]
+    Wait Until Page Contains Element    xpath://*[text()="register a new device"]
+    Click Element    xpath://*[text()="register a new device"]
 
     Wait Until Page Contains Element    xpath://input[@aria-label='Device name']
 
@@ -43,12 +69,13 @@ Device Page Add New Device Test
     Click Element    xpath://*[text()="Add"]
     Close Browser
 
+
 Device Page Modify One Device Test
     Open Browser    about:blank    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-
+    
     Wait Until Page Contains Element    xpath://*[text()="Modify"]
     Click Element    xpath://*[text()="Modify"]
 
@@ -84,3 +111,6 @@ Device Page Delete Last Device in the List Test
     Wait Until Page Contains Element    ${delete_buttons[-1]}
     Click Element    ${delete_buttons[-1]}
     Close Browser
+
+
+
