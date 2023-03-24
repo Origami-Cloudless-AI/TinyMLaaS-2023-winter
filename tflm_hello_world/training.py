@@ -81,16 +81,14 @@ class train_model():
 
     model = Sequential([
       layers.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
-      layers.Conv2D(16, 3, padding='same', activation='relu'),
-      layers.MaxPooling2D(),
-      layers.Conv2D(32, 3, padding='same', activation='relu'),
-      layers.MaxPooling2D(),
-      layers.Conv2D(64, 3, padding='same', activation='relu'),
-      layers.MaxPooling2D(),
-      layers.Dropout(0.20),
+      layers.Conv2D(16, 3, activation='relu', padding='SAME'),
+      layers.MaxPooling2D(pool_size=(2, 2)),
+      layers.DepthwiseConv2D(8, 3, activation='relu', padding='SAME'),
+      layers.MaxPooling2D(pool_size=(2, 2)),
+      layers.DepthwiseConv2D(8, 3, activation='relu', padding='SAME'),
+      layers.MaxPooling2D(pool_size=(2, 2)),
       layers.Flatten(),
-      layers.Dense(128, activation='relu'),
-      layers.Dense(num_classes)
+      layers.Dense(units=2, activation='softmax'),
     ])
 
     if optim_choice == "Categorical crossentropy":
