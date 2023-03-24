@@ -82,6 +82,21 @@ def handle_modify(df, id, name, connection, installer, compiler, model, descript
             "Modify Device", on_click=modify, args=(df, id,))
 
 
+def handle_select(id, name, connection, installer, compiler, model, description):
+    "Stores data of selected device to session state for other pages to use"
+    device_data = {
+        "id": id,
+        "Device name": name,
+        "Connection": connection,
+        "Installer": installer,
+        "Compiler": compiler,
+        "Model": model,
+        "Description": description 
+    }
+    state.selected_device = device_data
+    st.success(f"Selected device: **{name}**")
+
+
 def list_devices():
     st.header('All registered devices')
     df = pd.read_csv('TinyMLaaS.csv')
@@ -90,17 +105,22 @@ def list_devices():
 
     for row in df.sort_values("id").itertuples():
         index, id, name, connection, installer, compiler, model, description = row
-        col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
-        col1.write(id)
-        col2.write(name)
-        col3.write(connection)
-        col4.write(installer)
-        col5.write(compiler)
-        col6.write(model)
-        col7.write(description)
-        col8.button("Delete", key=name, on_click=delete, args=(df, id))
-        col9.button("Modify", key=f'm_{name}', on_click=handle_modify, args=(
+        col = st.columns(10)
+        col[0].write(id)
+        if "selected_device" in state and state.selected_device["id"] == id: # make selected device name bold
+            col[1].write("**"+name+"**")
+        else:
+            col[1].write(name)
+        col[2].write(connection)
+        col[3].write(installer)
+        col[4].write(compiler)
+        col[5].write(model)
+        col[6].write(description)
+        col[7].button("Delete", key=name, on_click=delete, args=(df, id))
+        col[8].button("Modify", key=f'm_{name}', on_click=handle_modify, args=(
             df, id, name, connection, installer, compiler, model, description))
+        col[9].button("Select", key=f"s_{name}", on_click=handle_select, args=(
+            id, name, connection, installer, compiler, model, description))
 
 
 def device_locations():
