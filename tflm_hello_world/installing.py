@@ -13,7 +13,7 @@ class ArduinoNano33BLE_Installer:
     def __convert_model_to_arduino(self, model_path : str):
         "Copies model.cc file to arduino directory and appends necessary include and const to the start of the file."
         with open("arduino/template/person_detect_model_data.cpp", "w") as model_file:
-            model_file.write("#include \"person_detect_model_data.h\"\nconst ")
+            model_file.write("#include \"person_detect_model_data.h\"\nalignas(16) const ")
             with open("models/model.cc") as model_data:
                 model_file.write(model_data.read())
             
