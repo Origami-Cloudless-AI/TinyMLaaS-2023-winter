@@ -5,6 +5,8 @@ Library           SeleniumLibrary
 ${BROWSER}        headlessfirefox 
 ${DELAY}          0.10 seconds
 ${URL}            http://localhost:8501/Training
+${DATA_URL}       http://localhost:8501/Data
+
 
 
 *** Keywords ***
@@ -12,6 +14,16 @@ Clear Text Field
   [Arguments]  ${inputField}
   press keys  ${inputField}  CTRL+a+BACKSPACE
 
+Click Element After Wait
+  [Arguments]  ${element}
+  Wait Until Page Contains Element  ${element}
+  Click Element  ${element}
+
+Select First Dataset
+   Go to   ${DATA_URL}
+   Click Element After Wait    xpath://*[text()="Click to choose datasets"]
+   Click Element After Wait    xpath://*[text()="Choose dataset"]
+   Wait Until Page Contains    Selected
 
 
 *** Test Cases ***
@@ -23,11 +35,17 @@ Check Page Title
     Close Browser
 
 
+Training fails with no dataset
+    Open Browser    ${URL}    ${BROWSER} 
+    Wait Until Page Contains   No dataset was selected   20s
+    Close Browser
+
 Run steps to train model test
     Open Browser    about:blank    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
-    Go To           ${URL}
+    Select First Dataset
+    Click Element   xpath://*[text()="Training"]      #"Go To" wouldn't update session_state
 
     Wait Until Page Contains Element    xpath://input[@aria-label='Enter the number of epochs']
 
