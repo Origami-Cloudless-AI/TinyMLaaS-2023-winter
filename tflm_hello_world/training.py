@@ -24,13 +24,13 @@ class train_model():
   if not os.path.exists('models'):
         os.mkdir('models')
 
-  def __init__(self):
+  def __init__(self, data_dir):
     self.MODELS_DIR = 'models'
     self.MODEL_TF = self.MODELS_DIR + 'model'
     self.MODEL_NO_QUANT_TFLITE = self.MODELS_DIR + '/model_no_quant.tflite'
     self.MODEL_TFLITE = self.MODELS_DIR + '/model.tflite'
     self.MODEL_TFLITE_MICRO = self.MODELS_DIR + '/model.cc'
-    self.data_dir = 'data/'
+    self.data_dir = data_dir
 
   def load_data(self, img_height, img_width, batch_size):
     """
@@ -125,9 +125,10 @@ class train_model():
         img: image predicted, result: formatted string for the result
     """
 
-    path = '/data/1/1.png'
+    path = f'{self.data_dir}/{class_names[0]}/1.png'
+    model_shape = model.layers[0].input_shape
     img = cv2.imread(path)
-    img = cv2.resize(img, (180,180))
+    img = cv2.resize(img, (model_shape[1],model_shape[2]))
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0) # Create a batch
 
