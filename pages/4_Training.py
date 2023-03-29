@@ -10,11 +10,10 @@ st.set_page_config(
 
 def training_page():
     if "selected_dataset" not in st.session_state:
-        st.error("No dataset was selected. Please select one on the data page.")
+        st.error("No dataset was selected. Please select one on the Data page.")
         return
-
-
-    train = train_model(st.session_state.selected_dataset)
+    
+    train = train_model(st.session_state.selected_dataset, "models/") 
     st.title('Training')
     st.subheader('Train a Keras model')
 
