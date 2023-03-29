@@ -38,7 +38,6 @@ class S3_Connector:
 
         return True
 
-
     def upload_img(self, img, dir:str, file_name:str, pil_image = False):
         " Uploads an image to specified directory. `img` is a file-like object, unless pil_image is True in which case it's a Pillow Image."
         if pil_image:
