@@ -43,7 +43,8 @@ class train_model():
       subset="training",
       seed=123,
       image_size=(img_height, img_width),
-      batch_size=batch_size)
+      batch_size=batch_size,
+      color_mode="grayscale",)
     
     val_ds = tf.keras.utils.image_dataset_from_directory(
       self.data_dir,
@@ -51,7 +52,8 @@ class train_model():
       subset="validation",
       seed=123,
       image_size=(img_height, img_width),
-      batch_size=batch_size)
+      batch_size=batch_size,
+      color_mode="grayscale",)
 
 
     return train_ds, val_ds
@@ -80,10 +82,9 @@ class train_model():
     num_classes = len(class_names)
 
     model = Sequential([
-      layers.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
-      layers.Conv2D(16, 3, activation='relu', padding='SAME'),
-      layers.MaxPooling2D(pool_size=(2, 2)),
-      layers.DepthwiseConv2D(8, 3, activation='relu', padding='SAME'),
+      layers.Reshape(target_shape=(img_width, img_height, 1), input_shape=(img_width, img_height)),
+      layers.experimental.preprocessing.Rescaling(1./255),
+      layers.Conv2D(16, 3, activation='relu', padding='SAME',),
       layers.MaxPooling2D(pool_size=(2, 2)),
       layers.DepthwiseConv2D(8, 3, activation='relu', padding='SAME'),
       layers.MaxPooling2D(pool_size=(2, 2)),
@@ -126,8 +127,8 @@ class train_model():
     """
 
     path = '/data/1/1.png'
-    img = cv2.imread(path)
-    img = cv2.resize(img, (180,180))
+    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    img = cv2.resize(img, (96,96))
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0) # Create a batch
 
