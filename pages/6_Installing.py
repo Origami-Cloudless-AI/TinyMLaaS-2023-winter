@@ -25,11 +25,14 @@ def install_settings(selected_model, selected_device):
 
 
 def install_status():
+    if "selected_model" not in st.session_state:
+        st.error("No model was selected. Please select one in the model tab")
+        return
     generate_clicked = st.button("Generate")
     if generate_clicked: 
         st.header("Compilation Status")
         with st.spinner("Compiling  image..."):
-            ArduinoNano33BLE_Installer().compile("models/model.cc")
+            ArduinoNano33BLE_Installer().compile(st.session_state.selected_model["Model Path"])
             st.session_state["install_compile_done"] = True
             st.success("Compiling done!")
 
