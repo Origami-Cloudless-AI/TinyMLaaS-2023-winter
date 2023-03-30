@@ -13,12 +13,14 @@
 #include "image_provider.h"
 
 #ifndef ARDUINO_EXCLUDE_CODE
+#include "tensorflow/lite/micro/micro_log.h"
+#include "tensorflow/lite/micro/micro_utils.h"
+#include "OV767X_TinyMLx.h"
 
 #include "Arduino.h"
-#include <TinyMLShield.h>
 
 // Get an image from the camera module
-TfLiteStatus GetImage(tflite::ErrorReporter* error_reporter, int image_width,
+TfLiteStatus GetImage(int image_width,
                       int image_height, int channels, int8_t* image_data) {
 
   byte data[176 * 144]; // Receiving QCIF grayscale from camera = 176 * 144 * 1
@@ -29,8 +31,8 @@ TfLiteStatus GetImage(tflite::ErrorReporter* error_reporter, int image_width,
   // Initialize camera if necessary
   if (!g_is_camera_initialized) {
     if (!Camera.begin(QCIF, GRAYSCALE, 5, OV7675)) {
-      TF_LITE_REPORT_ERROR(error_reporter, "Failed to initialize camera!");
-      return kTfLiteError;
+        MicroPrintf("Failed to initialize camera");
+	return kTfLiteError;
     }
     g_is_camera_initialized = true;
   }
@@ -50,6 +52,10 @@ TfLiteStatus GetImage(tflite::ErrorReporter* error_reporter, int image_width,
   }
 
   return kTfLiteOk;
+}
+
+TfLiteStatus GetImage(const TfLiteTensor* tensor) {
+	return GetImage(96, 96, 1, tensor->data.int8);
 }
 
 #endif  // ARDUINO_EXCLUDE_CODE
