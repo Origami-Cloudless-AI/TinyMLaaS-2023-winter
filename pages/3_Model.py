@@ -19,12 +19,12 @@ def save_selections(category, model, model_data):
     st.session_state["selected_model"] = model_data
     st.info("Your selections have been saved", icon="✅")
 
-def visualize(model_meta):
+def visualize(model_meta, model_path):
     try:
-        path = '/app/models/keras_model.h5'
+        path = f'{model_path}/keras_model.h5'
         model = load_model(path)
-        plot_model(model, to_file="/app/models/model.png", show_shapes=True)
-        image = cv2.imread("/app/models/model.png")
+        plot_model(model, to_file = f"{model_path}/model.png", show_shapes=True)
+        image = cv2.imread(f"{model_path}/model.png")
         st.image(image)
     except:
         st.error("No model found")
@@ -69,7 +69,8 @@ def model_page():
             st.markdown(table)
 
     col3.button("Select", on_click=save_selections, kwargs={"model_data":models[select_model],"category": category, "model": select_model})
-    col3.button("Visualize", on_click=visualize, kwargs={'model_meta': models[select_model]})
+    col3.button("Visualize", on_click=visualize, kwargs={'model_meta': models[select_model], "model_path": models[select_model]["Model Path"]})
+
 
 
 def read_file_with_models():

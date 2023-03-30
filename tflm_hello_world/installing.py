@@ -14,7 +14,7 @@ class ArduinoNano33BLE_Installer:
         "Copies model.cc file to arduino directory and appends necessary include and const to the start of the file."
         with open("arduino/template/person_detect_model_data.cpp", "w") as model_file:
             model_file.write("#include \"person_detect_model_data.h\"\n")
-            with open("models/model.cc") as model_data:
+            with open(f"{model_path}/model.cc") as model_data:
                 model_file.write(model_data.read())
             
     def compile(self, model_path : str):

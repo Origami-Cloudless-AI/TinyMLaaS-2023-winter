@@ -31,7 +31,7 @@
         "Face Recognition": {
             "Modified LBPH": {
                 "Model Type": "Local Binary Pattern Histogram(LBPH)",
-                "Model Path": "/path/to/face_model",
+                "Model Path": "models/person_detection",
                 "Last Modified": "2019-01-01 00:00:00",
                 "Modified By": "Matias",
                 "Description": "This is a description of the model",
