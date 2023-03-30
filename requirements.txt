@@ -5,7 +5,7 @@ plotly
 pydot
 Pillow==9.0.1
 selenium
-tensorflow==2.8.4
+tensorflow==2.12.0
 fastcore
 matplotlib
 opencv-python
