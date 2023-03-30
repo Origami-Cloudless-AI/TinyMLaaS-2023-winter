@@ -72,6 +72,7 @@ def model_page():
     col3.button("Visualize", on_click=visualize, kwargs={'model_meta': models[select_model], "model_path": models[select_model]["Model Path"]})
 
 
+
 def read_file_with_models():
     "Reads csv file that has the models and sets it to pandas dataframe "
     models_df = pd.read_json('pages/models.json')
