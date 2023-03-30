@@ -21,10 +21,9 @@ from tensorflow.keras.models import Sequential
 # %% ../nbs/training.ipynb 2
 class train_model():
 
-  if not os.path.exists('models'):
-        os.mkdir('models')
-
   def __init__(self, data_dir, model_path):
+    if not os.path.exists(model_path):
+        os.mkdir(model_path)
     self.MODELS_DIR = model_path
     self.MODEL_TF = self.MODELS_DIR + 'model'
     self.MODEL_NO_QUANT_TFLITE = self.MODELS_DIR + '/model_no_quant.tflite'

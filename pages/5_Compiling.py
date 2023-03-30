@@ -2,7 +2,7 @@ import subprocess
 import streamlit as st
 import time
 
-from tflm_hello_world.compiling import convert_model, convert_to_c_array, plot_size
+from tflm_hello_world.compiling import convert_model, convert_to_c_array, plot_size, convert_model_to_cc
 
 # Define some dummy data
 models = {
@@ -23,6 +23,29 @@ models = {
     }
 }
 
+
+def compilation_tab():
+    model_path = "models2"
+    # Define the compilation settings tab
+    st.subheader("Compilation Settings")
+    quant = st.selectbox("Quantization", ["no quantization", "quantization", "end-to-end 8bit quantization"])
+    if quant:
+        generate = st.selectbox("Generate C array model", ["Yes", "No"])
+        if generate:
+            if "model" not in st.session_state:
+                st.error("No trained model. Train one on the Training page.")
+                return
+            start = st.button("Compile")
+            if start:
+                with st.spinner("Compiling..."):
+                    convert_model(st.session_state.train_ds, model_path, st.session_state.model)
+                    if generate == "Yes":
+                        convert_model_to_cc(model_path)
+                st.write("Compilation complete!")
+                plot = st.empty()
+                plot.write(plot_size(model_path))
+
+
 # Define the main function that runs the Streamlit app
 def main():
     # Set the page title
@@ -36,25 +59,7 @@ def main():
     st.title("ML Compilation")
     st.header(f"Model: {model_name}")
 
-    # Define the compilation settings tab
-    st.subheader("Compilation Settings")
-    quant = st.selectbox("Quantization", ["no quantization", "quantization", "end-to-end 8bit quantization"])
-    if quant:
-        generate = st.selectbox("Generate C array model", ["Yes", "No"])
-        if generate:
-            start = st.button("Compile")
-            if start:
-                with st.spinner("Compiling..."):
-                    convert_model(st.session_state.train_ds)
-                    if generate == "Yes":
-                        tflite_binary = open('models/model.tflite', 'rb').read() 
-                        ascii_bytes = convert_to_c_array(tflite_binary) 
-                        header_file = "const unsigned char model_tflite[] = {\n  " + ascii_bytes + "\n};\nunsigned int model_tflite_len = " + str(len(tflite_binary)) + ";" 
-                        with open("models/model.cc", "w") as f: 
-                            f.write(header_file)
-                st.write("Compilation complete!")
-                plot = st.empty()
-                plot.write(plot_size())
+    compilation_tab()
 
     # Define the model validation tab
     st.subheader("Model Validation")
