@@ -23,7 +23,7 @@ class train_model():
 
   def __init__(self, data_dir, model_path):
     if not os.path.exists(model_path):
-        os.mkdir(model_path)
+        os.makedirs(model_path, exist_ok=True)
     self.MODELS_DIR = model_path
     self.MODEL_TF = self.MODELS_DIR + 'model'
     self.MODEL_NO_QUANT_TFLITE = self.MODELS_DIR + '/model_no_quant.tflite'
