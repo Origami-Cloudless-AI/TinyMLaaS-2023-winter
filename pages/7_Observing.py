@@ -22,7 +22,7 @@ def observe_person_detection():
                     error_label.empty()
                     for idx,category in enumerate(categories):
                         score = result[category]
-                        score_labels[idx].write(f"{category} score: {score}")
+                        score_labels[idx].write(f"{category} score: {score}%")
 
 output_df = pd.DataFrame({
     'timestamp': pd.date_range('2022-01-01', periods=1000, freq='1min'),
