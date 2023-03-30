@@ -11,8 +11,8 @@ def read_person_detection_from_serial(port:str):
     "Reads a single person detection prediction line over serial and returns dict containing scores with keys `Person` and `No person`. Returns None if serial fails."
     try:
         with serial.Serial(port, 19200, timeout=1) as ser:
-            output = ser.readline().decode("ascii") # "Person score: -94 No person score: 94"
+            output = ser.readline().decode("ascii").strip() # "Person score: 60.54% No person score: 39.45%"
             parts = output.split(" ")
-            return {"Person":int(parts[2]), "No person":int(parts[6])}
+            return {"Person":float(parts[2][:-1]), "No person":float(parts[6][:-1])}
     except:
         return None
