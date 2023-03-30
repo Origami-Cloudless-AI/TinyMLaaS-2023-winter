@@ -123,6 +123,8 @@ with st.expander("Click to choose datasets"):
             st.write(dataset_names[j],dataset_sizes[j],dataset_descriptions[j])
             show = st.checkbox("Choose dataset", key=dataset_names[j])
             if show:
+                st.session_state["selected_dataset"] = dataset_locations[j]
+                st.success(f"Selected {dataset_names[j]}") 
                 st.session_state["photo"] = "done"
                 for folder in os.listdir(dataset_locations[j]):
                     folderpath = dataset_locations[j]+folder
