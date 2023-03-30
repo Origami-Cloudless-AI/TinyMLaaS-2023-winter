@@ -8,7 +8,6 @@ ${URL}            http://localhost:8501/Training
 ${DATA_URL}       http://localhost:8501/Data
 
 
-
 *** Keywords ***
 Clear Text Field
   [Arguments]  ${inputField}
@@ -25,6 +24,13 @@ Select First Dataset
    Click Element After Wait    xpath://*[text()="Choose dataset"]
    Wait Until Page Contains    Selected
 
+Select First Model 
+   Click Element After Wait    xpath://*[text()="Model"] 
+   Click Element After Wait    xpath=//div[contains(text(), 'Face Recognition')]
+   Wait Until Page Contains    You have selected: Modified LBPH submodel under Face Recognition model 
+   Click Element    xpath://*[text()="Select"]
+   Wait Until Page Contains  Your selections have been saved
+
 
 *** Test Cases ***
 Check Page Title
@@ -40,11 +46,20 @@ Training fails with no dataset
     Wait Until Page Contains   No dataset was selected   20s
     Close Browser
 
+Training fails with no model
+    Open Browser    ${URL}    ${BROWSER}
+    Select First Dataset
+    Click Element   xpath://*[text()="Training"]
+    Wait Until Page Contains   No model was selected   20s
+    Close Browser
+
 Run steps to train model test
     Open Browser    about:blank    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
+
     Select First Dataset
+    Select First Model
     Click Element   xpath://*[text()="Training"]      #"Go To" wouldn't update session_state
 
     Wait Until Page Contains Element    xpath://input[@aria-label='Enter the number of epochs']

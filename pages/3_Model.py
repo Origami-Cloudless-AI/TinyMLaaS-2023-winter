@@ -69,7 +69,7 @@ def model_page():
             st.markdown(table)
 
     col3.button("Select", on_click=save_selections, kwargs={"model_data":models[select_model],"category": category, "model": select_model})
-    col3.button("Visualize", on_click=visualize, kwargs={'model_meta': models[select_model], "model_path": "models2"})
+    col3.button("Visualize", on_click=visualize, kwargs={'model_meta': models[select_model], "model_path": models[select_model]["Model Path"]})
 
 
 def read_file_with_models():

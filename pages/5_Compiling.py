@@ -25,7 +25,10 @@ models = {
 
 
 def compilation_tab():
-    model_path = "models2"
+    if "selected_model" not in st.session_state:
+        st.error("No model was selected. Please select one in the model tab")
+        return
+    model_path = st.session_state.selected_model["Model Path"] 
     # Define the compilation settings tab
     st.subheader("Compilation Settings")
     quant = st.selectbox("Quantization", ["no quantization", "quantization", "end-to-end 8bit quantization"])
