@@ -62,7 +62,7 @@ Run steps to train model test
     Select First Model
     Click Element   xpath://*[text()="Training"]      #"Go To" wouldn't update session_state
 
-    Wait Until Page Contains Element    xpath://input[@aria-label='Enter the number of epochs']   50s
+    Wait Until Page Contains Element    xpath://input[@aria-label='Enter the number of epochs']   20s
 
     Clear Text Field    xpath://input[@aria-label='Enter the number of epochs']
     Input Text      xpath://input[@aria-label='Enter the number of epochs']     5
