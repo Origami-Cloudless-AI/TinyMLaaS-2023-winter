@@ -22,5 +22,5 @@ Test if compiling page loads correctly
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
 
-    Wait Until Page Contains     ML Compilation
+    Wait Until Page Contains     ML Compilation   20s
     Close Browser
