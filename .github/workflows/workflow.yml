@@ -54,13 +54,15 @@ jobs:
         run: coverage xml --data-file .coverage -i -o robot_coverage.xml
 
       - name: Save coverage data and robot coverage data
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: |
             coverage.xml
             robot_coverage.xml
-
+            selenium-screenshot*
+            log.html
 
   upload-coverage:
     runs-on: ubuntu-latest
