@@ -11,7 +11,9 @@ matplotlib
 opencv-python
 boto3
 awscli
+pyserial
 pyusb
+
 
 # Dev
 pytest

@@ -2,6 +2,27 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import altair as alt
+from tflm_hello_world.observing import *
+
+
+def observe_person_detection():
+    "Shows UI for starting and stopping displaying the results of person detection"
+    categories = ["Person", "No person"]
+    st.header("Person detection")
+    start_clicked = st.button("Start")
+    if start_clicked:
+        if not st.button("Stop"):
+            error_label = st.empty()
+            score_labels = [st.empty() for i in range(len(categories))]
+            while True:
+                result = read_person_detection_from_serial("/dev/ttyACM0")
+                if not result:
+                    error_label.error("Unable to read from device.")
+                else:
+                    error_label.empty()
+                    for idx,category in enumerate(categories):
+                        score = result[category]
+                        score_labels[idx].write(f"{category} score: {score}")
 
 output_df = pd.DataFrame({
     'timestamp': pd.date_range('2022-01-01', periods=1000, freq='1min'),
@@ -56,3 +77,5 @@ st.slider('Learning Rate', min_value=0.001, max_value=0.1, step=0.001, value=dev
 st.slider('Batch Size', min_value=16, max_value=128, step=16, value=device_params['model_params']['batch_size'])
 st.slider('Number of Epochs', min_value=1, max_value=20, step=1, value=device_params['model_params']['num_epochs'])
 st.multiselect('Device Commands', options=device_params['device_commands'], default=device_params['device_commands'])
+
+observe_person_detection()
