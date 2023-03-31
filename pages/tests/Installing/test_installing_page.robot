@@ -15,13 +15,12 @@ ${URL}            http://localhost:8501/Installing
 Library    SeleniumLibrary
 
 *** Test Cases ***
-Test if selecting a category and model works
+Test if page contains "TinyML Install" 
     
     Open Browser    about:blank    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
 
-    Wait Until Page Contains     TinyML Install
+    Wait Until Page Contains     TinyML Install   20s
     Close Browser

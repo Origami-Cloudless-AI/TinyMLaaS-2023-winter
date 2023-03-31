@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+from tflm_hello_world.installing import ArduinoNano33BLE_Installer 
 
 # Dummy data
 models = {
@@ -21,12 +22,26 @@ def install_settings(selected_model, selected_device):
     st.write(f"Selected Device: **{selected_device}**")
 
 
-def install_status():
-    st.header("Installation Status")
-    with st.spinner("Installing OS image..."):
-        time.sleep(5)
-        st.success("Installation complete!")
 
+
+def install_status():
+    if "selected_model" not in st.session_state:
+        st.error("No model was selected. Please select one in the model tab")
+        return
+    generate_clicked = st.button("Generate")
+    if generate_clicked: 
+        st.header("Compilation Status")
+        with st.spinner("Compiling  image..."):
+            ArduinoNano33BLE_Installer().compile(st.session_state.selected_model["Model Path"])
+            st.session_state["install_compile_done"] = True
+            st.success("Compiling done!")
+
+    if st.session_state.get("install_compile_done", False):
+        install_clicked = st.button("Install") 
+        if install_clicked:
+            with st.spinner("Uploading..."):
+                ArduinoNano33BLE_Installer().upload("/dev/ttyACM0")
+                st.success("Upload done!")
 
 st.set_page_config(page_title="TinyML Install", page_icon=":rocket:")
 st.title("TinyML Install")

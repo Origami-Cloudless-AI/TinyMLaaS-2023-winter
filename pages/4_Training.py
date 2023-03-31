@@ -9,7 +9,16 @@ st.set_page_config(
 
 
 def training_page():
-    train = train_model()
+    if "selected_dataset" not in st.session_state:
+        st.error("No dataset was selected. Please select one on the Data page.")
+        return
+
+    if "selected_model" not in st.session_state:
+        st.error("No model was selected. Please select one on the Model page.")
+        return
+
+    model_path = st.session_state.selected_model["Model Path"]
+    train = train_model(st.session_state.selected_dataset, model_path) 
     st.title('Training')
     st.subheader('Train a Keras model')
 
@@ -41,6 +50,6 @@ def training_page():
                                     st.session_state.model = model
                                 plot.image(data)
                                 test.image(tests, caption=label)
-                                model.save(f"models/keras_model")
+                                model.save(f"{model_path}/keras_model")
                                 st.success("Model saved!")
 training_page()

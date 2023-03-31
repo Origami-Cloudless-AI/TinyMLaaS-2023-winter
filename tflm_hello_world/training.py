@@ -21,16 +21,15 @@ from tensorflow.keras.models import Sequential
 # %% ../nbs/training.ipynb 2
 class train_model():
 
-  if not os.path.exists('models'):
-        os.mkdir('models')
-
-  def __init__(self):
-    self.MODELS_DIR = 'models'
+  def __init__(self, data_dir, model_path):
+    if not os.path.exists(model_path):
+        os.makedirs(model_path, exist_ok=True)
+    self.MODELS_DIR = model_path
     self.MODEL_TF = self.MODELS_DIR + 'model'
     self.MODEL_NO_QUANT_TFLITE = self.MODELS_DIR + '/model_no_quant.tflite'
     self.MODEL_TFLITE = self.MODELS_DIR + '/model.tflite'
     self.MODEL_TFLITE_MICRO = self.MODELS_DIR + '/model.cc'
-    self.data_dir = 'data/'
+    self.data_dir = data_dir
 
   def load_data(self, img_height, img_width, batch_size):
     """
@@ -43,7 +42,8 @@ class train_model():
       subset="training",
       seed=123,
       image_size=(img_height, img_width),
-      batch_size=batch_size)
+      batch_size=batch_size,
+      color_mode="grayscale",)
     
     val_ds = tf.keras.utils.image_dataset_from_directory(
       self.data_dir,
@@ -51,7 +51,8 @@ class train_model():
       subset="validation",
       seed=123,
       image_size=(img_height, img_width),
-      batch_size=batch_size)
+      batch_size=batch_size,
+      color_mode="grayscale",)
 
 
     return train_ds, val_ds
@@ -80,17 +81,14 @@ class train_model():
     num_classes = len(class_names)
 
     model = Sequential([
-      layers.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
-      layers.Conv2D(16, 3, padding='same', activation='relu'),
-      layers.MaxPooling2D(),
-      layers.Conv2D(32, 3, padding='same', activation='relu'),
-      layers.MaxPooling2D(),
-      layers.Conv2D(64, 3, padding='same', activation='relu'),
-      layers.MaxPooling2D(),
-      layers.Dropout(0.20),
+      layers.Reshape(target_shape=(img_width, img_height, 1), input_shape=(img_width, img_height)),
+      layers.experimental.preprocessing.Rescaling(1./255),
+      layers.Conv2D(16, 3, activation='relu', padding='SAME',),
+      layers.MaxPooling2D(pool_size=(2, 2)),
+      layers.DepthwiseConv2D(8, 3, activation='relu', padding='SAME'),
+      layers.MaxPooling2D(pool_size=(2, 2)),
       layers.Flatten(),
-      layers.Dense(128, activation='relu'),
-      layers.Dense(num_classes)
+      layers.Dense(units=2, activation='softmax'),
     ])
 
     if optim_choice == "Categorical crossentropy":
@@ -127,9 +125,11 @@ class train_model():
         img: image predicted, result: formatted string for the result
     """
 
-    path = '/data/1/1.png'
-    img = cv2.imread(path)
-    img = cv2.resize(img, (180,180))
+    path = f'{self.data_dir}/{class_names[0]}/1.png'
+    model_shape = model.layers[0].input_shape
+    img = cv2.imread(path,cv2.IMREAD_GRAYSCALE)
+    img = cv2.resize(img, (model_shape[1],model_shape[2]))
+    
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0) # Create a batch
 

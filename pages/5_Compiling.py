@@ -2,7 +2,7 @@ import subprocess
 import streamlit as st
 import time
 
-from tflm_hello_world.compiling import convert_model, convert_to_c_array, plot_size
+from tflm_hello_world.compiling import convert_model, convert_to_c_array, plot_size, convert_model_to_cc
 
 # Define some dummy data
 models = {
@@ -23,6 +23,32 @@ models = {
     }
 }
 
+
+def compilation_tab():
+    if "selected_model" not in st.session_state:
+        st.error("No model was selected. Please select one in the model tab")
+        return
+    model_path = st.session_state.selected_model["Model Path"] 
+    # Define the compilation settings tab
+    st.subheader("Compilation Settings")
+    quant = st.selectbox("Quantization", ["no quantization", "quantization", "end-to-end 8bit quantization"])
+    if quant:
+        generate = st.selectbox("Generate C array model", ["Yes", "No"])
+        if generate:
+            if "model" not in st.session_state:
+                st.error("No trained model. Train one on the Training page.")
+                return
+            start = st.button("Compile")
+            if start:
+                with st.spinner("Compiling..."):
+                    convert_model(st.session_state.train_ds, model_path, st.session_state.model)
+                    if generate == "Yes":
+                        convert_model_to_cc(model_path)
+                st.write("Compilation complete!")
+                plot = st.empty()
+                plot.write(plot_size(model_path))
+
+
 # Define the main function that runs the Streamlit app
 def main():
     # Set the page title
@@ -36,21 +62,7 @@ def main():
     st.title("ML Compilation")
     st.header(f"Model: {model_name}")
 
-    # Define the compilation settings tab
-    st.subheader("Compilation Settings")
-    quant = st.selectbox("Quantization", ["no quantization", "quantization", "end-to-end 8bit quantization"])
-    if quant:
-        generate = st.selectbox("Generate C array model", ["Yes", "No"])
-        if generate:
-            start = st.button("Compile")
-            if start:
-                with st.spinner("Compiling..."):
-                    convert_model(st.session_state.train_ds)
-                    if generate == "Yes":
-                        convert_to_c_array()
-                st.write("Compilation complete!")
-                plot = st.empty()
-                plot.write(plot_size())
+    compilation_tab()
 
     # Define the model validation tab
     st.subheader("Model Validation")

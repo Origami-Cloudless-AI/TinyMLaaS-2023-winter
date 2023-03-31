@@ -21,7 +21,17 @@ Test if observing page loads correctly
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
-    Sleep     1.5s
 
     Wait Until Page Contains     Device Observing Dashboard
+    Close Browser
+
+Test if person detection observation fails with no device
+
+    Open Browser    about:blank    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed  ${DELAY}
+    Go To           ${URL}
+    Wait Until Page Contains Element    xpath://*[text()="Start"]   15s
+    Click Element    xpath://*[text()="Start"]
+    Wait Until Page Contains   Unable to read from device.
     Close Browser
