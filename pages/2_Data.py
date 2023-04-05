@@ -24,7 +24,7 @@ def store_images(img_set, i, unlabeled=False, pil_img=False):
         label_list = (0, 1)
     
     for img in img_set:
-        st.image(img)
+        st.image(img, width=300)
         check = st.checkbox("Choose image", key=f"check_{i}")
         if check:
             label = st.radio("Select label", label_list, key=f"label_{i}")
@@ -176,12 +176,10 @@ def upload_csv():
 upload_csv()
 
 def load_img(url):
+    size = (300, 300)
     img = Image.open(url)
+    img = img.resize(size)
     return img
-
-st.header("Available devices")
-with st.expander("Click to choose devices"):
-    st.write("Not working :DD")
 
 st.header("Available datasets")
 with st.expander("Click to choose datasets"):
