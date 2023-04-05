@@ -100,7 +100,7 @@ jobs:
           git config --global user.name "name"
           git init
           git lfs install
-          git lfs track "*.png"
+          git lfs track "*.png" "*.jpg"
           git add . 
           git commit -m "huggingface"
 
