@@ -25,28 +25,28 @@ Test if page contains "Upload data"
     Wait Until Page Contains     Upload data   20s
     Close Browser
 
-#Test if selecting and uploading a dataset works
+Test if selecting and uploading a dataset works
     
-    #Open Browser    about:blank    ${BROWSER}
-    #Maximize Browser Window
-    #Set Selenium Speed  ${DELAY}
-    #Go To           ${URL}
+    Open Browser    about:blank    ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Speed  ${DELAY}
+    Go To           ${URL}
 
-    #Wait Until Page Contains Element    //*[text()='Click to choose datasets']     20s
+    Wait Until Page Contains Element    //*[text()='Click to choose datasets']     20s
 
-    #Click Element     //*[text()='Click to choose datasets']
+    Click Element     //*[text()='Click to choose datasets']
 
-    #Wait Until Page Contains     Choose dataset     20s
+    Wait Until Page Contains     Choose dataset     20s
 
-    #Click Element    //*[text()="Choose dataset"]
+    Click Element    //*[text()="Choose dataset"]
 
-    #Wait Until Page Contains  Uploaded dataset     20s
+    Wait Until Page Contains    Store images    300s
 
-    #Wait Until Page Contains    Click to see uploaded dataset    20s
+    Click Element    //*[text()="Store images"]
 
-    #Click Element    //*[text()='Click to see uploaded dataset']
+    Wait Until Page Contains    Images stored successfully!    300s
 
-    #Close Browser
+    Close Browser
 
 Test if image can be stored correctly
 
@@ -96,22 +96,4 @@ Test if labeling unlabeled images opens
     Wait Until Page Contains     You haven't chosen any image     20s
 
     Close Browser
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
