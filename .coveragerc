@@ -4,5 +4,5 @@ omit = nbs/**/__init__.py,nbs/tests/**,tflm_hello_world/**/__init__.py,tflm_hell
 
 [paths]
 source = 
-	pages/
-	/app/pages/
+	./
+	/app/
