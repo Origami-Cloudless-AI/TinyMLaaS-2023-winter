@@ -232,7 +232,7 @@ if st.session_state["photo"] == "done":
 st.header("Label unlabeled images")
 UNLABELED_DIR = "Unlabeled/"
 
-with st.expander("Label unlabeled images"):
+with st.expander("Click to label unlabeled images"):
     unlabeled_count = s3_conn.count_objects(UNLABELED_DIR)
     if unlabeled_count == 0:
         st.text("All images are already labeled.")
