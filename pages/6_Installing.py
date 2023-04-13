@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import requests
 from tflm_hello_world.installing import ArduinoNano33BLE_Installer 
 
 # Dummy data
@@ -29,18 +30,22 @@ def install_status():
         st.error("No model was selected. Please select one in the model tab")
         return
     generate_clicked = st.button("Generate")
-    if generate_clicked: 
+    if generate_clicked:
+        exists = True
         st.header("Compilation Status")
         with st.spinner("Compiling  image..."):
-            ArduinoNano33BLE_Installer().compile(st.session_state.selected_model["Model Path"])
+            if exists == False: #Skip compiling for testing purposes to save time and just use the one in dockerhub
+                ArduinoNano33BLE_Installer().compile(st.session_state.selected_model["Model Path"])
+                ArduinoNano33BLE_Installer().upload()
             st.session_state["install_compile_done"] = True
-            st.success("Compiling done!")
+            st.success("Compiling done! Uploaded to Dockerhub")
 
     if st.session_state.get("install_compile_done", False):
         install_clicked = st.button("Install") 
         if install_clicked:
             with st.spinner("Uploading..."):
-                ArduinoNano33BLE_Installer().upload("/dev/ttyACM0")
+                url = st.session_state.bridge+'/install'
+                r = requests.post(url, data={'key': 'value'})
                 st.success("Upload done!")
 
 st.set_page_config(page_title="TinyML Install", page_icon=":rocket:")

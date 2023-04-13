@@ -20,7 +20,8 @@ def install():
 
 def upload(port:str):
     "Uploads compiled sketch in docker"
-    cmd = f"sudo docker run --privileged nano33ble upload -p {port} --fqbn arduino:mbed_nano:nano33ble template"
+    #Add sudo if docker permission errors
+    cmd = f"docker run --privileged arskale/tinyml:nano33ble upload -p {port} --fqbn arduino:mbed_nano:nano33ble template"
     subprocess.run([cmd], shell=True)
 
 
