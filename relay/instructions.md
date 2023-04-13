@@ -7,7 +7,7 @@
 - Run the main.py to start up the webhook server.
 
 ## Initiate the upload process.
-- curl -H "Content-Type: application/json" -X POST -d '{"data": "This is some test data"}' https://a904-2001-14ba-4acd-f700-771b-7171-35a2-3b1a.ngrok.io/install to make a POST request to the webhook server that triggers uploading.
+- curl -H "Content-Type: application/json" -X POST -d '{"data": "This is some test data"}' {ngrok forwarding ip}/install to make a POST request to the webhook server that triggers uploading.
 - Replace the ngrok.io ip address with the one shown in ngrok's forwarding section.
 - If 'sudo' is required for docker, you must provide a password in the webhook server side before command runs.
 
