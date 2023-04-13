@@ -14,13 +14,21 @@ limitations under the License.
 ==============================================================================*/
 
 #include "detection_responder.h"
-
+#include <cmath>
 #include "tensorflow/lite/micro/micro_log.h"
 
 // This dummy implementation writes person and no person scores to the error
 // console. Real applications will want to take some custom action instead, and
 // should implement their own versions of this function.
-void RespondToDetection(int8_t person_score, int8_t no_person_score) {
-  MicroPrintf("person score:%d no person score %d", person_score,
-              no_person_score);
+void RespondToDetection(float person_score, float no_person_score) {
+  float person_score_frac, person_score_int;
+  float no_person_score_frac, no_person_score_int;
+  person_score_frac = std::modf(person_score * 100, &person_score_int);
+  no_person_score_frac = std::modf(no_person_score * 100, &no_person_score_int);
+  MicroPrintf("Person score: %d.%d%% No person score: %d.%d%%",
+              static_cast<int>(person_score_int),
+              static_cast<int>(person_score_frac * 100),
+              static_cast<int>(no_person_score_int),
+              static_cast<int>(no_person_score_frac * 100));
+
 }

@@ -123,7 +123,11 @@ void loop() {
   // Process the inference results.
   int8_t person_score = output->data.uint8[kPersonIndex];
   int8_t no_person_score = output->data.uint8[kNotAPersonIndex];
-  RespondToDetection(person_score, no_person_score);
+    float person_score_f =
+      (person_score - output->params.zero_point) * output->params.scale;
+  float no_person_score_f =
+      (no_person_score - output->params.zero_point) * output->params.scale;
+  RespondToDetection(person_score_f, no_person_score_f);
 
   char array[10];
   sprintf(array, "%.1f", (person_score + 128) / 256.0 * 100);
