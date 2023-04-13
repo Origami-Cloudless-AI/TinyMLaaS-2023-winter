@@ -56,7 +56,7 @@ class S3_Connector:
         imgs = []
         for img in self.s3_bucket.objects.filter(Prefix=dir):
             file_path = img.key
-            if file_path.endswith('.png'):
+            if file_path.endswith(('jpg', 'png')):
                 image_data = BytesIO()
                 self.s3_bucket.download_fileobj(img.key, image_data)
                 image = Image.open(image_data)
@@ -75,5 +75,5 @@ class S3_Connector:
         return len(list(count_objects)) -1
 
 
-BUCKET_NAME = 'tflmhelloworldbucket'
+BUCKET_NAME = 'tinymldatasets'
 s3_conn = S3_Connector(BUCKET_NAME)
