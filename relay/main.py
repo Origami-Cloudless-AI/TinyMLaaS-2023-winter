@@ -33,7 +33,7 @@ def get_prediction():
 def upload(port:str):
     "Uploads compiled sketch in docker"
     #Add sudo if docker permission errors
-    cmd = f"docker run --privileged arskale/tinyml:nano33ble upload -p {port} --fqbn arduino:mbed_nano:nano33ble template"
+    cmd = f"docker run --privileged ohtuprojtinymlaas/nano33ble upload -p {port} --fqbn arduino:mbed_nano:nano33ble template"
     subprocess.run([cmd], shell=True)
 
 

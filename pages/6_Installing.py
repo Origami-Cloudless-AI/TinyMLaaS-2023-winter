@@ -31,7 +31,7 @@ def install_status():
         return
     generate_clicked = st.button("Generate")
     if generate_clicked:
-        exists = True
+        exists = False 
         st.header("Compilation Status")
         with st.spinner("Compiling  image..."):
             if exists == False: #Skip compiling for testing purposes to save time and just use the one in dockerhub
@@ -41,7 +41,10 @@ def install_status():
             st.success("Compiling done! Uploaded to Dockerhub")
 
     if st.session_state.get("install_compile_done", False):
-        install_clicked = st.button("Install") 
+        if not "bridge" in st.session_state:
+            st.error("No relay server selected. Select one in the device tab.")
+        
+        install_clicked = st.button("Install", disabled=(not "bridge" in st.session_state)) 
         if install_clicked:
             with st.spinner("Uploading..."):
                 url = st.session_state.bridge+'/install'
