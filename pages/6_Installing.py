@@ -32,6 +32,7 @@ def install_status():
     generate_clicked = st.button("Generate")
     if generate_clicked:
         exists = False 
+
         st.header("Compilation Status")
         with st.spinner("Compiling  image..."):
             if exists == False: #Skip compiling for testing purposes to save time and just use the one in dockerhub

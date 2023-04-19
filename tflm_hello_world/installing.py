@@ -54,6 +54,7 @@ class ArduinoNano33BLE_Installer:
         upload_image_to_dockerhub(self.DOCKER_IMG, dockerhub_user, dockerhub_pass)
         
 
+
     def list_ports(self):
         "Returns a list of ports of connected devices"
         ports = []

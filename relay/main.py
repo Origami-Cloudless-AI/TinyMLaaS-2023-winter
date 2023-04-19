@@ -4,6 +4,7 @@ from flask import Flask, abort, request, jsonify
 from tflm_hello_world.observing import read_person_detection_from_serial
 
 
+
 app = Flask(__name__)
 port = 5000
 
@@ -43,3 +44,4 @@ def get_device_port(device_name:str):
 
 if __name__ == "__main__":
     app.run()
+
