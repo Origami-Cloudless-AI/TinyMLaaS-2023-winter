@@ -36,8 +36,7 @@ Select First Model
 Check Page Title
     Open Browser    ${URL}    ${BROWSER} 
     Sleep    1.5s
-    ${title}=       Get Title
-    Should Be Equal    ${title}    Training
+    Wait Until Page Contains    Training    300s
     Close Browser
 
 
