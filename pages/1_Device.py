@@ -185,6 +185,12 @@ def device_page():
 
     st.button("register a new device", key="add_button", on_click=handle_add)
 
+    st.header('Register a bridging device')
+    ip_addr = st.text_input('IP address of the bridging server')
+    register = st.button('Add')
+    if register:
+        st.session_state.bridge = str(ip_addr)
+
     list_connected_devices()
     list_devices()
     device_locations()

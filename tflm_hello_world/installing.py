@@ -22,9 +22,15 @@ class ArduinoNano33BLE_Installer:
         self.__convert_model_to_arduino(model_path)
         subprocess.run(['docker build -t nano33ble arduino'], shell=True)
 
-    def upload(self, port:str):
+    def tag_image(self,):
+        "Tags the image for uploading to dockerhub"
+        cmd = f"docker image tag nano33ble arskale/tinyml:nano33ble"
+        subprocess.run([cmd], shell=True)
+
+    def upload(self,):
         "Uploads compiled sketch in docker"
-        cmd = f"docker run --privileged nano33ble upload -p {port} --fqbn arduino:mbed_nano:nano33ble template"
+        self.tag_image()
+        cmd = f"docker image push arskale/tinyml:nano33ble"
         subprocess.run([cmd], shell=True)
 
     def list_ports(self):
