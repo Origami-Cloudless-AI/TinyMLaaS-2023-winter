@@ -1,6 +1,8 @@
 import subprocess
-from flask import Flask, abort, request
-from pyngrok import ngrok
+from flask import Flask, abort, request, jsonify
+#from pyngrok import ngrok
+from tflm_hello_world.observing import read_person_detection_from_serial
+
 
 
 app = Flask(__name__)
@@ -17,6 +19,17 @@ def install():
         abort(400)
 
 
+@app.route('/prediction', methods=['GET'])
+def get_prediction():
+    device = request.args.get("device", None)
+    if not device:
+        return "No device selected in request", 400
+    port = get_device_port(device)
+    pred = read_person_detection_from_serial(port)
+    if not pred:
+        return "Failed to read prediction from device", 404
+    return jsonify(pred)
+
 
 def upload(port:str):
     "Uploads compiled sketch in docker"
@@ -25,7 +38,10 @@ def upload(port:str):
     subprocess.run([cmd], shell=True)
 
 
+def get_device_port(device_name:str):
+    return "/dev/ttyACM0"
 
 
 if __name__ == "__main__":
     app.run()
+
