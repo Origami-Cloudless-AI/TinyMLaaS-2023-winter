@@ -28,6 +28,7 @@ def read_person_detection_from_relay(relay_url:str, device:str):
     url = relay_url + "/prediction"
     try:
         r = requests.get(url, params={"device":device})
+
         if r.status_code != 200:
             return None
         return r.json()
