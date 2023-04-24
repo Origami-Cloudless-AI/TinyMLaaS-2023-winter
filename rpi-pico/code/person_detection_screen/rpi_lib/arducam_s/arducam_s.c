@@ -219,10 +219,12 @@ void arducam_init(struct arducam_config *config) {
   uint offset = pio_add_program(config->pio, &image_program);
   image_program_init(config->pio, config->pio_sm, offset, config->pin_y2_pio_base);
 }
+
+
+
 void arducam_capture_frame(struct arducam_config *config, uint8_t *image) {
   uint16_t x, y, i, j, index;  // init 0
-  uint8_t  image_buf[324 * 324];
-  //  uint8_t  image_tmp[162 * 162];
+  static uint8_t  image_buf[162 * 192];
   config->image_buf      = image_buf;
   config->image_buf_size = sizeof(image_buf);
   dma_channel_config c   = dma_channel_get_default_config(config->dma_channel);
@@ -250,9 +252,9 @@ void arducam_capture_frame(struct arducam_config *config, uint8_t *image) {
   i            = 0;
   index        = 0;
   uint8_t temp = 0;
-  for (y = 66; y < 258; y+=2) {
-    for (x = 66+ (1 + x) % 2; x < 258; x += 2) {
-      image[index++] = config->image_buf[y * 324 + x];
+  for (y = 0; y < 192; y+=2) {
+    for (x = 33; x < 129; x++) {
+      image[index++] = config->image_buf[y * 162 + x];
     }
   }
 

@@ -1,10 +1,22 @@
 .program image
 .wrap_target
 
+	set x, 7
+read_byte:
 	wait 1 pin 9 // wait for hsync
 	wait 1 pin 8 // wait for rising pclk
 	in pins 1
 	wait 0 pin 8
+	jmp x-- read_byte
+
+
+// Skip every other byte to save memory, they weren't used anyway
+	set x, 7
+skip_byte:
+	wait 1 pin 8
+	wait 0 pin 8
+	jmp x-- skip_byte
+
 .wrap
 
 % c-sdk {
