@@ -6,14 +6,14 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 11)
 
 #添加编译子目录
-add_subdirectory(lib/Config)
-add_subdirectory(lib/LCD)
-add_subdirectory(lib/arducam_s)
+add_subdirectory(rpi_lib/Config)
+add_subdirectory(rpi_lib/LCD)
+add_subdirectory(rpi_lib/arducam_s)
 
 #添加头文件目录
-include_directories(./lib/Config)
-include_directories(./lib/LCD)
-include_directories(lib/arducam_s)
+include_directories(./rpi_lib/Config)
+include_directories(./rpi_lib/LCD)
+include_directories(rpi_lib/arducam_s)
 
 add_executable(person_detection_screen_int8 "")
 
