@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu as build
 
 #Install Dependencies
 RUN apt update && apt install -y python3 pip unzip wget curl git cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libstdc++-arm-none-eabi-newlib
@@ -22,6 +22,12 @@ RUN mkdir build && cd build && cmake ..
 WORKDIR build
 RUN make -j4
 
-# Replace model an rebuild (currently doesn't work for some reason)
-#COPY model.cc /code/examples/person_detection_screen/person_detect_model_data.cpp 
-#RUN make
+# Replace model and rebuild (most of the build is cached)
+COPY model.cc /code/person_detection_screen/person_detect_model_data.cpp 
+RUN rm /code/build/person_detection_screen/CMakeFiles/person_detection_screen_int8.dir/person_detect_model_data.cpp.obj
+RUN make
+
+# Remove unnecessary files from the docker image
+FROM alpine as complete 
+COPY --from=build /code/build/person_detection_screen/person_detection_screen_int8.uf2 person_detection_screen_int8.uf2
+
