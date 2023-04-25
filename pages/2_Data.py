@@ -123,8 +123,8 @@ def update_stored_images():
     selected_folder = st.selectbox('Choose a folder', folders)
     imgs = s3_conn.read_images(selected_folder)
     if len(imgs) > 0:
-        if st.button(f"Remove images from {selected_folder}", key=f"remove_button_{i}"):
-            s3_conn.remove_objects(selected_folder)
+        if st.button(f"Delete images from {selected_folder}", key=f"remove_button_{i}"):
+            s3_conn.delete_objects(selected_folder)
     
     display_images(imgs)
                 
@@ -232,7 +232,7 @@ if st.session_state["photo"] == "done":
 st.header("Label unlabeled images")
 UNLABELED_DIR = "Unlabeled/"
 
-with st.expander("Label unlabeled images"):
+with st.expander("Click to label unlabeled images"):
     unlabeled_count = s3_conn.count_objects(UNLABELED_DIR)
     if unlabeled_count == 0:
         st.text("All images are already labeled.")

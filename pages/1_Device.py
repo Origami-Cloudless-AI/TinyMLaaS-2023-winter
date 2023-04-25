@@ -12,6 +12,9 @@ st.set_page_config(
 
 state = st.session_state
 
+ACCEPTED_VENDORS = ["Raspberry Pi", "Arduino"]
+
+
 def get_id_max():
     df = pd.read_csv("TinyMLaaS.csv")
     return df["id"].astype(int).max() + 1
@@ -60,14 +63,16 @@ def modify(df, id):
 def handle_add(manufacturer="", product="", serial=""):
     with st.form("new_device"):
         st.write("Add a new device")
-        st.text_input("Device name", key="device_name",value=manufacturer)
+        st.text_input("Device name", key="device_name", value=manufacturer)
         st.text_input("Connection", key="connection")
         st.text_input("Installer", key="installer")
         st.text_input("Compiler", key="compiler")
         st.text_input("Model", key="model", value=product)
         st.text_input("Description", key="description")
 
-        submit = st.form_submit_button(label='Add', on_click=add)
+        col1, col2, col3, col4, col5, col6 = st.columns(6)
+        col1.form_submit_button(label='Add', on_click=add)
+        col6.form_submit_button(label='Cancel')
 
 
 def handle_modify(df, id, name, connection, installer, compiler, model, description):
@@ -125,37 +130,47 @@ def list_devices():
         col[9].button("Select", key=f"s_{name}", on_click=handle_select, args=(
             id, name, connection, installer, compiler, model, description))
 
+
 def list_connected_devices():
     st.header("All connected devices")
 
-    #List all connected devices
-    all_devices = usb.core.find(find_all=True)
+    st.button("Refresh", key="refresh")
 
-    col1,col2,col3,col4 = st.columns(4)
+    # List all connected devices
+    devices = list(usb.core.find(find_all=True))
 
-    no_devices_found = True
-    
-    for device in all_devices:
-        #Try / Except if any error occurs
+    #Check if device is in ACCEPTED VENDORS
+    for device in devices:
         try:
-            manufacturer = usb.util.get_string(device, device.iManufacturer)
-            product = usb.util.get_string(device, device.iProduct)
-            serial = usb.util.get_string(device, device.iSerialNumber)
-
-            if manufacturer is not None:
-                col1.write(manufacturer)
-                col2.write(product)
-                col3.write(serial)
-                no_devices_found = False
-                col4.button("register this device", key="2", on_click=handle_add,args=(manufacturer, product, serial))
+            if usb.util.get_string(device, device.iManufacturer) not in ACCEPTED_VENDORS:
+                devices.remove(device)
         except:
-            #Placeholder
+            devices.remove(device)
             continue
-    
-    if no_devices_found:
-        st.info("There is no connected devices currently!")
-        
 
+    col1, col2, col3, col4 = st.columns(4)
+
+    if devices:
+        for i, device in enumerate(devices, start=1):
+            # Try / Except if any error occurs
+            try:
+                manufacturer = usb.util.get_string(
+                    device, device.iManufacturer)
+                product = usb.util.get_string(device, device.iProduct)
+                serial = usb.util.get_string(device, device.iSerialNumber)
+
+                if manufacturer is not None:
+                    col1.write(manufacturer)
+                    col2.write(product)
+                    col3.write(serial)
+                    col4.button("register this device", key=i, on_click=handle_add, args=(
+                        manufacturer, product, serial))
+            except Exception as e:
+                # Placeholder
+                st.write("Error: " + str(e))
+                continue
+    else:
+        st.write("No devices found")
 
 
 def device_locations():
@@ -163,11 +178,18 @@ def device_locations():
     st.markdown(
         'https://streamlit-demo-uber-nyc-pickups-streamlit-app-456wus.streamlit.app/')
 
+
 def device_page():
     st.title('Device')
     st.header('Register a device')
 
     st.button("register a new device", key="add_button", on_click=handle_add)
+
+    st.header('Register a bridging device')
+    ip_addr = st.text_input('IP address of the bridging server')
+    register = st.button('Add')
+    if register:
+        st.session_state.bridge = str(ip_addr)
 
     list_connected_devices()
     list_devices()

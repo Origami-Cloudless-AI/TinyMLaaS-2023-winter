@@ -4,9 +4,12 @@ import numpy as np
 import altair as alt
 from tflm_hello_world.observing import *
 
-
 def observe_person_detection():
     "Shows UI for starting and stopping displaying the results of person detection"
+    if "bridge" not in st.session_state:
+        st.error("Relay server has not been selected. Select it on the device page.")
+        return
+
     categories = ["Person", "No person"]
     st.header("Person detection")
     start_clicked = st.button("Start")
@@ -15,7 +18,7 @@ def observe_person_detection():
             error_label = st.empty()
             score_labels = [st.empty() for i in range(len(categories))]
             while True:
-                result = read_person_detection_from_serial("/dev/ttyACM0")
+                result = read_person_detection_from_relay(st.session_state.bridge, "/dev/ttyACM0")
                 if not result:
                     error_label.error("Unable to read from device.")
                 else:

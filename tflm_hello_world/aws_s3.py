@@ -56,7 +56,7 @@ class S3_Connector:
         imgs = []
         for img in self.s3_bucket.objects.filter(Prefix=dir):
             file_path = img.key
-            if file_path.endswith('.png'):
+            if file_path.endswith(('jpg', 'png')):
                 image_data = BytesIO()
                 self.s3_bucket.download_fileobj(img.key, image_data)
                 image = Image.open(image_data)
@@ -71,9 +71,21 @@ class S3_Connector:
         " Counts objects in S3 directory `dir`"
 
         count_objects = self.s3_bucket.objects.filter(Prefix=dir)
+        if os.getenv("USE_LOCALSTACK") == "1":
+            return len(list(count_objects)) -1
+        else:
+            return len(list(count_objects))
 
-        return len(list(count_objects)) -1
+    def delete_objects(self, dir : str):
+        " Delete objects in S3 directory `dir`"
+
+        objects = self.s3.list_objects_v2(Bucket=self.bucket_name, Prefix=dir)
+
+        if 'Contents' in objects:
+            for obj in objects['Contents']:
+                self.s3.delete_object(Bucket=self.bucket_name, Key=obj['Key'])
 
 
-BUCKET_NAME = 'tflmhelloworldbucket'
+
+BUCKET_NAME = 'tinymldatasets'
 s3_conn = S3_Connector(BUCKET_NAME)
