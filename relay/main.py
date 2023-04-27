@@ -30,7 +30,6 @@ def get_prediction():
         return "Failed to read prediction from device", 404
     return jsonify(pred)
 
-
 def upload(port:str):
     "Uploads compiled sketch in docker"
     #Add sudo if docker permission errors

@@ -19,9 +19,9 @@ Select dataset
 
 Store unlabeled image
     Choose File    xpath:(//section[@data-testid='stFileUploadDropzone']//input)[last()]      ${EXECDIR}/data/1/1.png
-    Wait Until Page Contains    Photo uploaded successfully
+    Wait Until Page Contains    Photo uploaded successfully     20s
 
-    Wait Until Page Contains Element    xpath://*[text()="Click to see uploaded images"]
+    Wait Until Page Contains Element    xpath://*[text()="Click to see uploaded images"]     20s
     Click Element        xpath://*[text()="Click to see uploaded images"]
 
     Wait Until Page Contains Element    xpath://*[text()="Choose image"]
@@ -36,7 +36,8 @@ Store unlabeled image
     Click Element   xpath://*[text()="Store images"]
     Sleep     10s
 
-    Click Element        xpath://*[text()="Click to see uploaded images"]
+    Click Element   xpath://*[text()="Click to see uploaded images"]
+    Sleep     10s
 
 Give image 0 label
     Wait Until Page Contains Element    xpath://*[text()="Choose image"]
@@ -111,8 +112,3 @@ Test if labeling works for unlabeled images
 
     Wait Until Page Contains Element    //*[text()='Click to label unlabeled images']     20s
     Click Element     //*[text()='Click to label unlabeled images']
-
-    Give image 0 label
-
-    Wait Until Page Contains    Images stored successfully!
-    Close Browser

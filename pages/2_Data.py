@@ -273,15 +273,6 @@ if "selected_dataset" in st.session_state:
 
         col2.success("Photo uploaded successfully")
 
-        col3.metric(label="Temperature", value="-25℃ ", delta="3℃ ")
-        if camera_photo:
-            st.header("Uploaded camera images")
-            with st.expander("Click to see camera photos"):
-                each = camera_photo
-                st.image(each)
-                st.checkbox("Choose image", key=i)
-                i += 1
-
         if uploaded_photo:
             st.header("Uploaded images")
             with st.expander("Click to see uploaded images"):
