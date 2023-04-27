@@ -19,11 +19,15 @@ def read_person_detection_from_serial(port:str):
         return None
 
 # %% ../nbs/observing.ipynb 3
-def read_person_detection_from_relay(relay_url:str, port:str):
-    "Reads a single person detection result from relay and returns dict containing scores with keys `Person` and `No person`. Returns None if relay doesn't return JSON."
+def read_person_detection_from_relay(relay_url:str, device:str):
+    """
+    Reads a single person detection result from relay server.
+    Args: `relay_url` is the URL of the relay server, and `device` is the device name/id (TBD) that the relay maps to the serial port.
+    Returns dict containing scores with keys `Person` and `No person`. Returns None if relay doesn't return JSON.
+    """
     url = relay_url + "/prediction"
     try:
-        r = requests.get(url)
+        r = requests.get(url, params={"device":device})
         if r.status_code != 200:
             return None
         return r.json()

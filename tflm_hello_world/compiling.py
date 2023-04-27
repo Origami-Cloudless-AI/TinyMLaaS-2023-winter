@@ -64,7 +64,7 @@ def convert_model_to_cc(model_path : str):
     """Creates model.cc from model.tflite in folder `model_path`"""
     tflite_binary = open(f'{model_path}/model.tflite', 'rb').read()
     ascii_bytes = convert_to_c_array(tflite_binary)
-    header_file = "const unsigned char model_tflite[] = {\n  " + ascii_bytes + "\n};\nunsigned int model_tflite_len = " + str(len(tflite_binary)) + ";"
+    header_file = "#include \"person_detect_model_data.h\"\nconst unsigned char model_tflite[] = {\n  " + ascii_bytes + "\n};\nunsigned int model_tflite_len = " + str(len(tflite_binary)) + ";"
     with open(f"{model_path}/model.cc", "w") as f:
         f.write(header_file)
 
