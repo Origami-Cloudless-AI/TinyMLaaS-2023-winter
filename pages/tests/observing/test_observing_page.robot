@@ -1,10 +1,12 @@
 *** Settings ***
 Library           SeleniumLibrary
+Resource          pages/tests/keywords.robot
 
 *** Variables ***
 ${URL}            http://localhost:8501/Observing
 ${BROWSER}        headlessfirefox
 ${DELAY}          0.10 seconds
+
 
 *** Settings ***
 Library    SeleniumLibrary
