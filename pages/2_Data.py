@@ -3,7 +3,6 @@ import pandas as pd
 from tflm_hello_world.aws_s3 import s3_conn
 import os
 from PIL import Image
-import tarfile
 import shutil
 
 def get_img_df(img_list):
@@ -45,9 +44,9 @@ def store_uploaded_images(img_set, i, selected_dataset, unlabeled=False, pil_img
             for img in selected_imgs:
                 if unlabeled:
                     # Move image from Unlabled to dir 0 or 1
-                    shutil.move(f'temp/{selected_dataset}/Unlabeled/{img[2]}', f'temp/{selected_dataset}/{img[1]}/{img[2]}')
+                    shutil.move(f'temp/Unlabeled/{img[2]}', f'temp/{selected_dataset}/{img[1]}/{img[2]}')
                 else:
-                    store_image_locally(img[0], img[1], img[2])
+                    store_image_locally(selected_dataset, img[0], img[1], img[2])
             st.write("Images stored successfully!")
         
     else:
@@ -55,8 +54,11 @@ def store_uploaded_images(img_set, i, selected_dataset, unlabeled=False, pil_img
 
     return i
 
-def store_image_locally(img, selected_folder, img_name):
-    output_dir = f"temp/data/{selected_folder}"
+def store_image_locally(selected_dataset, img, selected_folder, img_name):
+    if selected_folder == 'Unlabeled':
+        output_dir = f"temp/{selected_folder}"
+    else:
+        output_dir = f"temp/{selected_dataset}/{selected_folder}"
     output_path = os.path.join(output_dir, img_name)
     img = Image.open(img)
     img.save(output_path)
@@ -126,7 +128,11 @@ def display_images(selected_folder, selected_dataset):
     display_current_page(current_page, selected_folder, img_count, selected_dataset)
 
 def get_img_count(selected_folder, selected_dataset):
-    img_path = f"temp/{selected_dataset}/{selected_folder}"
+    if selected_folder == 'Unlabeled':
+        img_path = f"temp/{selected_folder}"
+    else:
+        img_path = f"temp/{selected_dataset}/{selected_folder}"
+
     if not os.path.isdir(img_path):
         os.makedirs(img_path)
     return len(os.listdir(img_path))
@@ -134,14 +140,21 @@ def get_img_count(selected_folder, selected_dataset):
 def update_stored_images(selected_dataset):
     " Fetching images from AWS/Localstack for viewing or deleting"
 
-    folders = ["Unlabeled", "0", "1"]
+    folders = ["0", "1"]
 
     selected_folder = st.selectbox('Choose a folder', folders)
     if get_img_count(selected_folder, selected_dataset) > 0:
         if st.button(f"Remove images from {selected_folder}", key=f"remove_button_{i}"):
-            s3_conn.remove_objects(selected_folder)
+            delete_imgs(selected_dataset, selected_folder)
     
     display_images(selected_folder, selected_dataset)
+
+def delete_imgs(selected_dataset, selected_folder):
+    folder_path = f"temp/{selected_dataset}/{selected_folder}"
+    files = os.listdir(folder_path)
+    for file_name in files:
+        file_path = os.path.join(folder_path, file_name)
+        os.remove(file_path)
 
 def fetch_local_imgs(start_idx, end_idx, selected_folder, selected_dataset):
     images = []
@@ -159,24 +172,24 @@ def fetch_local_imgs(start_idx, end_idx, selected_folder, selected_dataset):
     
     return images
 
-def fetch_unlabeled_img(unlabeled_dir, selected_dataset):
+def fetch_unlabeled_img(unlabeled_dir):
     images = []
         
     for image in os.listdir(unlabeled_dir):
-        img = load_img(f"temp/{selected_dataset}/Unlabeled/{image}")
+        img = load_img(f"temp/Unlabeled/{image}")
         img.name = image
         images.append(img)
     
     return images
 
 def label_unlabeled_imgs(i, selected_dataset):
-    unlabeled_dir = f"temp/{selected_dataset}/Unlabeled"
+    unlabeled_dir = f"temp/Unlabeled"
     unlabeled_count = get_img_count('Unlabeled', selected_dataset)
 
     if unlabeled_count > 0:
         with st.expander("Click to label unlabeled images"):
             st.write(f"{unlabeled_count} unlabeled images found")
-            unlabeled_imgs = fetch_unlabeled_img(unlabeled_dir, selected_dataset)
+            unlabeled_imgs = fetch_unlabeled_img(unlabeled_dir)
             i = store_uploaded_images(unlabeled_imgs, i, selected_dataset, unlabeled=True, pil_img=True)
             i += 1
 
@@ -238,7 +251,6 @@ with st.expander("Click to choose datasets"):
         for j in range(len(dataset_names)):
             st.write(dataset_names[j],dataset_sizes[j],dataset_descriptions[j])
             btn = st.button("Choose dataset", key=dataset_names[j])
-            # TODO: muokkaa että kaikki nappulat häviää kun yhtä on painettu
             if btn: 
                 st.session_state["selected_dataset"] = f"temp/{dataset_locations[j]}"
                 selected_dataset = dataset_locations[j]
