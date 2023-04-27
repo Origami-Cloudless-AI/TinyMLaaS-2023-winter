@@ -200,17 +200,10 @@ st.set_page_config(
     layout='wide'
 )
 
-if "photo" not in st.session_state:
-    st.session_state["photo"] = "not done"
 
 col1, col2, col3 = st.columns([1, 2, 1])
 
 col1.markdown(" # Upload data")
-
-
-def change_photo_state():
-    st.session_state["photo"] = "done"
-
 
 dataset_names = []
 dataset_locations = []
@@ -259,30 +252,22 @@ with st.expander("Click to choose datasets"):
                 st.success(f"Selected {dataset_names[j]}")
 
 uploaded_photo = col2.file_uploader(
-    "Upload a photo", accept_multiple_files=True, on_change=change_photo_state)
+    "Upload a photo", accept_multiple_files=True)
 # TODO: kun upload photot on tallennettu, valittuja filejä ei kuuluisi enää näkyä streamlitissä
-camera_photo = col2.camera_input("Take a photo", on_change=change_photo_state)
 
 if "selected_dataset" in st.session_state:
     selected_dataset = os.path.basename(st.session_state["selected_dataset"].rstrip('/'))
     i = 0
-    if st.session_state["photo"] == "done":
-        bar = col2.progress(0)
-        for x in range(100):
-            bar.progress(x+1)
+    if uploaded_photo:
+        st.header("Uploaded images")
+        with st.expander("Click to see uploaded images"):
+            if "selected_dataset" not in st.session_state:
+                st.write('No dataset selected.')
+            else:
+                i = store_uploaded_images(uploaded_photo, i, selected_dataset)
+                i += 1
 
-        col2.success("Photo uploaded successfully")
+label_unlabeled_imgs(i, selected_dataset)
 
-        if uploaded_photo:
-            st.header("Uploaded images")
-            with st.expander("Click to see uploaded images"):
-                if "selected_dataset" not in st.session_state:
-                    st.write('No dataset selected.')
-                else:
-                    i = store_uploaded_images(uploaded_photo, i, selected_dataset)
-                    i += 1
-
-    label_unlabeled_imgs(i, selected_dataset)
-
-    st.header("Stored images")
-    update_stored_images(selected_dataset)
+st.header("Stored images")
+update_stored_images(selected_dataset)

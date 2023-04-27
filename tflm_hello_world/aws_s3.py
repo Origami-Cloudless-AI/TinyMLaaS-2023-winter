@@ -24,7 +24,7 @@ class S3_Connector:
             self.s3 = boto3.client('s3')
             self.s3_resource = boto3.resource('s3')
         self.bucket_name = bucket_name
-        self.s3_bucket = self.s3_resource.Bucket(self.bucket_name)        
+        self.s3_bucket = self.s3_resource.Bucket(self.bucket_name)
 
     def move(self, dir_old:str, dir_new:str, file_name:str):
         " Moves an object to other directory"
