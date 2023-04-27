@@ -34,6 +34,7 @@ Store unlabeled image
     
     Wait Until Page Contains Element     xpath://*[text()="Store images"]
     Click Element   xpath://*[text()="Store images"]
+    Sleep     10s
 
     Click Element        xpath://*[text()="Click to see uploaded images"]
 

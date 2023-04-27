@@ -79,13 +79,13 @@ class S3_Connector:
             return len(list(count_objects))
     
     def upload_tar_file(self, tar_file : str):
-        " Upload tar.gz file to S3 directory"
+        " Upload tar.gz file to S3 storage"
 
         with open(f'{tar_file}', 'rb') as tar:
             self.s3.upload_fileobj(tar, self.bucket_name, tar_file)
     
     def download_tar_file(self, tar_file: str):
-        " Upload tar.gz file to S3 directory"        
+        " Donwload tar.gz file from S3 storage"        
 
         tmp_dir = f'temp/{tar_file}'
         extract_dir = f'temp/'
@@ -109,6 +109,6 @@ class S3_Connector:
 
 
 
-BUCKET_NAME = 'tflmhelloworldbucket'
+BUCKET_NAME = 'tinymldatasets'
 s3_conn = S3_Connector(BUCKET_NAME)
      
