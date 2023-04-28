@@ -267,7 +267,7 @@ if "selected_dataset" in st.session_state:
                 i = store_uploaded_images(uploaded_photo, i, selected_dataset)
                 i += 1
 
-label_unlabeled_imgs(i, selected_dataset)
+    label_unlabeled_imgs(i, selected_dataset)
 
-st.header("Stored images")
-update_stored_images(selected_dataset)
+    st.header("Stored images")
+    update_stored_images(selected_dataset)
