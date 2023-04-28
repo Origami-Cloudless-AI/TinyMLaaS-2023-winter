@@ -105,4 +105,3 @@ Test if labeling works for unlabeled images
     Go To           ${URL}
 
     Select dataset
-    Store unlabeled image
