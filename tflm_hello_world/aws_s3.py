@@ -8,6 +8,7 @@ import boto3
 from io import BytesIO
 from PIL import Image
 import os
+import tarfile
 
 # %% ../nbs/aws_s3.ipynb 2
 class S3_Connector:
@@ -71,21 +72,43 @@ class S3_Connector:
         " Counts objects in S3 directory `dir`"
 
         count_objects = self.s3_bucket.objects.filter(Prefix=dir)
+
         if os.getenv("USE_LOCALSTACK") == "1":
             return len(list(count_objects)) -1
         else:
             return len(list(count_objects))
+    
+    def upload_tar_file(self, tar_file : str):
+        " Uploads tar.gz file to S3 storage"
 
-    def delete_objects(self, dir : str):
-        " Delete objects in S3 directory `dir`"
+        with open(f'{tar_file}', 'rb') as tar:
+            self.s3.upload_fileobj(tar, self.bucket_name, tar_file)
+    
+    def download_tar_file(self, tar_file: str):
+        " Donwloads tar.gz file from S3 storage"        
 
-        objects = self.s3.list_objects_v2(Bucket=self.bucket_name, Prefix=dir)
+        tmp_dir = f'temp/{tar_file}'
+        extract_dir = f'temp/'
 
-        if 'Contents' in objects:
-            for obj in objects['Contents']:
-                self.s3.delete_object(Bucket=self.bucket_name, Key=obj['Key'])
+        if os.getenv("USE_LOCALSTACK") == "1":
+            self.create_tar_archive('data.tar.gz', 'data')
+            self.upload_tar_file('data.tar.gz')
+            self.create_tar_archive('data2.tar.gz', 'data2')
+            self.upload_tar_file('data2.tar.gz')
+            self.s3.download_file(self.bucket_name, tar_file, tmp_dir)
+        else:
+            self.s3.download_file(self.bucket_name, tar_file, tmp_dir)
+
+        with tarfile.open(tmp_dir, 'r:gz') as tar:
+            tar.extractall(path=extract_dir)
+    
+    def create_tar_archive(self, output_filename, dataset):
+        """Creates a tar.gz archive from a folder."""
+        with tarfile.open(output_filename, "w:gz") as tar:
+            tar.add(dataset, arcname=os.path.basename(dataset))
 
 
 
 BUCKET_NAME = 'tinymldatasets'
 s3_conn = S3_Connector(BUCKET_NAME)
+    

@@ -4,6 +4,7 @@ import time
 
 from tflm_hello_world.compiling import convert_model, convert_to_c_array, plot_size, convert_model_to_cc
 
+
 # Define some dummy data
 models = {
     "Model 1": {
@@ -52,7 +53,9 @@ def compilation_tab():
 # Define the main function that runs the Streamlit app
 def main():
     # Set the page title
-    st.set_page_config(page_title="ML Compilation")
+    st.set_page_config(page_title="ML Compilation",layout="wide")
+
+
 
     # Define the sidebar options
     st.sidebar.title("Options")

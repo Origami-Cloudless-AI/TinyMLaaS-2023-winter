@@ -4,6 +4,7 @@ import requests
 from tflm_hello_world.installing import ArduinoNano33BLE_Installer 
 from tflm_hello_world.installing import ArducamPico4ML_Installer
 
+
 # Dummy data
 models = {
     "model1": {"accuracy": 0.9, "latency": 0.1},
@@ -53,7 +54,7 @@ def install_status(device):
                 r = requests.post(url, json = {'device' : device["relay_id"]})
                 st.success("Upload done!")
 
-st.set_page_config(page_title="TinyML Install", page_icon=":rocket:")
+st.set_page_config(page_title="TinyML Install", page_icon=":rocket:",layout='wide')
 st.title("TinyML Install")
 
 selected_model = st.selectbox("Select Model", list(models.keys()))

@@ -51,7 +51,7 @@ device_params = {
     'device_commands': ['reset', 'calibrate']
 }
 
-st.set_page_config(page_title='Device Observing Dashboard')
+st.set_page_config(page_title='Device Observing Dashboard',layout='wide')
 
 st.title('Device Observing Dashboard')
 st.subheader('Device Output')
