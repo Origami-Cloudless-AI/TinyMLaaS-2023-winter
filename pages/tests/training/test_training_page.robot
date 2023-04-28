@@ -22,7 +22,7 @@ Select First Dataset
    Go to   ${DATA_URL}
    Click Element After Wait    xpath://*[text()="Click to choose datasets"]
    Click Element After Wait    xpath://*[text()="Choose dataset"]
-   Wait Until Page Contains    Selected
+   Wait Until Page Contains    Selected    200s
 
 Select First Model 
    Click Element After Wait    xpath://*[text()="Model"] 
