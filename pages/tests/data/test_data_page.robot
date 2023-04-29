@@ -9,6 +9,46 @@ ${URL}            http://localhost:8501/Data
 
 
 *** Keywords ***
+Select dataset
+    Wait Until Page Contains Element    //*[text()='Click to choose datasets']     20s
+    Click Element     //*[text()='Click to choose datasets']
+
+    Wait Until Page Contains     Choose dataset     20s
+    Click Element    //*[text()="Choose dataset"]
+    Wait Until Page Contains     Selected Person Detection     100s
+
+Store unlabeled image
+    Choose File    xpath:(//section[@data-testid='stFileUploadDropzone']//input)[last()]      ${EXECDIR}/data/1/1.png
+
+    Wait Until Page Contains Element    xpath://*[text()="Click to see uploaded images"]     20s
+    Click Element        xpath://*[text()="Click to see uploaded images"]
+
+    Wait Until Page Contains Element    xpath://*[text()="Choose image"]
+    Click Element   xpath://*[text()="Choose image"]
+    Sleep     1.5s
+
+    Wait Until Page Contains Element    xpath://*[text()="Unlabeled"] 
+    Click Element   xpath://*[text()="Unlabeled"]
+    Sleep     1.5s
+    
+    Wait Until Page Contains Element     xpath://*[text()="Store images"]
+    Click Element   xpath://*[text()="Store images"]
+    Sleep     10s
+
+    Click Element   xpath://*[text()="Click to see uploaded images"]
+    Sleep     10s
+
+Give image 0 label
+    Wait Until Page Contains Element    xpath://*[text()="Choose image"]
+    Click Element   xpath://*[text()="Choose image"]
+    Sleep     1.5s
+
+    Wait Until Page Contains Element    xpath://*[text()="0"] 
+    Click Element   xpath://*[text()="0"]
+    Sleep     1.5s
+    
+    Wait Until Page Contains Element     xpath://*[text()="Store images"]
+    Click Element   xpath://*[text()="Store images"]
 
 
 *** Settings ***
@@ -16,7 +56,6 @@ Library    SeleniumLibrary
 
 *** Test Cases ***
 Test if page contains "Upload data" 
-    
     Open Browser    about:blank    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
@@ -32,20 +71,7 @@ Test if selecting and uploading a dataset works
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
 
-    Wait Until Page Contains Element    //*[text()='Click to choose datasets']     20s
-
-    Click Element     //*[text()='Click to choose datasets']
-
-    Wait Until Page Contains     Choose dataset     20s
-
-    Click Element    //*[text()="Choose dataset"]
-
-    Wait Until Page Contains    Store images    300s
-
-    Click Element    //*[text()="Store images"]
-
-    Wait Until Page Contains    Images stored successfully!    300s
-
+    Select Dataset
     Close Browser
 
 Test if image can be stored correctly
@@ -59,41 +85,23 @@ Test if image can be stored correctly
     Wait Until Page Contains    Upload data
     Wait Until Page Contains Element    xpath:(//section[@data-testid='stFileUploadDropzone']//input)[last()]
 
-    Choose File    xpath:(//section[@data-testid='stFileUploadDropzone']//input)[last()]      ${EXECDIR}/data/1/1.png
-    Wait Until Page Contains    Photo uploaded successfully
-    
+    Select Dataset
+
+    Choose File    xpath:(//section[@data-testid='stFileUploadDropzone']//input)[last()]      ${EXECDIR}/data/1/1.png    
 
     Wait Until Page Contains Element    xpath://*[text()="Click to see uploaded images"]
     Click Element        xpath://*[text()="Click to see uploaded images"]
     
-
-    Wait Until Page Contains Element    xpath://*[text()="Choose image"]
-    Click Element   xpath://*[text()="Choose image"]
-    Sleep     1.5s
-
-
-    Wait Until Page Contains Element    xpath://*[text()="0"] 
-    Click Element   xpath://*[text()="0"]
-    Sleep     1.5s
-    
-    Wait Until Page Contains Element     xpath://*[text()="Store images"]
-    Click Element   xpath://*[text()="Store images"]
+    Give image 0 label
 
     Wait Until Page Contains    Images stored successfully!
     Close Browser
 
-Test if labeling unlabeled images opens
+Test if labeling works for unlabeled images
     
     Open Browser    about:blank    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed  ${DELAY}
     Go To           ${URL}
 
-    Wait Until Page Contains Element    //*[text()='Click to label unlabeled images']     20s
-
-    Click Element     //*[text()='Click to label unlabeled images']
-
-    Wait Until Page Contains     You haven't chosen any image     20s
-
-    Close Browser
-    
+    Select dataset

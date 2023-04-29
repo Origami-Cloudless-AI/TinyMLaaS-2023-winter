@@ -3,6 +3,7 @@ import pandas as pd
 # Define the list of steps and their statuses
 import usb.core
 import usb.util
+import requests
 
 st.set_page_config(
     page_title='Device',
@@ -173,21 +174,30 @@ def list_connected_devices():
         st.write("No devices found")
 
 
-def device_locations():
-    st.subheader('Device location')
-    st.markdown(
-        'https://streamlit-demo-uber-nyc-pickups-streamlit-app-456wus.streamlit.app/')
-
-
 def device_page():
     st.title('Device')
     st.header('Register a device')
 
     st.button("register a new device", key="add_button", on_click=handle_add)
 
+    st.header('Register a bridging device')
+    ip_addr = st.text_input('IP address of the bridging server')
+    register = st.button('Add')
+
+    if register:
+        try:
+            response = requests.get(ip_addr)
+        except:
+            st.error('Invalid ip address for the briding device :sos: 🚨🚨🚨')
+            response = ""
+
+        if response:
+            st.success("🔥 :weary: :ok_hand: :sweat_drops: noice ")
+            st.session_state.bridge = str(ip_addr)
+
+
     list_connected_devices()
     list_devices()
-    device_locations()
 
 
 device_page()

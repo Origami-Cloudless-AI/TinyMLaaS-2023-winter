@@ -6,21 +6,37 @@ tflm_hello_world
 ![GHA workflow
 badge](https://github.com/OhtuProjTinyML/tflm_hello_world_staging/workflows/CI/badge.svg)[![codecov](https://codecov.io/gh/OhtuProjTinyML/tflm_hello_world_staging/branch/main/graph/badge.svg?token=J9XY634ML5)](https://codecov.io/gh/OhtuProjTinyML/tflm_hello_world_staging)
 
-This file will become your README and also the index of your
-documentation.
-
 ## Install
 
 ``` sh
 pip install tflm_hello_world
 ```
 
-## How to use
+## Instructions
 
-Fill me in please! Don’t forget code examples:
+### Service
 
-``` python
-1+1
-```
+Run “make app” in the root directory to build and run all the required
+containers for the service
 
-    2
+`make app`
+
+### Bridging server
+
+If the end-device doesn’t have Wifi-support, a bridging device is
+needed.
+
+Expose port 5000 for the bridging device to work with outside sources.
+
+`ngrok http 5000`
+
+Copy the exposed IP-address into the streamlit service
+
+Start up the bridging server
+
+`python main.py`
+
+## Working hours tracking
+
+[Click
+Here](https://docs.google.com/spreadsheets/d/1DNoNf4glcuMxKoVzHVrFo-MktmsVji1wf4IHeraWH84/edit#gid=443489686)

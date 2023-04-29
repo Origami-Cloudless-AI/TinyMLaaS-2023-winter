@@ -6,6 +6,7 @@ ADD data /data/
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 RUN curl -fsSL https://get.docker.com | sh
+RUN mkdir temp
 
 COPY . .
 
