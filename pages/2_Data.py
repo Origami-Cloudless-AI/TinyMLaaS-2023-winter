@@ -83,7 +83,7 @@ def move_to_previous_page(current_page):
 
 def display_current_page(current_page, selected_folder, img_count, selected_dataset):
     " Selects images for displaying"
-
+    
     num_cols, images_per_page = 5, 50
     
     with st.container():
@@ -104,25 +104,23 @@ def display_images(selected_folder, selected_dataset):
     " Show max 50 images on each page in Data tab"
 
     images_per_page = 50
-
     img_count = get_img_count(selected_folder, selected_dataset)
     count_pages = img_count// images_per_page + (img_count % images_per_page > 0)
     current_page = st.session_state.get("current_page", 0)
 
-    button_container = st.container()
-
-    prev_col, page_col, next_col = button_container.columns([1, 1, 1])
+    dataset_col = st.columns(9)
+    prev_col = dataset_col[0].button("Previous", key=f"Previous")
+    next_col = dataset_col[8].button("Next", key=f"Next")
 
     if current_page > 0:
-        if prev_col.button("Previous", key=f"Previous"):
+        if prev_col:
             move_to_previous_page(current_page)
 
-    with page_col:
-        if count_pages != 0:
-            st.write(f"{current_page + 1}/{count_pages}")
+    if count_pages != 0:
+        dataset_col[4].write(f"{current_page + 1}/{count_pages}")
 
     if current_page < count_pages - 1:
-        if next_col.button("Next", key=f"Next"):
+        if next_col:
             move_to_next_page(count_pages, current_page)
     
     display_current_page(current_page, selected_folder, img_count, selected_dataset)
@@ -200,11 +198,6 @@ st.set_page_config(
     layout='wide'
 )
 
-
-col1, col2, col3 = st.columns([1, 2, 1])
-
-col1.markdown(" # Upload data")
-
 dataset_names = []
 dataset_locations = []
 dataset_sizes = []
@@ -239,35 +232,30 @@ def load_img(url):
     img = img.resize(size)
     return img
 
+st.title("Data")
 st.header("Available datasets")
-with st.expander("Click to choose datasets"):
-        for j in range(len(dataset_names)):
-            st.write(dataset_names[j],dataset_sizes[j],dataset_descriptions[j])
-            btn = st.button("Choose dataset", key=dataset_names[j])
-            if btn: 
-                st.session_state["selected_dataset"] = f"temp/{dataset_locations[j]}"
-                selected_dataset = dataset_locations[j]
-                selected_dataset = selected_dataset[: -1]
-                s3_conn.download_tar_file(f'{selected_dataset}.tar.gz')
-                st.success(f"Selected {dataset_names[j]}")
-
-uploaded_photo = col2.file_uploader(
-    "Upload a photo", accept_multiple_files=True)
-# TODO: kun upload photot on tallennettu, valittuja filejä ei kuuluisi enää näkyä streamlitissä
+for j in range(len(dataset_names)):
+    dataset_col = st.columns(6)
+    dataset_col[0].write(dataset_names[j])
+    dataset_col[1].write(dataset_sizes[j])
+    btn = dataset_col[2].button("Choose dataset", key=dataset_names[j])
+    if btn: 
+        st.session_state["selected_dataset"] = f"temp/{dataset_locations[j]}"
+        st.session_state["dataset_name"] = dataset_names[j]
+        s3_conn.download_tar_file(f'{dataset_locations[j][: -1]}.tar.gz')
 
 if "selected_dataset" in st.session_state:
+    st.success(f"{st.session_state['dataset_name']} dataset selected")
     selected_dataset = os.path.basename(st.session_state["selected_dataset"].rstrip('/'))
     i = 0
+    st.header(f"Upload images")
+    uploaded_photo = st.file_uploader("Upload a photo", accept_multiple_files=True)
     if uploaded_photo:
-        st.header("Uploaded images")
         with st.expander("Click to see uploaded images"):
-            if "selected_dataset" not in st.session_state:
-                st.write('No dataset selected.')
-            else:
-                i = store_uploaded_images(uploaded_photo, i, selected_dataset)
-                i += 1
+            i = store_uploaded_images(uploaded_photo, i, selected_dataset)
+            i += 1
 
     label_unlabeled_imgs(i, selected_dataset)
 
-    st.header("Stored images")
+    st.header(f"{st.session_state['dataset_name']} dataset")
     update_stored_images(selected_dataset)
