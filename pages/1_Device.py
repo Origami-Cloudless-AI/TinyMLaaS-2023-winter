@@ -107,11 +107,15 @@ def handle_select(id, name, connection, installer, compiler, model, description)
 
 
 def list_devices():
+    
+    
+    
     st.header('All registered devices')
     df = pd.read_csv('TinyMLaaS.csv')
     # Device name, Connection, Installer, Compiler, Model, Description
     col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(8)
 
+    
     for row in df.sort_values("id").itertuples():
         index, id, name, connection, installer, compiler, model, description = row
         col = st.columns(10)
@@ -180,22 +184,20 @@ def device_page():
 
     st.button("register a new device", key="add_button", on_click=handle_add)
 
-    st.header('Register a bridging device')
-    ip_addr = st.text_input('IP address of the bridging server')
-    register = st.button('Add')
+    with st.expander("Register a bridging device", expanded=False):
+        ip_addr = st.text_input('IP address of the bridging server')
+        register = st.button('Add')
 
-    if register:
-        try:
-            response = requests.get(ip_addr)
-        except:
-            st.error('Invalid ip address for the briding device :sos: 🚨🚨🚨')
-            response = ""
+        if register:
+            try:
+                response = requests.get(ip_addr)
+                st.success("Bridging device registered successfully! 🔥")
+                st.session_state.bridge = str(ip_addr)
+            except:
+                st.error('Invalid ip address for the bridging device 🚨')
+                response = ""
 
-        if response:
-            st.success("🔥 :weary: :ok_hand: :sweat_drops: noice ")
-            st.session_state.bridge = str(ip_addr)
-
-
+                
     list_connected_devices()
     list_devices()
 
