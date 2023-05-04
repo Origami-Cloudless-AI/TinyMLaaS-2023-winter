@@ -6,6 +6,16 @@ import time
 import altair as alt
 from tflm_hello_world.observing import *
 
+
+def page_info(title):
+    col = st.columns(4)
+    col[0].title(title)
+    with col[-1].expander("ℹ️ Help"):
+        st.markdown("On this page you can observe the predictions sent from the TinyML device.")
+        st.markdown("Click the Start button to start reading predictions from the device")
+        st.markdown("[See the doc page for more info](/Documentation)")
+
+
 def observe_person_detection():
     "Shows UI for starting and stopping displaying the results of person detection"
 
@@ -51,5 +61,4 @@ def observe_person_detection():
     
 
 st.set_page_config(page_title='Device Observing Dashboard',layout='wide')
-
 observe_person_detection()

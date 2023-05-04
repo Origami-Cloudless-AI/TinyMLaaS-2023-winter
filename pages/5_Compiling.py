@@ -4,6 +4,14 @@ import time
 
 from tflm_hello_world.compiling import convert_model, convert_to_c_array, plot_size, convert_model_to_cc
 
+def page_info(title):
+    col = st.columns(4)
+    col[0].title(title)
+    with col[-1].expander("ℹ️ Help"):
+        st.markdown("On this page you can compile a trained model to the format used by the TinyML devices.")
+        st.markdown("Click the Compile button to compile the model")
+        st.markdown("[See the doc page for more info](/Documentation)")
+
 
 # Define some dummy data
 models = {
@@ -24,6 +32,13 @@ models = {
     }
 }
 
+
+def add_compiled_model(model_path):
+    "Adds compiled model to session state so that it can be shown in the installing tab"
+    if "compiled_models" not in st.session_state:
+        st.session_state["compiled_models"] = {}
+    model_name = st.session_state["selected_model_type"]
+    st.session_state["compiled_models"][model_name] = model_path
 
 def compilation_tab():
     if "selected_model" not in st.session_state:
@@ -46,6 +61,7 @@ def compilation_tab():
                     if generate == "Yes":
                         convert_model_to_cc(model_path)
                 st.write("Compilation complete!")
+                add_compiled_model(model_path)
                 plot = st.empty()
                 plot.write(plot_size(model_path))
 
@@ -55,14 +71,12 @@ def main():
     # Set the page title
     st.set_page_config(page_title="ML Compilation",layout="wide")
 
-
-
     # Define the sidebar options
     st.sidebar.title("Options")
     model_name = st.sidebar.selectbox("Select a model", list(models.keys()))
 
     # Define the main content area
-    st.title("ML Compilation")
+    page_info("ML Compilation")
     st.header(f"Model: {model_name}")
 
     compilation_tab()
