@@ -3,7 +3,7 @@ Library           SeleniumLibrary
 
 *** Variables ***
 ${URL}            http://localhost:8501/Observing
-${BROWSER}        firefox
+${BROWSER}        headlessfirefox
 ${DELAY}          0.10 seconds
 ${DEVICE_URL}     http://localhost:8501/Device
 
