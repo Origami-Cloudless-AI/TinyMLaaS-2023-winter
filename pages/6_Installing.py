@@ -60,6 +60,7 @@ st.title("TinyML Install")
 selected_model = st.selectbox("Select Model", list(models.keys()))
 
 selected_device = st.selectbox("Select Device", list(devices.keys()))
+st.session_state["device"] = selected_device
 
 install_settings(selected_model, selected_device)
 

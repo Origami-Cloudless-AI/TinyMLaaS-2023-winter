@@ -17,14 +17,17 @@ def observe_person_detection():
         return
     
     st.header("Person detection")
-    columns = st.columns(8)
-    start_clicked = columns[0].button("Start")
+    bt_columns = st.columns(8)
+    start_clicked = bt_columns[0].button("Start")
 
-    prediction_df = pd.DataFrame(columns=['Time', 'Dataset', 'Prediction Score'])
+    prediction = st.empty()
+    st.subheader('Device Output')
+
+    prediction_df = pd.DataFrame(columns=['Time', 'Dataset', 'Device', 'Prediction Score'])
     if start_clicked:
-        if not columns[2].button("Stop"):
+        if not bt_columns[1].button("Stop"):
             error_label = st.empty()
-            predictions = st.empty()
+            all_predictions = st.empty()
             while True:
                 result = read_person_detection_from_relay(st.session_state.bridge, "/dev/ttyACM0")
                 if not result:
@@ -33,10 +36,13 @@ def observe_person_detection():
                     score, time = result['Person'], datetime.now().strftime('%d/%m/%Y %H:%M:%S')
                     predictions_statics = pd.DataFrame({'Time': [time],
                                                         'Dataset': [st.session_state.dataset_name],
+                                                        'Device': [st.session_state.device],
                                                         'Prediction Score':[score]})
                     
                     prediction_df = pd.concat([predictions_statics, prediction_df], ignore_index=True)
-                    predictions.write(prediction_df)
+                    prediction.write(f"Person score: {score}%")
+                    all_predictions.write(prediction_df)
+    
 
 st.set_page_config(page_title='Device Observing Dashboard',layout='wide')
 
