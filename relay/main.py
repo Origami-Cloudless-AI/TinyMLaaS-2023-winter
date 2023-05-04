@@ -47,7 +47,7 @@ def upload():
     "Uploads compiled sketch in docker"
     #Add sudo if docker permission errors
     port = get_device_port("Nano")
-    cmd = f"sudo docker run --privileged ohtuprojtinymlaas/nano33ble upload -p {port} --fqbn arduino:mbed_nano:nano33ble template"
+    cmd = f"docker run --privileged ohtuprojtinymlaas/nano33ble upload -p {port} --fqbn arduino:mbed_nano:nano33ble template"
     subprocess.run([cmd], shell=True)
 
 

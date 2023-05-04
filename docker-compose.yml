@@ -11,8 +11,6 @@ services:
       - "8501:8501"
     environment:
       - USE_LOCALSTACK=1
-      - DOCKERHUB_USER=ohtuprojtinymlaas
-      - DOCKERHUB_PASSWORD=AJHDI.A76a5d-gnxjaah
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
