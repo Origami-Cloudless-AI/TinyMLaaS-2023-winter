@@ -46,7 +46,14 @@ def install_status(device):
     if st.session_state.get("install_compile_done", False):
         if not "bridge" in st.session_state:
             st.error("No relay server selected. Select one in the device tab.")
+            return
         
+        if "dataset_name" not in st.session_state:
+            st.error("No dataset was selected. Please select one on the Data page.")
+            return
+
+        st.session_state["device"] = selected_device
+            
         install_clicked = st.button("Install", disabled=(not "bridge" in st.session_state)) 
         if install_clicked:
             with st.spinner("Uploading..."):

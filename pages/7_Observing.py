@@ -8,6 +8,7 @@ from tflm_hello_world.observing import *
 
 def observe_person_detection():
     "Shows UI for starting and stopping displaying the results of person detection"
+
     st.header("Person detection")
     if "bridge" not in st.session_state:
         st.error("Relay server has not been selected. Select it on the device page.")
@@ -15,6 +16,10 @@ def observe_person_detection():
     
     if "dataset_name" not in st.session_state:
         st.error("No dataset was selected. Please select one on the Data page.")
+        return
+    
+    if "device" not in st.session_state:
+        st.error("Return to Install page to finalize installation")
         return
     
     bt_columns = st.columns(8)
