@@ -12,6 +12,14 @@ st.set_page_config(
     layout='wide'
 )
 
+def page_info(title):
+    col = st.columns(4)
+    col[0].title(title)
+    with col[-1].expander("ℹ️ Help"):
+        st.markdown("On this page you can select a model for training")
+        st.markdown("Currently this only selects the model path, and only the default one is valid")
+        st.markdown("[See the doc page for more info](/Documentation)")
+
 
 def save_selections(category, model, model_data):
     st.session_state["selected_model_type"] = model
@@ -31,7 +39,7 @@ def visualize(model_meta, model_path):
 
 
 def model_page():
-    st.title("Model")
+    page_info("Model")
     
     models_df = read_file_with_models()
     

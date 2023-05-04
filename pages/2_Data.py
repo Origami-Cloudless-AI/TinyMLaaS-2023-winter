@@ -5,6 +5,14 @@ import os
 from PIL import Image
 import shutil
 
+def page_info(title):
+    col = st.columns(4)
+    col[0].title(title)
+    with col[-1].expander("ℹ️ Help"):
+        st.markdown("On this page you can modify datasets and select a dataset for training.")
+        st.markdown("[See the doc page for more info](/Documentation)")
+
+
 def get_img_df(img_list):
     " Converts img list to pd.DataFrame "
     img_df = pd.DataFrame(columns=['File name', 'Label'])
@@ -232,7 +240,7 @@ def load_img(url):
     img = img.resize(size)
     return img
 
-st.title("Data")
+page_info("Data")
 st.header("Available datasets")
 for j in range(len(dataset_names)):
     dataset_col = st.columns(6)

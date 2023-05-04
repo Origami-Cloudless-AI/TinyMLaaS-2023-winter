@@ -11,6 +11,16 @@ st.set_page_config(
     layout='wide'
 )
 
+def page_info(title):
+    col = st.columns(4)
+    col[0].title(title)
+    with col[-1].expander("ℹ️ Help"):
+        st.markdown("On this page you can connect to a bridging device.")
+        st.markdown("It will eventually also show an overview of connected devices.")
+        st.markdown("[See the doc page for more info](/Documentation)")
+
+
+
 state = st.session_state
 
 ACCEPTED_VENDORS = ["Raspberry Pi", "Arduino"]
@@ -179,7 +189,7 @@ def list_connected_devices():
 
 
 def device_page():
-    st.title('Device')
+    page_info('Device')
     st.header('Register a device')
 
     st.button("register a new device", key="add_button", on_click=handle_add)
