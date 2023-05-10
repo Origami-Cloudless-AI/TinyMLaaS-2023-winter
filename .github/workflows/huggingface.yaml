@@ -1,8 +1,6 @@
 name: Deploy to Huggingface
-on:
-  push:
-    branches: [ "main"]
-  workflow_dispatch:
+on: deployment
+
 jobs:
 
   push-to-huggingface:
