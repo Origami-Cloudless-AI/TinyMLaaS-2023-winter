@@ -1,4 +1,4 @@
-# Backround information and some literature sources
+# Background information and some literature sources
 
 ## Federated learning in TinyML
 
