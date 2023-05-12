@@ -50,23 +50,14 @@ def install_status(device, model_path):
         if "dataset_name" not in st.session_state:
             st.error("No dataset was selected. Please select one on the Data page.")
             return
-
-        st.session_state["device"] = selected_device
             
         install_clicked = st.button("Install", disabled=(not "bridge" in st.session_state)) 
         if install_clicked:
+            st.session_state["device"] = selected_device
             with st.spinner("Uploading..."):
                 url = st.session_state.bridge+'/install'
                 r = requests.post(url, json = {'device' : device["relay_id"]})
                 st.success("Upload done!")
-
-
-
-<<<<<<< HEAD
-selected_device = st.selectbox("Select Device", list(devices.keys()))
-st.session_state["device"] = selected_device
-=======
->>>>>>> 31a3479b80f93d90304fd85866e075ceddd1f60d
 
 
 st.set_page_config(page_title="TinyML Install", page_icon=":rocket:", layout='wide')

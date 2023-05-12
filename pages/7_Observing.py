@@ -19,7 +19,6 @@ def page_info(title):
 def observe_person_detection():
     "Shows UI for starting and stopping displaying the results of person detection"
 
-    st.header("Person detection")
     if "bridge" not in st.session_state:
         st.error("Relay server has not been selected. Select it on the device page.")
         return
@@ -37,7 +36,6 @@ def observe_person_detection():
 
     prediction = st.empty()
     st.subheader('Device Output')
-
 
     prediction_df = pd.DataFrame(columns=['Time', 'Dataset', 'Device', 'Prediction Score'])
     if start_clicked:
@@ -61,4 +59,5 @@ def observe_person_detection():
     
 
 st.set_page_config(page_title='Device Observing Dashboard',layout='wide')
+page_info('Person detection')
 observe_person_detection()
