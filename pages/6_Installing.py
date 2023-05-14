@@ -45,16 +45,19 @@ def install_status(device, model_path):
     if st.session_state.get("install_compile_done", False):
         if not "bridge" in st.session_state:
             st.error("No relay server selected. Select one in the device tab.")
+            return
         
+        if "dataset_name" not in st.session_state:
+            st.error("No dataset was selected. Please select one on the Data page.")
+            return
+            
         install_clicked = st.button("Install", disabled=(not "bridge" in st.session_state)) 
         if install_clicked:
+            st.session_state["device"] = selected_device
             with st.spinner("Uploading..."):
                 url = st.session_state.bridge+'/install'
                 r = requests.post(url, json = {'device' : device["relay_id"]})
                 st.success("Upload done!")
-
-
-
 
 
 st.set_page_config(page_title="TinyML Install", page_icon=":rocket:", layout='wide')
