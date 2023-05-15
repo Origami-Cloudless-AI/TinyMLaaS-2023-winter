@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>tflm_hello_world - UI design guide</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="tflm_hello_world - UI design guide">
+<meta property="og:description" content="">
+<meta property="og:site-name" content="tflm_hello_world">
+<meta name="twitter:title" content="tflm_hello_world - UI design guide">
+<meta name="twitter:description" content="">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">tflm_hello_world</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../docs/architecture.html">docs</a></li><li class="breadcrumb-item"><a href="../docs/ui-guide.html">UI design guide</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">tflm_hello_world</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../00_core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">00_core.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../export.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">core</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aws_s3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">aws_s3.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../compiling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compiling.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../installing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">installing.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../observing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observing.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../training.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">training.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">docs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architecture Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/how to demonstrate tinymlaas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Demonstratation of TinyMLaaS WebApp</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/how to install tinymlaas on the cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to install TinyMLaaS on Cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/known issues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Known Issues</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/software-project-summer-kick-off.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction of this project</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/ui-guide.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">UI design guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/what to implement in the future.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What to implement in the future</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/adding_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/huggingface_deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Deployment to Huggingface</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/installation_tinymlaas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">TinyMLaaS installation guide (Linux)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/repository_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Repository structure description</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../docs/supporting_new_devices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Adding support for new devices</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">UI design guide</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<p>In principle, we won’t do more than what <a href="https://streamlit.io/">Streamlit</a> provides now. We have chosen Streamlit because of its good trade-off balance between easiness of UI implementation and its relatively good limitted expressiveness of UI parts. If we really want ultimate fancy UI, we should have gone with React with more effort. That’s not what we want, at least, for now for this <code>TinyML as-a-Service</code> (TinyMLaaS).</p>
+<p>This platform, TinyMLaaS, is for <strong>Seamless TinyML lifecycle management</strong>. This include the following 7 stages:</p>
+<ol type="1">
+<li><code>Device</code> registration</li>
+<li><code>Data</code> registration</li>
+<li><code>Model</code> registration</li>
+<li><code>Training</code> ML model with Dataset</li>
+<li><code>Compiling</code> trained ML into TinyML</li>
+<li><code>Installing</code> OS image via Software Over The Air update (SOTA)</li>
+<li><code>Observing</code> ML predictions</li>
+</ol>
+<p>Basically the above 7 operations should flow in this order from the top to the bottom. These 7 steps are always listed in side bar. Users can alwasy see which step he’s working on now from this side-bar. Each item listed in the side-bar should have some indicator icon of <code>done</code> or <code>to-be-done</code> at the start of each item line to show which steps have already been done or not to users.</p>
+<p><strong>TinyMLaaS</strong></p>
+<p>Apart from the above 7 stages in the side-bar, there is a front page of this WebApp, shown at opening. We could consider this front page as <code>Dash board</code> to summarize what this TinyMLaaS accomodates (i.e.&nbsp;Overview). This <code>Dash board</code> has the following 3 panels:</p>
+<ul>
+<li><p>Alart panel: This panel should list some alart of low-battery devices, poor connectivity devices, and unresponsive devices to prompt users to take further actions respectively.</p></li>
+<li><p>Device location map: This panel should show a location map of registered IoT devices on the top of page. This device location map should be timelapse. User could see how those devices have moved for last 24 hours, for example.</p></li>
+<li><p>Some statisical data: This panel should show the major statistical data at realtime, # of registered devices, # of connected ones, # of data transaction, total hours of whole connected devices, for example.</p></li>
+</ul>
+<p>This front page is a <code>Dash board</code> so that it shouldn’t include any <strong>control</strong> operations over the system (i.e.&nbsp;action). These control operations should be done via the appropriate tab in the side-bar.</p>
+<p><strong>Device</strong></p>
+<ul>
+<li><p>Add / Remove a device: This <code>Device</code> tab allows users to add a new device to the platform and also remove it if not needed. Users would need to provide some basic information about the device, such as its name, type, ip address, and location. Once a device is connected, this tab should show some statistical data, the last time connected, how much data sent, e.t.c.</p></li>
+<li><p>Update device: This tab allows users to update the information for a device that is already connected to the platform. Users would need to select the device they want to update from a device list and then provide the new information.</p></li>
+</ul>
+<p>This <code>Device</code> tab should have only device related information. It shouldn’t have associated with any ML related entities (<code>Model</code> and <code>Installing</code>) yet. This should be done in <code>Installing</code> tab later.</p>
+<p><strong>Data</strong></p>
+<p>There are 2 type of data sources here. One for static dataset (file archives) and another for realtime incoming sensor data.</p>
+<ul>
+<li><p>Data source selection: This tab allows users to select a data source for Training. The available data sources will depend on the device that was selected in the previous step. Users might be able to choose from options such as sensors, cameras, or pre-recorded datasets. In the case of collecting data from sensor, we need some UI to check image data and put label on it before storing in storage.</p></li>
+<li><p>Both dataset should be stored in remote storage as an compressed archive. This dataset would be used at Training. Once it’s stored in storage, we’d deal with different data sourcesin the unified manner.</p></li>
+</ul>
+<p><strong>Model</strong></p>
+<ul>
+<li>Model selection: This tab allows users to select an ML model for dataset. Users might be able to choose from a list of pre-trained models or upload their own custom models.</li>
+<li>Model versions: This tab allows users to select a specific version of the selected ML model. Users might be able to choose from different versions that have been trained on different datasets or with different parameters.</li>
+<li>Other ML model parameters (if any): This tab allows users to configure any additional parameters for the ML model, such as hyperparameters or preprocessing steps. These parameters will depend on the specific ML model that was selected.</li>
+<li>Compatibility check with data source: This tab checks whether the selected ML model is compatible with the selected data source. If there are any compatibility issues, users will need to adjust their selections before proceeding.</li>
+</ul>
+<p><code>Model</code> shouldn’t depend on <code>Device</code>.</p>
+<p><strong>Training</strong></p>
+<p>At <code>Training</code>, User should associate <code>Model</code> with <code>Data</code> for the 1st time, but <code>Training</code> should be done independently from <code>Device</code>.</p>
+<ul>
+<li>Training settings: This tab allows users to configure the settings for the ML model training process. Users might be able to choose from options such as the number of epochs, batch size, or learning rate.</li>
+<li>Training process: This tab displays information about the training process for the selected ML model. Users might be able to view metrics such as accuracy, loss, or validation error.</li>
+</ul>
+<p><strong>Compiling</strong></p>
+<p>This is ML compilation, independent from CPU arch and device spec.</p>
+<ul>
+<li>Compilation settings: This tab allows users to configure the settings for compiling the ML model, independept of devices.</li>
+<li>Compilation process: This tab displays information about the compilation process for the selected ML model. Users might be able to view metrics such as compilation time, model size, etc.</li>
+<li>Model validation: This tab validates the model after compilation. Users might be able to see metrics such as accuracy, latency, or power consumption, at x86 simulation. They might also be able to compare the performance of different models or configurations.</li>
+<li>Model packaging: This tab packages the compiled model in a format that can be installed on the target device.</li>
+<li>Packaging status: This tab displays the status of the packaging process. Users might be able to see progress bars, error messages, or other information about the packaging. This tab can be useful for monitoring the packaging process and resolving any issues that might arise.</li>
+</ul>
+<p><strong>Installing</strong></p>
+<p>This is the 1st place to generate an installable OS image for a specific device. This image sholud include TinyML model in it, to be used by some app specific logic running on the device. There’s been no arch dependency in any of previous phases but here it’s associated. And the output OS image should be installed on the dvice via Software Over The Air update (SOTA).</p>
+<ul>
+<li>Installation settings: It lists a summary of all the previous selected steps.</li>
+<li>Installation status: This tab displays the status of the installation process. Users might be able to see progress bars, error messages, or other information about the installation. This tab can be useful for monitoring the installation process and resolving any issues that might arise.</li>
+</ul>
+<p><strong>Observing</strong></p>
+<ul>
+<li>Device output: It displays the output of the ML model running on the selected device. Users might be able to see real-time data coming from sensors or other sources, as well as the predictions made by the ML model.</li>
+<li>Data visualization: It allows users to visualize the data being generated by the device and the ML model. Users might be able to see graphs, charts, or other visualizations of the data over time.</li>
+<li>Model performance: It displays information about the performance of the ML model running on the device. Users might be able to see metrics such as accuracy, latency, or power consumption. They might also be able to compare the performance of different models or configurations.</li>
+<li>Device control: It allows users to control the device and the ML model running on it. Users might be able to start or stop data collection, adjust the model parameters, or send commands to the device. This tab can be useful for debugging or fine-tuning the ML model in real-time.</li>
+</ul>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/lifeofborna/tflm_hello_world/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>

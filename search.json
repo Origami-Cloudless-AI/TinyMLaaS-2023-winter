@@ -1,0 +1,324 @@
+[
+  {
+    "objectID": "training.html",
+    "href": "training.html",
+    "title": "tflm_hello_world",
+    "section": "",
+    "text": "source\n\ntrain_model\n\n train_model (data_dir, model_path)\n\nInitialize self. See help(type(self)) for accurate signature.\n\nsource\n\n\ntrain_model.load_data\n\n train_model.load_data (img_height, img_width, batch_size)\n\nLoads data from the directory provided in data_dir\n\nsource\n\n\ntrain_model.train\n\n train_model.train (img_height, img_width, epochs, optim_choice, train_ds,\n                    test_ds)\n\nModel training\nArgs: img_height (int): image pixel height img_width (int): image pixel width epochs (int): Number of epochs to train optim_choice (string): Loss function to be used\nReturns: keras_model, statistics\n\nsource\n\n\ntrain_model.prediction\n\n train_model.prediction (model, class_names)\n\nPredicts on the image provided in the path.\nArgs: model (tflite model): tflite model to be used in the prediction\nReturns: img: image predicted, result: formatted string for the result\n\nsource\n\n\ntrain_model.plot_statistics\n\n train_model.plot_statistics (history, epochs_range)\n\nPlot model training statistics\nArgs: history (tuple?): tuple containing loss and accuracy values over training epochs_range (int): amount of epochs used to train over\nReturns: BytesIO buffer: Matplotlib figure containing graphs about the training process"
+  },
+  {
+    "objectID": "observing.html",
+    "href": "observing.html",
+    "title": "tflm_hello_world",
+    "section": "",
+    "text": "source\n\nread_person_detection_from_serial\n\n read_person_detection_from_serial (port:str)\n\nReads a single person detection prediction line over serial and returns dict containing scores with keys Person and No person. Returns None if serial fails.\n\nsource\n\n\nread_person_detection_from_relay\n\n read_person_detection_from_relay (relay_url:str, device:str)\n\nReads a single person detection result from relay server. Args: relay_url is the URL of the relay server, and device is the device name/id (TBD) that the relay maps to the serial port. Returns dict containing scores with keys Person and No person. Returns None if relay doesn’t return JSON."
+  },
+  {
+    "objectID": "compiling.html",
+    "href": "compiling.html",
+    "title": "tflm_hello_world",
+    "section": "",
+    "text": "source\n\nplot_size\n\n plot_size (model_path)\n\nPlots the size difference before and after quantization Args: model_path: Path to model files Returns: pandas dataframe: Pandas dataframe containing information\n\nsource\n\n\nconvert_model_to_cc\n\n convert_model_to_cc (model_path:str)\n\nCreates model.cc from model.tflite in folder model_path\n\nsource\n\n\nconvert_to_c_array\n\n convert_to_c_array (bytes)\n\nC array conversion\n\nsource\n\n\nconvert_model\n\n convert_model (train_ds, model_path, model_obj)\n\nModel conversion into TFLite model\nArgs: train_ds (dataset): Training data used for the quantization process model_path: Path to model files model_obj: model object, needed for input_shape"
+  },
+  {
+    "objectID": "export.html",
+    "href": "export.html",
+    "title": "core",
+    "section": "",
+    "text": "_test_file = \"00_core.ipynb\"\n\n\nsource\n\nExportTestProc\n\n ExportTestProc ()\n\nA test proc that watches for #|default_exp and #|test\n\nsource\n\n\nget_directive\n\n get_directive (cell, key, default=None)\n\nExtract a top level directive from cell\n\ndef _mark_test(s):\n    ft = exec_new(\"import fastcore.test as ft\")[\"ft\"].__all__\n    kinds = [(o,f'ft.{o}') for o in ft if o.startswith(\"test_\")]\n    for k,v in kinds: s = s.replace(k,v)\n    return s\n\n\nsource\n\n\nconvert_pytest\n\n convert_pytest (cell, unittest=False)\n\nWraps cell contents into a pytest function\n\nsource\n\n\nconstruct_imports\n\n construct_imports (nb, unittest=False)\n\nGenerates the test imports for the notebook\n\nsource\n\n\ncreate_test_modules\n\n create_test_modules (path, dest, debug=False, mod_maker=&lt;class\n                      'nbdev.maker.ModuleMaker'&gt;, unittest=False)\n\nCreates test files from path, optionally with unittest support\n\ncreate_test_modules(_test_file, \"tests\")\n\n\n!pytest tests/\n\n============================= test session starts ==============================\nplatform linux -- Python 3.10.4, pytest-7.2.1, pluggy-1.0.0\nrootdir: /home/borna/tflm_hello_world\nplugins: cov-4.0.0, nbval-0.10.0\ncollecting ... collected 1 item                                                               \n\ntests/test_core.py .                                                     [100%]\n\n============================== 1 passed in 0.00s ==============================="
+  },
+  {
+    "objectID": "00_core.html",
+    "href": "00_core.html",
+    "title": "tflm_hello_world",
+    "section": "",
+    "text": "from fastcore.test import *\n\n\nsource\n\nfoo\n\n foo ()\n\n\nsource\n\n\nsay_hello\n\n say_hello (to)\n\nSay hello to somebody\n\ntest_eq(say_hello('Isaac'), 'Hello Isaac!')\n\n\nimport unittest\n\nclass CoreTest(unittest.TestCase):\n    def test_say_hello(self):\n        test_eq(say_hello('Isaac'), 'Hello Isaac!')\n\n\ndef run_case(testcase:unittest.TestCase):\n    \"Runs a unittest.TestCase\"\n    suite = unittest.defaultTestLoader.loadTestsFromTestCase(testcase)\n    unittest.TextTestRunner().run(suite)\n\n\nrun_case(CoreTest)\n\n.\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK"
+  },
+  {
+    "objectID": "docs/ui-guide.html",
+    "href": "docs/ui-guide.html",
+    "title": "UI design guide",
+    "section": "",
+    "text": "In principle, we won’t do more than what Streamlit provides now. We have chosen Streamlit because of its good trade-off balance between easiness of UI implementation and its relatively good limitted expressiveness of UI parts. If we really want ultimate fancy UI, we should have gone with React with more effort. That’s not what we want, at least, for now for this TinyML as-a-Service (TinyMLaaS).\nThis platform, TinyMLaaS, is for Seamless TinyML lifecycle management. This include the following 7 stages:\n\nDevice registration\nData registration\nModel registration\nTraining ML model with Dataset\nCompiling trained ML into TinyML\nInstalling OS image via Software Over The Air update (SOTA)\nObserving ML predictions\n\nBasically the above 7 operations should flow in this order from the top to the bottom. These 7 steps are always listed in side bar. Users can alwasy see which step he’s working on now from this side-bar. Each item listed in the side-bar should have some indicator icon of done or to-be-done at the start of each item line to show which steps have already been done or not to users.\nTinyMLaaS\nApart from the above 7 stages in the side-bar, there is a front page of this WebApp, shown at opening. We could consider this front page as Dash board to summarize what this TinyMLaaS accomodates (i.e. Overview). This Dash board has the following 3 panels:\n\nAlart panel: This panel should list some alart of low-battery devices, poor connectivity devices, and unresponsive devices to prompt users to take further actions respectively.\nDevice location map: This panel should show a location map of registered IoT devices on the top of page. This device location map should be timelapse. User could see how those devices have moved for last 24 hours, for example.\nSome statisical data: This panel should show the major statistical data at realtime, # of registered devices, # of connected ones, # of data transaction, total hours of whole connected devices, for example.\n\nThis front page is a Dash board so that it shouldn’t include any control operations over the system (i.e. action). These control operations should be done via the appropriate tab in the side-bar.\nDevice\n\nAdd / Remove a device: This Device tab allows users to add a new device to the platform and also remove it if not needed. Users would need to provide some basic information about the device, such as its name, type, ip address, and location. Once a device is connected, this tab should show some statistical data, the last time connected, how much data sent, e.t.c.\nUpdate device: This tab allows users to update the information for a device that is already connected to the platform. Users would need to select the device they want to update from a device list and then provide the new information.\n\nThis Device tab should have only device related information. It shouldn’t have associated with any ML related entities (Model and Installing) yet. This should be done in Installing tab later.\nData\nThere are 2 type of data sources here. One for static dataset (file archives) and another for realtime incoming sensor data.\n\nData source selection: This tab allows users to select a data source for Training. The available data sources will depend on the device that was selected in the previous step. Users might be able to choose from options such as sensors, cameras, or pre-recorded datasets. In the case of collecting data from sensor, we need some UI to check image data and put label on it before storing in storage.\nBoth dataset should be stored in remote storage as an compressed archive. This dataset would be used at Training. Once it’s stored in storage, we’d deal with different data sourcesin the unified manner.\n\nModel\n\nModel selection: This tab allows users to select an ML model for dataset. Users might be able to choose from a list of pre-trained models or upload their own custom models.\nModel versions: This tab allows users to select a specific version of the selected ML model. Users might be able to choose from different versions that have been trained on different datasets or with different parameters.\nOther ML model parameters (if any): This tab allows users to configure any additional parameters for the ML model, such as hyperparameters or preprocessing steps. These parameters will depend on the specific ML model that was selected.\nCompatibility check with data source: This tab checks whether the selected ML model is compatible with the selected data source. If there are any compatibility issues, users will need to adjust their selections before proceeding.\n\nModel shouldn’t depend on Device.\nTraining\nAt Training, User should associate Model with Data for the 1st time, but Training should be done independently from Device.\n\nTraining settings: This tab allows users to configure the settings for the ML model training process. Users might be able to choose from options such as the number of epochs, batch size, or learning rate.\nTraining process: This tab displays information about the training process for the selected ML model. Users might be able to view metrics such as accuracy, loss, or validation error.\n\nCompiling\nThis is ML compilation, independent from CPU arch and device spec.\n\nCompilation settings: This tab allows users to configure the settings for compiling the ML model, independept of devices.\nCompilation process: This tab displays information about the compilation process for the selected ML model. Users might be able to view metrics such as compilation time, model size, etc.\nModel validation: This tab validates the model after compilation. Users might be able to see metrics such as accuracy, latency, or power consumption, at x86 simulation. They might also be able to compare the performance of different models or configurations.\nModel packaging: This tab packages the compiled model in a format that can be installed on the target device.\nPackaging status: This tab displays the status of the packaging process. Users might be able to see progress bars, error messages, or other information about the packaging. This tab can be useful for monitoring the packaging process and resolving any issues that might arise.\n\nInstalling\nThis is the 1st place to generate an installable OS image for a specific device. This image sholud include TinyML model in it, to be used by some app specific logic running on the device. There’s been no arch dependency in any of previous phases but here it’s associated. And the output OS image should be installed on the dvice via Software Over The Air update (SOTA).\n\nInstallation settings: It lists a summary of all the previous selected steps.\nInstallation status: This tab displays the status of the installation process. Users might be able to see progress bars, error messages, or other information about the installation. This tab can be useful for monitoring the installation process and resolving any issues that might arise.\n\nObserving\n\nDevice output: It displays the output of the ML model running on the selected device. Users might be able to see real-time data coming from sensors or other sources, as well as the predictions made by the ML model.\nData visualization: It allows users to visualize the data being generated by the device and the ML model. Users might be able to see graphs, charts, or other visualizations of the data over time.\nModel performance: It displays information about the performance of the ML model running on the device. Users might be able to see metrics such as accuracy, latency, or power consumption. They might also be able to compare the performance of different models or configurations.\nDevice control: It allows users to control the device and the ML model running on it. Users might be able to start or stop data collection, adjust the model parameters, or send commands to the device. This tab can be useful for debugging or fine-tuning the ML model in real-time."
+  },
+  {
+    "objectID": "docs/software-project-summer-kick-off.html",
+    "href": "docs/software-project-summer-kick-off.html",
+    "title": "Introduction of this project",
+    "section": "",
+    "text": "On 15/05/2023\nDuration: 7 weeks, week20-26 (Ends at 30th June?)\n\n\n\n\nimage.png\n\n\n     \n\nGoal for this summer\nRight now there’s no clear boundary between UI and its backend. We want to make them separted. The current Streamlit UI should be a pure frontend. The backend logic should be a REST backend server (e.g. fast API) Finall we want a CLI tool to control in additon to the current UI. A CLI tool should do the exact same things as the UI does right now.\n$ tmlaas device list\n&lt;list device name&gt;\n$ tmlaas model list\n&lt;list device name&gt;\n$ tmlass device=&lt;device id&gt; install model=&lt;model id&gt;\nYou may want to refer to this project as CLI example, https://ghapi.fast.ai/\n\n\nDevelopment envrionment\n\nSCRUM, User story mapping to set common goals with all stakeholders.\nNbdev, Jupyter notebook framework for code, (unit)tests & doc at once, Nbdev tutorial video.\nDocker compose to run the whole system at once, turorial video.\nAcceptance Test Driven Development (ATDD) to sync up with a client.\nStreamlit for UI framework used in this project.\nGH Project as Kanban\nGH Workflow as CI/CD\n\n\n\nCommunication\n\nDiscord, Click to join.\n\n\n\nNext\n\nWho’s SCRUM master for Sprint1?\nSprint1 (Week20)\n\nInitial research of this project by Students\n\nSprint1 review & planning at 10:00AM 22nd May\n\nReview WoW proposal from students\nQ&A for a client\nPrioritize user story?\n\nWhich Kanban board to share with customer?"
+  },
+  {
+    "objectID": "docs/adding_datasets.html",
+    "href": "docs/adding_datasets.html",
+    "title": "Datasets",
+    "section": "",
+    "text": "The application stores datasets as .tar.gz files in the AWS S3 service, but when the application is ran locally they are stored in localstack - a local S3 clone running in docker-compose with the app.\nLocalstack is initially empty and the datasets must be compressed and uploaded there on startup. For this purpose we have 2 datasets at the root of the git repo: data and data2. They are uncompressed because they would otherwise be too large for git.\nDataset directories should contain directories named 0 and 1 which contain the images by category. Currently there can only be 2 categories. The images should be in png or jpeg formats. Note that the 0 directory should contain a file called 1.png (required by prediction in nbs/training.ipynb).\n\nAdding a new dataset\nTo add a new dataset, you should create a new directory containing directories 1 and 0, with your images placed in these directories.\nThen you need to add an entry for it in the dataset.csv file. The first row describes the format of the csv file. The location column should contain the path to the dataset directory.\nYou also need to add the dataset’s location to nbs/aws_s3.ipynb inside the download_tar_file function to get the code to compress the dataset and upload it to localstack when running the application locally.\nWith the above 3 changes, your new dataset should be usable in the web app.\nNote that a couple of image paths are also hardcoded in pages/tests/data/test_data_page.robot. So you should change them if you want to move the datasets elsewhere."
+  },
+  {
+    "objectID": "docs/installation_tinymlaas.html",
+    "href": "docs/installation_tinymlaas.html",
+    "title": "TinyMLaaS installation guide (Linux)",
+    "section": "",
+    "text": "Python3\nDocker\nNbdev"
+  },
+  {
+    "objectID": "docs/installation_tinymlaas.html#prerequisites",
+    "href": "docs/installation_tinymlaas.html#prerequisites",
+    "title": "TinyMLaaS installation guide (Linux)",
+    "section": "",
+    "text": "Python3\nDocker\nNbdev"
+  },
+  {
+    "objectID": "docs/installation_tinymlaas.html#installation",
+    "href": "docs/installation_tinymlaas.html#installation",
+    "title": "TinyMLaaS installation guide (Linux)",
+    "section": "Installation",
+    "text": "Installation\n\nWeb App\n\nClone the GitHub repository:\n\n    git clone git@github.com:Origami-TinyML/tflm_hello_world.git\n\nRun (might require sudo):\n\n    nbdev_install\n\nInstall docker-compose:\n\n    sudo apt-get install docker-compose\n\nFill the missing environment variables in the docker-compose.yml file: &gt;REMEMBER: DO NOT COMMIT ANY SENSITIVE INFORMATION TO THE REPOSITORY.\nLaunch the app (sudo password is required):\n\n    make app\nOpen localhost:8501 on your web browser to start using the TinyMLaaS app.\n\n\n\nRelay Server\nChoose a relay server (has only been tested on Cubli).\n\nClone the GitHub repository:\n\n    git clone git@github.com:Origami-TinyML/tflm_hello_world.git\n\nRun (might require sudo):\n\n    nbdev_install\n\nCheck the relay servers’ DOCKERHUB_USER variable and modify it if necessary:\n\n    head relay/components/install.py\n\nRun the relay server (sudo might be required):\n\n    python3 relay/main.py"
+  },
+  {
+    "objectID": "docs/how to install tinymlaas on the cloud.html",
+    "href": "docs/how to install tinymlaas on the cloud.html",
+    "title": "How to install TinyMLaaS on Cloud",
+    "section": "",
+    "text": "Initially we were going to run TinyMLaaS on huggingface.co. We made a Github Actions workflow for automatically deploying the app on huggingface. See the “Deployment To Huggingface” page for more information about configuring this.\nHowever, in its current state the app can’t be hosted on huggingface, because huggingface doesn’t let the app access docker and the app must build docker images to compile the person_detection code, and upload them to Dockerhub for the relay to download. As a result the installing page doesn’t work on huggingface. Because of this, the huggingface workflow is no longer set to run on pushes to the main branch, but you can enable it again by undoing the commit 2648ec6dd16ed4baeb3e4d97bd508a99132f7aed.\nTo be able to install TinyMLaaS on the cloud, you would either have to:\n\nFind a cloud provider that lets you run docker commands (build, login, push). Install the app there like you would locally. Set up the environment variables correctly (DOCKERHUB_USER, DOCKERHUB_PASSWORD, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, USE_LOCALSTACK=0).\nModify the app to not require building docker images, enable the huggingface workflow and setup a huggingface space and the workflow with the instructions in “Deployment To Huggingface”"
+  },
+  {
+    "objectID": "docs/architecture.html",
+    "href": "docs/architecture.html",
+    "title": "Architecture Guide",
+    "section": "",
+    "text": "This page contains general information about the applications architecture and how different parts of the application work and communicate with each other."
+  },
+  {
+    "objectID": "docs/architecture.html#key-components",
+    "href": "docs/architecture.html#key-components",
+    "title": "Architecture Guide",
+    "section": "Key Components",
+    "text": "Key Components\n\nML model training\nData storage & loading\nML model quantization and optimization\nML model compilation\nFirmware packaging"
+  },
+  {
+    "objectID": "docs/architecture.html#enabling-technologies",
+    "href": "docs/architecture.html#enabling-technologies",
+    "title": "Architecture Guide",
+    "section": "Enabling Technologies",
+    "text": "Enabling Technologies\n\nTensorflow;\nDocker\nStreamlit\nAws S3"
+  },
+  {
+    "objectID": "docs/architecture.html#what-has-been-implemented",
+    "href": "docs/architecture.html#what-has-been-implemented",
+    "title": "Architecture Guide",
+    "section": "What Has Been Implemented?",
+    "text": "What Has Been Implemented?\n\n\n\nGeneral flow of the service\n\n\n\nRight now uploading the firmware is supported via uploading the firmware to Dockerhub and notifying the Bridging server to pull the docker image and upload the firmware via Serial on to the device.\nTODO regarding the above picture containing all the elements of the application is the ability to update Over-The-Air for Wifi-enabled devices.\n\n\nImplemented Features\n\nML model training\nData storage to LocalStack/S3\nML model optimization and compression\nSupported devices Arduino Nano 33 BLE Sense and RPI pico\nQuerying prediction results from the end-device\nRefer to the actual application and the above picture for more information."
+  },
+  {
+    "objectID": "docs/architecture.html#neural-network-architecture",
+    "href": "docs/architecture.html#neural-network-architecture",
+    "title": "Architecture Guide",
+    "section": "Neural Network Architecture",
+    "text": "Neural Network Architecture\n\n\n\nCurrent NN Architecture\n\n\nWhen training a Neural Network for TinyML, there are a few things to keep in mind to ease the process. The resulting model must fit into the device.\nThings that affect the resulting models size include:\n\nAmount of layers used in the model. Fewer layers usually results in smaller sized models.\nUsed OPs, e.g., Convolution layers can take up quite a bit of space.\nQuantization is almost necessary for the model to compressed into a usable size.\n\nTinyML related tips\n\nOPs used in the keras model training must also be supported in tflite-micro.\nNetron, Use netron to visualize models and check that you have all the OPs enabled in your Firmware. Every OP must be declared in order for the model to work.\n\nMisc.\n\nTensorflow has extensive amount of information and tutorials regarding almost all necessary things when it comes to the application’s ML related stuff."
+  },
+  {
+    "objectID": "docs/repository_structure.html",
+    "href": "docs/repository_structure.html",
+    "title": "Repository structure description",
+    "section": "",
+    "text": "The structure of the repository will be written here."
+  },
+  {
+    "objectID": "docs/repository_structure.html#tflm_hello_world_stagingarduino",
+    "href": "docs/repository_structure.html#tflm_hello_world_stagingarduino",
+    "title": "Repository structure description",
+    "section": "tflm_hello_world_staging/arduino/",
+    "text": "tflm_hello_world_staging/arduino/\nThe arduino folder contains all the files and resources needed for running the Arduino portion of the project.\n\narduino/template/\nThe template folder holds the source code files for the Arduino project. It includes the following files:\n\narduino_detection_responder.cpp: Contains the implementation for the detection responder, which processes detected objects and reacts accordingly.\narduino_image_provider.cpp: Handles image acquisition from the image source, such as a camera or sensor, and provides the images to other components for processing.\narduino_main.cpp: The main entry point for the Arduino program. It initializes the necessary components and manages the main loop of the program.\ndetection_responder.h: Header file for the detection responder, containing the class definition and function prototypes.\nimage_provider.h: Header file for the image provider, containing the class definition and function prototypes.\nmain_functions.h: Contains the function prototypes for the main loop and other utility functions used throughout the program.\nmodel_settings.cpp: Contains the implementation for the model settings, including parameters related to the machine learning model (if applicable) and other configurations.\nmodel_settings.h: Header file for the model settings, containing the class definition and function prototypes.\n\n\n\narduino/Dockerfile\nThe Dockerfile is used to create a Docker container for the Arduino environment. It defines the necessary components, such as the base image, libraries, and dependencies, required to build and run the Arduino code within the container."
+  },
+  {
+    "objectID": "docs/repository_structure.html#data-data2",
+    "href": "docs/repository_structure.html#data-data2",
+    "title": "Repository structure description",
+    "section": "/data & /data2",
+    "text": "/data & /data2\nThe folders called “/data” and “/data2” contain pictures that are used to train image recognition or object recognition models. Within these folders, there are subfolders labeled “0” and “1”. The “0” subfolder contains images that are not the expected ones, while the “1” subfolder contains images of expected objects such as humans or cars. See the Datasets documentation for more information."
+  },
+  {
+    "objectID": "docs/repository_structure.html#nbs",
+    "href": "docs/repository_structure.html#nbs",
+    "title": "Repository structure description",
+    "section": "nbs/",
+    "text": "nbs/\nThe nbs folder contains Jupyter notebooks, configuration files, and additional resources for the project. It is organized as follows:\n\nnbs/docs/\nThe docs folder contains teams briefs such as dailies,sprintplanning & other information.\n\n\nnbs/tests/\nThe tests folder contains test cases and test resources for the project.\n\n\nJupyter Notebooks\nThe Jupyter notebooks in the nbs folder serve various purposes, such as core functionality, exporting, training, and more:\n\n00_core.ipynb: contains dummy tests and examples.\n01_export.ipynb: This notebook contains functions and classes related to creating test files from the main codebase. It includes functionality for generating imports and wrapping test functions for pytest and unittest compatibility.\naws_s3.ipynb: This module provides a class S3_Connector for accessing and manipulating files on AWS S3. It also supports localstack for testing purposes.\ncompiling.ipynb: Demonstrates the process of compiling code. Defines a set of functions for converting a TensorFlow model into a TensorFlow Lite (TFLite) model and then into a C array, which can be used in microcontrollers or other low-resource environments. The code also includes a function to plot the size difference between the original TFLite model and the quantized TFLite model. Here’s a brief overview of each function:\nindex.ipynb: Repositorys readme will be update via this notebook.\ninstalling.ipynb: Demonstrates code for building and uploading Docker images for device-specific installers. It includes the following components:\nobserving.ipynb: Demonstrates the process of observing or monitoring the project, such as tracking performance metrics.\ntraining.ipynb: Contains the code and resources necessary for training machine learning models or other algorithms.\n\n\n\nConfiguration and Other Files\n\nnbdev.yml: Configuration file for nbdev, a system that helps build libraries from Jupyter notebooks.\n_quarto.yml: Configuration file for Quarto, a publishing system for scientific and technical documents.\nstyles.css: Contains custom CSS styles used in the Jupyter notebooks or generated documentation."
+  },
+  {
+    "objectID": "docs/repository_structure.html#pages",
+    "href": "docs/repository_structure.html#pages",
+    "title": "Repository structure description",
+    "section": "/pages",
+    "text": "/pages\nContains the following python files : 1_Device.py, 2_Data.py, 3_Model.py, 4_Training.py, 5_Compiling.py, 6_Installing.py, 7_Observing.py, 8_Documentation.py. And a subfolder that is called tests which contains ROBOTFRAMEWORK tests for each page.\nPages contains the frontend code that utilized streamlit. Each of the files contain the pages frontend code. Such as 1_Device.py contains the apps device page frontend code.\n\n1_Device.py: allows users to register and manage TinyML devices for the TinyML-as-a-Service (TinyMLaaS) platform. Specifically, this page enables users to add, modify, delete, and select a registered device.\n2_Data.py: The code allows the user to upload images to the selected dataset, store images to AWS S3, and delete images from the dataset.\n3_Model.py: Defines the behavior of the “Model” tab of the Streamlit app. It contains functions for displaying and selecting available models for training, and for visualizing a selected model.\n4_Training.py:The purpose of the tab is to train an image classifier on a custom dataset provided by the user.\n5_Compiling.py:Defines the behavior of the “Compiling” tab. This tab allows the user to compile a trained machine learning model to the format used by TinyML devices.\n7_Installing.py:Purpose of this tab is to install the compiled model on a selected TinyML device.\n8_Observing.py:This tab is for observing predictions sent from the TinyML device. It allows the user to control the data visualization, observe the device output, view the model’s performance, and control the device. Most of the features here place holders.\n9_Documentation.py: This tab lets the user read the documentation on how to use each page."
+  },
+  {
+    "objectID": "docs/repository_structure.html#relay",
+    "href": "docs/repository_structure.html#relay",
+    "title": "Repository structure description",
+    "section": "/relay",
+    "text": "/relay\nThe /relay folder contains a Flask server that serves as an intermediary between the user and the microcontroller devices, providing API routes for uploading compiled sketches and getting predictions from the devices. The folder consists of the following files:\n\ninstructions.md: This file contains instructions on how to set up and run the relay server.\nmain.py: This is the main Flask application script that provides two API routes for interacting with the devices, as well as utility functions for uploading compiled sketches to the devices.\n\n\nAPI Routes\n\n/install: A POST route for installing the compiled sketch to the device. The request must include the device type. The server checks if the device is supported and uploads the sketch to the device accordingly.\n/prediction: A GET route for obtaining the prediction from the device. The request must include the device type. The server reads the prediction from the device and returns it in a JSON format.\n\n\n\nUtility Functions\n\nupload(): Uploads the compiled sketch in Docker for the Arduino Nano 33 BLE device.\nupload_rpi(): Uploads the compiled person detection UF2 file to the Raspberry Pi Pico device. The device must be in USB Mass Storage Mode.\nget_device_port(device_name: str): Returns the device port as a string.\n\nTo use the relay server, follow the instructions provided in the instructions.md file. The server allows users to interact with the microcontroller devices easily, enabling them to upload compiled sketches and obtain predictions."
+  },
+  {
+    "objectID": "docs/repository_structure.html#rpi-pico",
+    "href": "docs/repository_structure.html#rpi-pico",
+    "title": "Repository structure description",
+    "section": "/rpi-pico",
+    "text": "/rpi-pico\n\nRaspberry Pi Pico\nThe /rpi-pico folder contains the necessary files for building and compiling the person detection model for the Raspberry Pi Pico microcontroller. The folder consists of the following files and subfolders:\n\nDockerfile: A Dockerfile to set up the environment and compile the model for the Raspberry Pi Pico.\n/code:\n\nCMakeLists.txt: A CMake configuration file that includes the necessary settings to build the project.\npico_sdk_import.cmake: A CMake script that imports the Pico SDK and sets up the build environment.\n/person_detection_screen: A subfolder containing the person detection model files and source code for the Raspberry Pi Pico."
+  },
+  {
+    "objectID": "docs/repository_structure.html#tflm_hello_world",
+    "href": "docs/repository_structure.html#tflm_hello_world",
+    "title": "Repository structure description",
+    "section": "/tflm_hello_world/",
+    "text": "/tflm_hello_world/\nThis folder contains the python code generated from the notebooks in the nbs/ folder. These can be generated by running nbdev_export or nbdev_prepare (which runs when you start the app with make app). You should never manually edit these files. The python files in this folder are used in CI so they should be kept up-to-date with the notebooks, or tests will break."
+  },
+  {
+    "objectID": "docs/repository_structure.html#x86_simulation",
+    "href": "docs/repository_structure.html#x86_simulation",
+    "title": "Repository structure description",
+    "section": "/x86_simulation",
+    "text": "/x86_simulation\nThis folder contains the Python file for simulating the person detection model on x86 architectures. It was meant to be used to run trained models in CI during tests, but it was never fully implemented:"
+  },
+  {
+    "objectID": "docs/repository_structure.html#inference.py-a-script-for-running-the-person-detection-model-on-a-single-image-using-tensorflow-lite.-the-script-loads-an-image-and-the-tflite-model-preprocesses-the-image-performs-inference-and-prints-the-classification-result-along-with-the-confidence-score.",
+    "href": "docs/repository_structure.html#inference.py-a-script-for-running-the-person-detection-model-on-a-single-image-using-tensorflow-lite.-the-script-loads-an-image-and-the-tflite-model-preprocesses-the-image-performs-inference-and-prints-the-classification-result-along-with-the-confidence-score.",
+    "title": "Repository structure description",
+    "section": "1. inference.py: A script for running the person detection model on a single image using TensorFlow Lite. The script loads an image and the TFLite model, preprocesses the image, performs inference, and prints the classification result along with the confidence score.",
+    "text": "1. inference.py: A script for running the person detection model on a single image using TensorFlow Lite. The script loads an image and the TFLite model, preprocesses the image, performs inference, and prints the classification result along with the confidence score."
+  },
+  {
+    "objectID": "docs/repository_structure.html#files-in-the-root",
+    "href": "docs/repository_structure.html#files-in-the-root",
+    "title": "Repository structure description",
+    "section": "## Files in the root",
+    "text": "## Files in the root\n\ndocker-compose.yml\nThis file is a Docker Compose configuration file that describes how the containers for the TinyML as-a-Service project are built, run, and connected. It defines the following services:\n\nfrontend: The frontend service builds and runs the web application using the frontend.Dockerfile. It maps the port 8501 for external access and sets the environment variable USE_LOCALSTACK to 1. It also runs the container in privileged mode and mounts the Docker socket as a volume.\nlocalstack: The localstack service uses the official LocalStack image to provide a local AWS-like environment. It maps ports 4566 and the range 4510-4559 for external access. The environment variables DEBUG, LAMBDA_EXECUTOR, and DOCKER_HOST are set, and SSL certificate downloading is skipped. The Docker socket is mounted as a volume.\n\n\n\n\n\n\n\n### frontend.Dockerfile\n\n\nThis Dockerfile is used to build the frontend container for the TinyML as-a-Service project. The steps in this Dockerfile are as follows:\n\n\n1. Use the python:3.9.0-slim-buster base image. 2. Update the package lists and install the necessary dependencies: curl, libportaudio2, libusb-1.0, graphviz, python3-opencv, and xxd. 3. Set the working directory to /app. 4. Copy the data directory from the host to the /data/ directory in the container. 5. Copy the requirements.txt file from the host to the container. 6. Install the Python packages listed in requirements.txt using pip3. 7. Download and install Docker by running the Docker installation script. 8. Create a temp directory. 9. Copy all the remaining files from the host to the container. 10. Set the container’s entrypoint command to run the TinyMLaaS application using python3, coverage, and streamlit.\n\n\nThis Dockerfile ensures that all necessary dependencies and files are in place to run the TinyML as-a-Service frontend in a containerized environment.\n\n\n\n\n\ninference.Dockerfile:\n\nThis is the Dockerfile for the x86_simulation directory. It creates a Docker image containing a Python application that performs inference on an image using a pre-trained TensorFlow Lite model."
+  },
+  {
+    "objectID": "docs/known issues.html",
+    "href": "docs/known issues.html",
+    "title": "Known Issues",
+    "section": "",
+    "text": "Training throws an exception if image width != image height\nTraining fails with the second dataset (showing the prediction throws an exception?)\nThe “Visualize” button on the model page doesn’t work\nThe Quantization options on the Compiling page do nothing"
+  },
+  {
+    "objectID": "docs/huggingface_deployment.html",
+    "href": "docs/huggingface_deployment.html",
+    "title": "Deployment to Huggingface",
+    "section": "",
+    "text": "The .github/workflows/huggingface.yaml workflow automatically pushes the files in this repo to huggingface when changes are pushed to the main branch. The file huggingface.md contains the configuration for huggingface.\nThe workflow requires the following variables/secrets to be set in the Github repo’s settings:\n\n\n\nName\nType\nDescription\n\n\n\n\nHF_TOKEN\nSecret\nhuggingface access token with write privileges.\n\n\nHF_USERNAME\nVariable\nyour huggingface username\n\n\nHF_SPACE\nVariable\nthe name of the space on huggingface\n\n\n\nFor s3 to be usable in huggingface, you must add your AWS access key and secret key as secrets in the settings of the huggingface space. The names of the secrets must be AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.\nYou should also ensure that the BUCKET_NAME variable in nbs/aws_s3.py is set to your s3 bucket."
+  },
+  {
+    "objectID": "docs/what to implement in the future.html",
+    "href": "docs/what to implement in the future.html",
+    "title": "What to implement in the future",
+    "section": "",
+    "text": "What to implement next is up to the product owner to decide, but below is a list of various changes suggested by the previous developers.\n\nImproved testing: Currently there are no tests for any features involving the relay server or TinyML devices. It would be useful to have automated tests for model installation and observing. You could for example run a mock relay in docker-compose in CI, allowing for all of the web app’s features to be tested\nListing devices: The relay should figure out what devices are connected to it and send this information to the web app to be displayed on the device page. We started work on this but failed to complete it due to several issues (scanning for usb devices doesn’t work inside a docker container -&gt; don’t run relay inside docker (privileged mode) -&gt; usb scanning doesn’t work because relay doesn’t have permissions to access usb devices). The device page contains code for scanning and displaying devices, the scanning should be moved to the relay, the permissions should be fixed and the app should request the information from the relay. You could also not scan the USB devices: There’s an unused function “list_ports” in nbs/installing.ipynb for finding connected arduino devices, and the pico could probably be detected by scanning the folders in /media/$USER/.the benefit of this is that you also get the serial port/mount point needed to upload code to the device.\nProperly support multiple devices: Related to above, the web app currently doesn’t know what devices are connected and can only tell the relay to install the model to “an arduino” or “a pico”, but can’t specify which device the model is installed to. So while the the app works with two different devices, it won’t work with multiple of the same device connected to the relay. After listing devices, the webapp should let the user select which device to use, and let the relay know its “id” when requesting install or predictions. The relay should then map the “id” in the request to the connected hardware. The install and prediction routes already take a device parameter which could be replaced by this “id”.\nBetter management of device code: Currently each device has its own directory (arduino/, rpi-pico/), but aside from hardware-specific camera code, the devices use the exact same code. It would be good if the code could somehow be shared between devices, rather than being copy-pasted every time. As the number of devices and models grow, the amount of effort needed to change things grows significantly if each device & model pair has its own code. One way to accomplish this would be to have device-specific directories and a generic directory, and making the Dockerfiles cherry pick source files from both generic and device-specific directories on build.\nDevice code build caching: Currently the arduino dockerfile takes over 5 minutes to build, because all of the code (including tflite-micro) has to rebuilt when the model file is changed. With the pico the dockerfile is instead built in such way that most of the build is cached allowing the person_detection to be built very quickly after changing the model file. It would be nice if the arduino builds also did this.\nFix the issues detailed in the Known Issues document."
+  },
+  {
+    "objectID": "docs/supporting_new_devices.html",
+    "href": "docs/supporting_new_devices.html",
+    "title": "Adding support for new devices",
+    "section": "",
+    "text": "Currently there are two supported devices: Arduino Nano 33 BLE Sense Lite and Arducam Pico4ML.\nSupported means that the webapp is capable of building and uploading a person detection application on to the device, and predictions can be read from the device. Obviously the process will change as new features are added and more is required for adding support."
+  },
+  {
+    "objectID": "docs/supporting_new_devices.html#steps-to-adding-support-for-a-new-device",
+    "href": "docs/supporting_new_devices.html#steps-to-adding-support-for-a-new-device",
+    "title": "Adding support for new devices",
+    "section": "Steps to adding support for a new device",
+    "text": "Steps to adding support for a new device\n\n1. Find example code and tutorials for the device\nFigure out how to compile and upload code to the device. Get some basic hello world or LED blink example to run on the device. Ideally you should be able to do this from the command line, since that is eventually required for the Dockerfile.\n\n\n2. Compile the tflite-micro person_detection example for the device\nGenerally it seems to be easier to use a device-specific tflite-micro repository instead of the main repository. We used tflite-micro-arduino-examples and RPI-Pico-Cam with the current devices.\nYou might need to add device-specific code for taking pictures with the camera and printing values to serial. Device-specific repositories often already include this code.\n\n\n3. Modify the example to work with models created by TinyMLaaS\nYou need to make the following changes to the example code:\n\n(main_functions.cpp) kTensorArenaSize should be set to at least 182 kilobytes (this is the amount of memory that must be given to tflite-micro for our model to work).\n(main_functions.cpp) The micro_op_resolver variable should be modified to contain all 11 operations needed by our model. You can copy its definition from arduino/template/template.ino (These will have to be changed if the model training code is modified).\n(person_detect_model_data.h) The extern declarations should match what is generated by nbs/compiling.ipynb. You can copy the contents of arduino/template/person_detect_model_data.h.\n(main_functions.cpp) The model passed to tflite::GetModel should be the array from the previous step. model_tflite is the currently used name for it.\n(person_detect_model_data.cpp) replace this file with a model.cc created by the webapp. You can obtain one by copying it out of the frontend docker container after running training and compiling in the webapp. You could also just copy rpi-pico/code/person_detection_screen/person_detection_data.cpp which was created this way.\n(detection_responder.h / detection_responder.cpp / main_functions.cpp) Modify the RespondToDetection function (and the code calling it) to print detections in the format expected by nbs/observing.ipynb. You can copy the code from one of the existing devices.\nOur model currently operates on grayscale images, make sure that that’s what the camera code is producing. We’ve also only used 96x96 images so you might need to change something else if the camera resolution is different.\n\nIn theory you should now have the person_detection app running with a custom model, but in our experience this is the part where the app mysteriously stops working. Here are the issues that we encountered:\n\nkTensorArenaSize is too small: this causes an error message to get printed via serial on setup(), and causes the inference code to repeatedly print Invoke failed errors to serial.\nmicro_op_resolver doesn’t have the necessary ops: this causes an error message to get printed via serial on setup(), and causes the inference code to repeatedly print Invoke failed errors to serial. This should not happen if you followed the steps above.\nUnaligned model data: The app was crashing inside tensorflow’s AllocateTensors function with no errors. The fix was to add alignas(16) specifier to the model data array. This is currently not done on either device, so this might only be needed with older tflite-micro versions.\nOutdated tflite-micro: The app was crashing inside tensorflow’s AllocateTensors function with no errors. We were initially using a library called “Harward TinyMLx” with Arduino. This contained both tflite-micro and camera code for the device, however the tflite version was outdated. Switching to a newer tflite-micro version fixed the issue. A quick way to tell the version the example is using is to look at how printing is done. If you see mentions of tflite::ErrorReporter/TF_LITE_REPORT_ERROR, the code is using the old version. Newer versions use MicroPrintf instead.\nRunning out of memory: The Pico4ML was crashing inside the GetImage function with no error messages. This happened because the camera code was internally creating a 324x324 array on the stack, which combined with our increased kTensorArenaSize was causing the device to not have enough memory (presumably the stack was overflowing). Reducing the size of the array in the camera code fixed this issue.\n\n\n\n4. Create a dockerfile for building the code\nThe dockerfile should produce an image that contains the compiled person_detection application, which can then be installed by the relay with only docker.\n\n\n5. Modify the Webapp to build the code\n\nCreate a subclass of InstallerImageBuilder in nbs/installing.ipynb to pass the model file to the dockerfile, build the docker image, and upload it to dockerhub.\nEdit the devices dictionary in pages/6_Installing.py to include your new device, its InstallerImageBuilder class, and a relay_id that will be used to refer to the device on the relay server side.\nEdit the install_inference function in relay/components/install.py to install the model on to the device using the docker image downloaded from dockerhub."
+  },
+  {
+    "objectID": "docs/how to demonstrate tinymlaas.html",
+    "href": "docs/how to demonstrate tinymlaas.html",
+    "title": "Demonstratation of TinyMLaaS WebApp",
+    "section": "",
+    "text": "This document will demonstrate the steps in TinyMLaaS app. Some pages have dependencies on other pages, so go through pages from top to bottom.\nIn order to run TinyMLaaS end-to-end following items needs to be run simultanously:\nAdd the environment variables DOCKERHUB_USER and DOCKERHUB_PASSWORD in docker-compose.yml for Dockerhub (don’t commit these changes)."
+  },
+  {
+    "objectID": "docs/how to demonstrate tinymlaas.html#device",
+    "href": "docs/how to demonstrate tinymlaas.html#device",
+    "title": "Demonstratation of TinyMLaaS WebApp",
+    "section": "Device",
+    "text": "Device\nOn device page, user should open register a bridging device expander and add an IP address of the bridging server.\n\n\n\nNgrok bridging server\n\n\nUse the link from ngrok and wait until the app will confirm that a registration of the bridging server was successfull.\n\n\n\nIP address registrated\n\n\nIf IP address is not provided on this section, devices cannot be utilized in the later tabs."
+  },
+  {
+    "objectID": "docs/how to demonstrate tinymlaas.html#data",
+    "href": "docs/how to demonstrate tinymlaas.html#data",
+    "title": "Demonstratation of TinyMLaaS WebApp",
+    "section": "Data",
+    "text": "Data\nFirst, select a dataset used for training of the model.\n\n\n\nDataset upload finalized\n\n\nExtracting images from archived file with localstack should take about 1-3min. This time should be reduced greatly when the datasets are actually stored in S3. After the app has confirmed the dataset has been uploaded, user is able to view images included the dataset.\nUser can add images from local storage to selected dataset and label those. If the uploaded images are unlabeled they are not used for training in later stage of the process. However user can label those later if needed.\nNote that if you upload many images, streamlit’s performance might reduce. Also, images added to dataset is available only for this session, the app doesn’t support saving new images to datasets permanently."
+  },
+  {
+    "objectID": "docs/how to demonstrate tinymlaas.html#model",
+    "href": "docs/how to demonstrate tinymlaas.html#model",
+    "title": "Demonstratation of TinyMLaaS WebApp",
+    "section": "Model",
+    "text": "Model\nFor now the app supports only one model and therefore, this tab has been filled with dummy data. Changing selections on this tab doesn’t impact to the model.\nTo continue press Select button."
+  },
+  {
+    "objectID": "docs/how to demonstrate tinymlaas.html#training",
+    "href": "docs/how to demonstrate tinymlaas.html#training",
+    "title": "Demonstratation of TinyMLaaS WebApp",
+    "section": "Training",
+    "text": "Training\nBefore training the Keras model, model training settings need to be defined. A user need to enter information regarding number of epocs, batch size, image width and image height. The current model can be only trained if image width and image height are same and if loss function is Sparse Categorical.\nHere are example inputs for training a model.\n\n\n\nTraining input settings\n\n\nPress Train to continue."
+  },
+  {
+    "objectID": "docs/how to demonstrate tinymlaas.html#compiling",
+    "href": "docs/how to demonstrate tinymlaas.html#compiling",
+    "title": "Demonstratation of TinyMLaaS WebApp",
+    "section": "Compiling",
+    "text": "Compiling\nThe page is responsible for ML compilation. This page is also filled with dummy data, so selections won’t impact on compiling result.\nPress Compile to continue."
+  },
+  {
+    "objectID": "docs/how to demonstrate tinymlaas.html#installing",
+    "href": "docs/how to demonstrate tinymlaas.html#installing",
+    "title": "Demonstratation of TinyMLaaS WebApp",
+    "section": "Installing",
+    "text": "Installing\nOn the installing sheet, user must select a model and a device. Like stated before, app supports one model and two devices.\nThe user must have plugged the device into the USB-port before building the docker image. It is good to check that the device is plugged into correct port, since plugging into incorrect port creates an error. If build time seems to be unexpectedly long, it might be good idea to check there is no ‘No device found on ttyACM0’ warning when running the relay server. That means the commands used to communicate with a device require sudo rights. This can be easily fixed by altering device commands in the relay/main.py module.\n\n\n\nReal-time predictions as device output\n\n\nThe building time varies depending on the device. The Arduino nano 33 BLE takes about 10-15min and Pico 5-10min to install. After building, a model is ready to be sent to the device.\n\n\n\nReal-time predictions as device output\n\n\nTo continue, user must first press Generate button (builds the docker image and upload it to dockerhub) and when that has been finalized user press Install button (installs the model on to the device using the docker image downloaded from dockerhub). If user wants to change the device, whole page needs to be rerun with new device."
+  },
+  {
+    "objectID": "docs/how to demonstrate tinymlaas.html#observing",
+    "href": "docs/how to demonstrate tinymlaas.html#observing",
+    "title": "Demonstratation of TinyMLaaS WebApp",
+    "section": "Observing",
+    "text": "Observing\nOn the observing page, user can see real-time predictions from device when the start button has been activated. A plugged device sends approximately every second a prediction. Notice that with current model and camera the predictions are not very accurate. User can end printing new predictions to the app by pressing stop button.\n\n\n\nReal-time predictions as device output"
+  },
+  {
+    "objectID": "aws_s3.html",
+    "href": "aws_s3.html",
+    "title": "tflm_hello_world",
+    "section": "",
+    "text": "source\n\nS3_Connector\n\n S3_Connector (bucket_name:str)\n\nClass for accessing files on S3. If the environment variable USE_LOCALSTACK is set to 1, localstack will be used instead of AWS.\n\nsource\n\n\nS3_Connector.move\n\n S3_Connector.move (dir_old:str, dir_new:str, file_name:str)\n\nMoves an object to other directory\n\nsource\n\n\nS3_Connector.upload_img\n\n S3_Connector.upload_img (img, dir:str, file_name:str, pil_image=False)\n\nUploads an image to specified directory. img is a file-like object, unless pil_image is True in which case it’s a Pillow Image.\n\nsource\n\n\nS3_Connector.read_images\n\n S3_Connector.read_images (dir:str)\n\nReads images from S3 directory dir\n\nsource\n\n\nS3_Connector.count_objects\n\n S3_Connector.count_objects (dir:str)\n\nCounts objects in S3 directory dir\n\nsource\n\n\nS3_Connector.upload_tar_file\n\n S3_Connector.upload_tar_file (tar_file:str)\n\nUploads tar.gz file to S3 storage\n\nsource\n\n\nS3_Connector.download_tar_file\n\n S3_Connector.download_tar_file (tar_file:str)\n\nDonwloads tar.gz file from S3 storage\n\nsource\n\n\nS3_Connector.create_tar_archive\n\n S3_Connector.create_tar_archive (output_filename, dataset)\n\nCreates a tar.gz archive from a folder."
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "tflm_hello_world",
+    "section": "Install",
+    "text": "Install\npip install tflm_hello_world"
+  },
+  {
+    "objectID": "index.html#instructions",
+    "href": "index.html#instructions",
+    "title": "tflm_hello_world",
+    "section": "Instructions",
+    "text": "Instructions\n\nService\nRun “make app” in the root directory to build and run all the required containers for the service\nmake app\n\n\nBridging server\nIf the end-device doesn’t have Wifi-support, a bridging device is needed.\nExpose port 5000 for the bridging device to work with outside sources.\nngrok http 5000\nCopy the exposed IP-address into the streamlit service\nStart up the bridging server\npython main.py"
+  },
+  {
+    "objectID": "index.html#working-hours-tracking",
+    "href": "index.html#working-hours-tracking",
+    "title": "tflm_hello_world",
+    "section": "Working hours tracking",
+    "text": "Working hours tracking\nClick Here"
+  },
+  {
+    "objectID": "installing.html",
+    "href": "installing.html",
+    "title": "tflm_hello_world",
+    "section": "",
+    "text": "source\n\nupload_image_to_dockerhub\n\n upload_image_to_dockerhub (image_tag:str, dockerhub_user=None,\n                            dockerhub_pass=None)\n\nUploads a docker image to dockerhub. If username or password is not given, environmental variables DOCKERHUB_USER and DOCKERHUB_PASSWORD will be used instead\n\nsource\n\n\nInstallerImageBuilder\n\n InstallerImageBuilder ()\n\nBase class for device specific installers\n\nsource\n\n\nArduinoNano33BLE_Installer\n\n ArduinoNano33BLE_Installer ()\n\nBase class for device specific installers\n\nsource\n\n\nArducamPico4ML_Installer\n\n ArducamPico4ML_Installer ()\n\nBase class for device specific installers\n\nsource\n\n\nInstallerImageBuilder.compile\n\n InstallerImageBuilder.compile (model_path:str)\n\nCompiles arduino sketch in docker, using model file at model_path in local filesystem\n\nsource\n\n\nInstallerImageBuilder.compile\n\n InstallerImageBuilder.compile (model_path:str)\n\nCompiles arduino sketch in docker, using model file at model_path in local filesystem"
+  }
+]
