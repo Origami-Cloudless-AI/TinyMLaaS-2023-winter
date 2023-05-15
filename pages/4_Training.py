@@ -8,6 +8,14 @@ st.set_page_config(
     layout='wide'
 )
 
+def page_info(title):
+    col = st.columns(4)
+    col[0].title(title)
+    with col[-1].expander("ℹ️ Help"):
+        st.markdown("On this page you can train an image classifier.")
+        st.markdown("Set the parameters for training and click the train button.")
+        st.markdown("[See the doc page for more info](/Documentation)")
+
 
 def training_page():
     if "selected_dataset" not in st.session_state:
@@ -20,7 +28,6 @@ def training_page():
 
     model_path = st.session_state.selected_model["Model Path"]
     train = train_model(st.session_state.selected_dataset, model_path) 
-    st.title('Training')
     st.subheader('Train a Keras model')
 
     st.subheader("Model Training Settings")
@@ -53,4 +60,6 @@ def training_page():
                                 test.image(tests, caption=label)
                                 model.save(f"{model_path}/keras_model")
                                 st.success("Model saved!")
+
+page_info('Training')
 training_page()
